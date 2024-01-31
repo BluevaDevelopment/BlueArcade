@@ -17,10 +17,10 @@ Our goal is to foster the growth and accessibility of Blue Arcade. To achieve th
 Customers who have acquired the plugin will have the option to select one or more products, totaling $9.99 in value, even if the original purchase was made at a discounted price.
 
 ### What guarantee is there that the plugin will continue to be updated to new versions?
-The financial support for this project will persist through Setups on BuiltByBit and Polymart. Currently, the available setup is 'Party Games Setup ($14.99),' and looking ahead, we have plans for additional setups, including but not limited to:
-- Block Party Setup 2.0.0 ($6.99)
+The financial support for this project will persist through Setups on BuiltByBit and Polymart. Currently, the available setup is 'Party Games Setup 2.0.0 ($14.99)', and looking ahead, we have plans for additional setups, including but not limited to:
+- Block Party Setup 3.0.0 ($6.99)
 - Run From The Beast Setup 3.0.0 ($9.99)
-- Arcade Games Setup ($19.99)
+- Arcade Games Setup 1.0.0 ($19.99)
 - And more to come in the future....
 
 ### What remains to be known?
