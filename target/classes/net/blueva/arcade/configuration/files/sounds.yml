@@ -1,0 +1,53 @@
+#  ____  _               _                      _
+# | __ )| |_   _  ___   / \   _ __ ___ __ _  __| | ___
+# |  _ \| | | | |/ _ \ / _ \ | '__/ __/ _` |/ _` |/ _ \
+# | |_) | | |_| |  __// ___ \| | | (_| (_| | (_| |  __/
+# |____/|_|\__,_|\___/_/   \_|_|  \___\__,_|\__,_|\___|
+#
+# [!] Arcade by Blueva | https://blueva.net/wiki/arcade/ [!]
+
+# Sounds:
+# Customize the sounds that will play throughout the game.
+#
+# If you want to disable any sound, leave it empty ("")
+
+sounds:
+
+  # Sounds at the start of the arena.
+  starting_arena:
+
+    # Sound for each second of the counter.
+    countdown: ""
+
+    # Sound for when the counter is notified how much is left (configured in settings.yml).
+    notify_countdown: ""
+
+  # Sounds when starting a game
+  starting_game:
+
+    # Sound when teleporting players to a game.
+    teleport: ""
+
+    # Sound for each second of the counter.
+    countdown: ""
+
+    # Sound when the game starts.
+    start: ""
+
+  # Sounds for when the arena is in game.
+  in_game:
+
+    # Sound for when a player is classified.
+    classified: ""
+
+    # Sound for when a player finishes a mini-game but is not classified.
+    finish: ""
+
+    # Sound for when a player dies.
+    dead: ""
+
+    # Sound for when a player respawns in a game.
+    respawn: ""
+
+    # Sound for when a game is over.
+    game_over: ""

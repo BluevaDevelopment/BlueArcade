@@ -1,0 +1,95 @@
+#  ____  _               _                      _
+# | __ )| |_   _  ___   / \   _ __ ___ __ _  __| | ___
+# |  _ \| | | | |/ _ \ / _ \ | '__/ __/ _` |/ _` |/ _ \
+# | |_) | | |_| |  __// ___ \| | | (_| (_| | (_| |  __/
+# |____/|_|\__,_|\___/_/   \_|_|  \___\__,_|\__,_|\___|
+#
+# [!] Arcade by Blueva | https://blueva.net/wiki/arcade/ [!]
+
+config_version: 120
+
+# Metrics:
+# This plugin uses the bStats metrics system. If you want your data not to be collected, you can disable this system here.
+# The following information is collected and sent to bstats.org:
+#      Whether the server is in offline or online mode
+#      The plugin version
+#      The server version
+#      The java version
+#      The OS version/name and architecture
+#      The location of your server
+#      The core count for the CPU
+#      The number of players online
+#      The Metrics version
+metrics: true
+
+# Language:
+# Sets the language of all plugin messages
+# It is necessary to restart the server for it to take effect.
+#
+# Available languages:
+# English (UK): en_UK
+# Spanish (ES): es_ES
+language: en_UK
+
+# Check for updates:
+# Check if your server is using the latest version of the plugin.
+# We recommend always using the latest version of the plugin for the best experience.
+check_for_updates: true
+
+# Spawn on join:
+# Teleports players to the Blue Arcade lobby upon entering the server.
+spawn_on_join: false
+
+# Game:
+# Configures aspects of the plugin for when players are inside an arena.
+game:
+
+  # Global aspects for when a player is inside an arena.
+  global:
+
+    # Lobby countdown before the game starts.
+    lobby_countdown: 30
+
+    # The time it takes for a mini-game to start after it is chosen.
+    game_countdown: 10
+
+    # Time it takes to change mini-game. Useful to see the results of the mini-game.
+    limbo_countdown: 5
+
+    # Notify players of the countdown at specific intervals
+    countdown_notifications:
+      - 240
+      - 120
+      - 60
+      - 30
+      - 15
+      - 10
+      - 5
+      - 4
+      - 3
+      - 2
+      - 1
+
+    # Mini-games to be played in each arena
+    default_rounds_per_arena: 8
+
+    # Block that when a player steps on it will die (only step on, do not touch).
+    default_death_block: BARRIER
+
+    # Activate the flight at the end of a mini-game. It is completely decorative.
+    flight_on_finish: true
+
+    # Fireworks spawn at the end of the game to the players who are ranked #1, #2 or #3
+    spawn_fireworks_winners: true
+
+    # Prevents players from executing commands while in game.
+    cancel_commands:
+
+      # Enables or disables command cancellation.
+      enabled: true
+
+      # List of commands that are allowed to be used in an arena.
+      allowed_commands:
+        - "/msg"
+        - "/ba leave"
+        - "/tell"

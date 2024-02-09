@@ -1,0 +1,621 @@
+#  ____  _               _                      _
+# | __ )| |_   _  ___   / \   _ __ ___ __ _  __| | ___
+# |  _ \| | | | |/ _ \ / _ \ | '__/ __/ _` |/ _` |/ _ \
+# | |_) | | |_| |  __// ___ \| | | (_| (_| | (_| |  __/
+# |____/|_|\__,_|\___/_/   \_|_|  \___\__,_|\__,_|\___|
+#
+# [!] Arcade by Blueva | https://blueva.net/wiki/arcade/ [!]
+
+language: "English (UK)"
+global:
+  success:
+    arena_created: "&aThe arena &b{arena_id} &ahas been created successfully."
+    arena_removed: "&aThe arena &b{arena_id} &ahas been successfully removed."
+    display_name_set: "&aYou have correctly set the name &b{display_name} &ato the arena &b{arena_id}&a."
+    main_lobby_set: "&aYou have correctly set the main lobby in WORLD: {ml_world}, X: {ml_x}, Y: {ml_y}, Z: {ml_z}"
+    waiting_lobby_set: "&aYou have correctly set the waiting lobby of the arena {arena_id} in WORLD: {wl_world}, X: {wl_x}, Y: {wl_y}, Z: {wl_z}"
+    magic_stick_pos : "&aPosition &b{pos} &aset in WORLD: {ms_world}, X: {ms_x}, Y: {ms_y}, Z: {ms_z}."
+    min_players_set: "&aYou have correctly set the minimum number of players to &b{min_players}&a."
+    max_players_set: "&aYou have correctly set the maximum number of players to &b{max_players}&a."
+    mini_game_set: "&aMini-game {game} set up correctly."
+    spawn_added: "&aSpawn &b{spawn} &ahas been added in the mini-game &b{game} &aof the arena &b{arena_id}&a."
+    spawn_removed: "&aSpawn &b{spawn} &ahas been removed in the mini-game &b{game} &aof the arena &b{arena_id}&a."
+    setup_finished: "&aYou have configured the arena correctly. &eNow you must restart the server for the arena to load correctly."
+    sign_added: "&aA new sign of type {s_type} has been added in X: {s_x}, Y: {s_y}, Z: {s_z}."
+    sign_removed: "&aRemoved sign of type {s_type} in X: {s_x}, Y: {s_y}, Z: {s_z}."
+    teleported_to_game: "&aYou have been teleported to Spawn 1 of the &b{game} &agame."
+    reloaded_file: "&aReloaded {file}.yml file"
+    all_files_reloaded: "&aAll files have been reloaded. &e(Some files may require a restart of the entire server to apply the changes.)"
+  error:
+    id_taken: "&cThat ID is already in use."
+    unknown_id: "&cThe ID you have entered does not match any arena created."
+    no_arena: "&cNo arena is available at this time. Please try again later."
+    only_numbers: "&cYou must enter a number."
+    only_numbers_arena: "&cYou must enter a number. You can set the name of the arena later."
+    only_players: "&cYou must be a player to be able to execute this command"
+    error_deleting_file: "&cAn error occurred while trying to delete the file {file}"
+    already_in_game: "&cYou are already in the game. To leave use /ba leave"
+    not_in_game: "&cYou are not currently in any game."
+    no_mini_game: "&cThe introduced mini-game does not exist."
+    arena_started: "&cThe arena &e{arena_display_name} &chas already started."
+    arena_full: "&cThe arena &e{arena_display_name} &cis full."
+    arena_disabled: "&cThe arena {arena_id} is currently disabled."
+    arena_stopped: "&cThe arena has been stopped due to lack of players. At least &e{min_players} &cplayers are needed."
+    bounds_same_world: "&cBoth bounds must have the same world."
+    chat_muted: "&cThe chat is muted. You will be able to talk in a few seconds."
+    not_allowed_command: "&cYou cannot use this command while you are in a game. Use /leave to leave."
+    at_least_one_game: "&cSet up at least one mini-game before continuing."
+    minimum_spawns: "&cYou must set at least {minimum_spawns} spawn to continue."
+    finish_first: "&cFinish the previous step first."
+    no_setup_pause: "&cThere is no active arena creation process to pause."
+    no_setup_cancel: "&cThere is no active arena creation process to cancel."
+    air_selection_error: "&cIn this particular step, you cannot select air, you must select a block."
+    process_cancelled: "&cProcess cancelled..."
+    player_offline: "&cThe specified player is not online."
+    error_sign: "&cAn error occurred while registering the sign. Check that you have typed everything correctly."
+    error_reloading: "&cAn error occurred reloading the {file}.yml file"
+    insufficient_permissions: "&cYou do not have sufficient permissions to execute this command."
+    unknown_command: "&cThat command does not exist, check that you have typed it correctly."
+  info:
+    sets_spawn: "&cThere is no spawn configured for Blue Arcade. Do it now with /ba setmainlobby"
+    you_join: "&eYou have joined the arena &b{arena_display_name}&e."
+    you_left: "&eYou have left the arena &b{arena_display_name}."
+    player_joined: "&7{player} &ehas joined the arena. (&b{players}&8/&b{max_players}&e)"
+    player_leaves: "&7{player} &chas left the arena. (&b{players}&8/&b{max_players}&c)"
+    lobby_countdown: "&eThe arena will start in &b{time} &eseconds."
+    you_have_tnt: "&cNow you have the TNT! Pass it to someone before it explodes."
+    you_no_have_tnt: "&aYou no longer have TNT. Run before someone passes it to you again!"
+    player_has_the_tnt: "&ePlayer {player} now has TNT."
+    cancelled_setup: "&eArena creation process cancelled."
+    paused_setup: "&ePaused arena creation process."
+    selected_mini_game_setup: "&eYou have selected the mini-game {mini_game}."
+    selection_eliminated_setup: "&eYou have removed the selection. You can now continue to the next step without setting up a mini-game."
+    set_display_name: "&7Type in the chat the name of the arena that will be shown to the players. You can include colors. Type `&ccancel&7` to cancel."
+    reloading_file: "&eReloading the {file}.yml file"
+    setup_step_1: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Arena] [Step 1] &eSet the appearance point of the waiting room of the arena by placing the beacon in the correct position. Note that the position will be saved in the direction you are facing."
+    setup_step_2: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Arena] [Step 2] &eSet the minimum and maximum number of players in the arena by changing the amount of items by right/left clicking."
+    setup_step_3: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Arena] [Step 3] &eClick on the NameTag item and type the display name of the arena in the chat. You can use colors."
+    setup_step_4: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Arena] [Step 4] &eSelect the mini-game you want to select. It is recommended to configure at least 8"
+    setup_step_5: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Arena - Game] [Step 5] &eSelect the minimum and maximum bound of the mini game with the Magic Stick &7(left click/right click)&e."
+    setup_step_6: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Arena - Game] [Step 6] &eSet the spawn points of the players in the mini-game with the Beacon. Note that the position will be saved in the direction you are facing."
+    setup_step_7: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Arena - Game] [Step 7] &eSet the number of minutes the mini-game will last by changing the number of clocks with left/right click."
+    setup_race_step_1: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Race] [Step 1] &eSelect the minimum and maximum bound of the finish line with the Magic Stick."
+    setup_spleef_step_1: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Spleef] [Step 1] &eSet the floor of the mini-game with the Magic Stick. It must be completely made of snow blocks."
+    setup_traffic_light_step_1: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Traffic Light] [Step 1] &eSelect the minimum and maximum bound of the finish line with the Magic Stick."
+    setup_fast_zone_step_1: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Fast Zone] [Step 1] &eSelect the minimum and maximum bound of the finish line with the Magic Stick."
+    setup_minefield_step_1: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Minefield] [Step 1] &eSelect the minimum and maximum bound of the finish line with the Magic Stick."
+    setup_minefield_step_2: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Minefield] [Step 1] &eSet the floor of the mini-game with the Magic Stick. It must necessarily be a single-layer floor."
+    setup_red_alert_step_1: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Red Alert] [Step 1] &eSet the floor of the mini-game with the Magic Stick."
+  other:
+    use_goto_subcommand: "&cUse: /ba goto [arena] [mini game]"
+    use_help_subcommand: "&cUse: /ba help (user/admin)"
+    use_join_subcommand: "&cUse: /ba join [arena] (player)"
+    use_quickjoin_subcommand: "&cUse: /ba quickjoin (player)"
+    use_leave_subcommand: "&cUse: /ba leave [player]"
+    use_create_subcommand: "&cUse: /ba create [id]"
+    use_remove_subcommand: "&cUse: /ba remove [id]"
+    use_setup_subcommand: "&cUse: /ba setup [id]"
+    use_reload_subcommand: "&cUse: /ba reload [all/lang/arenas/file name]"
+items:
+  lobby: {}
+  game:
+    vote_game: "&bVote for mini-games"
+    leave_game: "&cLeave the game"
+  setup:
+    cancel_setup: "&7[&b&lB&d&lA&7] &c&lCancel Setup &8(ID: {arena_id})"
+    pause_setup: "&7[&b&lB&d&lA&7] &c&lPause Setup &8(ID: {arena_id})"
+    previous_step: "&7[&b&lB&d&lA&7] &e&lPrevious Step &8(ID: {arena_id})"
+    previous_step_1: "&7[&b&lB&d&lA&7] &e&lPrevious Step &c(Cancel Setup) &8(ID: {arena_id})"
+    next_step: "&7[&b&lB&d&lA&7] &a&lNext Step &8(ID: {arena_id})"
+    set_waiting_lobby: "&7[&b&lB&d&lA&7] &e&lSet Waiting Lobby &8(ID: {arena_id})"
+    minimum_players: "&7[&b&lB&d&lA&7] &e&lMinimum players &8(ID: {arena_id})"
+    maximum_players: "&7[&b&lB&d&lA&7] &e&lMaximum players &8(ID: {arena_id})"
+    display_name: "&7[&b&lB&d&lA&7] &e&lDisplay Name &8(ID: {arena_id})"
+    select_mini_game: "&7[&b&lB&d&lA&7] &e&lSelect Mini-game &8(ID: {arena_id})"
+    minimum_border: "&7[&b&lB&d&lA&7] &e&lSets the minimum border &8(ID: {arena_id})"
+    maximum_border: "&7[&b&lB&d&lA&7] &e&lSets the maximum border &8(ID: {arena_id})"
+    spawning_points: "&7[&b&lB&d&lA&7] &e&lSet player spawning points &8(ID: {arena_id})"
+    set_time: "&7[&b&lB&d&lA&7] &e&lArena duration (in minutes) &8(ID: {arena_id})"
+    magic_stick: "&7[&b&lB&d&lA&7] &eMagic Stick &7(Right Click/Left Click) &8(ID: {arena_id})"
+gui:
+  game:
+    vote_game:
+      title: "&bVote for mini-games"
+      items: []
+  setup:
+    select_game:
+      title: "&7[&b&lB&d&lA&7] &fSelect mini-game"
+      items:
+        exit:
+          name: "&7[&b&lB&d&lA&7] &cExit menu"
+          lore:
+            - ""
+            - "&eClick to select"
+        remove_selection:
+          name: "&7[&b&lB&d&lA&7] &7Remove selection"
+          lore:
+            - "&7Remove your selection to continue to the"
+            - "&7next step without configuring any minigame."
+            - ""
+            - "&eClick to select"
+        race:
+          name: "&aRace"
+          lore:
+            - "&7Racing mini-game with finish line."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aA map with a parkour or route."
+            - " &2✔ &aEstablish a finish line."
+            - ""
+            - "&eClick to select"
+        spleef:
+          name: "&aSpleef"
+          lore:
+            - "&7Mini-game of throwing opponents into the void."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aA map with a snowy ground."
+            - " &2✔ &aUnder the floor must be empty"
+            - ""
+            - "&eClick to select"
+        snowball_fight:
+          name: "&aSnowball Fight"
+          lore:
+            - "&7Snowball war mini-game."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aAny map where players can throw snowballs at each other."
+            - ""
+            - "&eClick to select"
+        all_against_all:
+          name: "&aAll Against All"
+          lore:
+            - "&7Mini-game of killing all players with a sword."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aAny map where players can kill each other."
+            - ""
+            - "&eClick to select"
+        one_in_the_chamber:
+          name: "&aOne In The Chamber"
+          lore:
+            - "&7Mini-game of killing players with a bow."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aAny map where players can kill each other."
+            - ""
+            - "&eClick to select"
+        traffic_light:
+          name: "&aTraffic Light"
+          lore:
+            - "&7Racing mini-game with finish line and traffic light."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aA map with a simple route on which to advance."
+            - " &2✔ &aEstablish a finish line."
+            - ""
+            - "&eClick to select"
+        minefield:
+          name: "&aMinefield"
+          lore:
+            - "&7Racing mini-game with finish line avoiding mines."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aA map with a flat floor and no encumbrances."
+            - " &2✔ &aEstablish a finish line."
+            - ""
+            - "&eClick to select"
+        exploding_sheep:
+          name: "&aExploding Sheep"
+          lore:
+            - "&7Mini-game of shearing sheep that may explode."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aA map with shallow block depth"
+            - " &2✔ &aUnder the map must be empty"
+            - ""
+            - "&eClick to select"
+        tnt_tag:
+          name: "&aTNT Tag"
+          lore:
+            - "&7Explosive tag game with TNT."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aAny map to pass the tag to other players."
+            - ""
+            - "&eClick to select"
+        red_alert:
+          name: "&aRed Alert"
+          lore:
+            - "&7Parkour mini-game on a disappearing platform."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aA map with white wool ground."
+            - ""
+            - "&eClick to select"
+        knock_back:
+          name: "&aKnock Back"
+          lore:
+            - "&7Mini-game of throwing opponents into the void."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aA map with flat ground and holes"
+            - "     &athat players can fall into."
+            - ""
+            - "&eClick to select"
+        fast_zone:
+          name: "&aFast Zone"
+          lore:
+            - "&7Racing mini-game with finish line."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aA map with a parkour or route."
+            - " &2✔ &aEstablish a finish line."
+            - ""
+            - "&eClick to select"
+summary:
+  mini_game:
+    - "&8&m----------------------------------------------"
+    - " "
+    - "     &a➀ &l{place_1} &7✯ +3"
+    - "     &6➁ &l{place_2} &7✯ +2"
+    - "     &c➂ &l{place_3} &7✯ +1"
+    - " "
+    - "  &6⛁ &e{credits_earned}  &7|  &6✯ &e{stars_earned}  &7|  &aYour place: &6{place_player}"
+    - " "
+    - "&8&m----------------------------------------------"
+  final:
+    - "&8&m----------------------------------------------"
+    - " "
+    - "  &b&lBlue &d&lArcade &7- &eEnd of Game &7- &aResults:"
+    - " "
+    - "     &a➊ &l{place_1} &7✯ {stars_1}"
+    - "     &6➋ &l{place_2} &7✯ {stars_2}"
+    - "     &c➌ &l{place_3} &7✯ {stars_3}"
+    - "     &f{place_player} &l{player} &7✯ {stars_player} &8(You)"
+    - " "
+    - "&8&m----------------------------------------------"
+mini_games:
+  race:
+    display_name: "Race"
+    description:
+      - "&8&m----------------------------------------------"
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - " "
+      - "&fGame description:"
+      - "&7Reach the finish line before other players."
+      - " "
+      - "&8&m----------------------------------------------"
+  spleef:
+    display_name: "Spleef"
+    description:
+      - "&8&m----------------------------------------------"
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - " "
+      - "&fGame description:"
+      - "&7Break the snow floor to make your"
+      - "&7opponents fall and be the last to survive."
+      - " "
+      - "&8&m----------------------------------------------"
+  snowball_fight:
+    display_name: "Snowball Fight"
+    description:
+      - "&8&m----------------------------------------------"
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - " "
+      - "&fGame description:"
+      - "&7Shoot snowballs at your opponents to"
+      - "&7eliminate them and be the last to survive."
+      - " "
+      - "&8&m----------------------------------------------"
+  all_against_all:
+    display_name: "All Against All"
+    description:
+      - "&8&m----------------------------------------------"
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - " "
+      - "&fGame description:"
+      - "&7Kill your opponents and be the only"
+      - "&7player standing."
+      - " "
+      - "&8&m----------------------------------------------"
+  one_in_the_chamber:
+    display_name: "One In The Chamber"
+    description:
+      - "&8&m----------------------------------------------"
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - " "
+      - "&fGame description:"
+      - "&7Shoot your opponents with a bow to eliminate"
+      - "&7them. You can't miss an arrow or you will be"
+      - "&7left with no way to defend yourself."
+      - " "
+      - "&8&m----------------------------------------------"
+  traffic_light:
+    display_name: "Traffic Light"
+    description:
+      - "&8&m----------------------------------------------"
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - " "
+      - "&fGame description:"
+      - "&7Advance to the finish line without being"
+      - "&7eliminated when the traffic light changes"
+      - "&7to red."
+      - " "
+      - "&8&m----------------------------------------------"
+  minefield:
+    display_name: "Minefield"
+    description:
+      - "&8&m----------------------------------------------"
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - " "
+      - "&fGame description:"
+      - "&7Advance to the finish line without stepping"
+      - "&7on any mine. "
+      - " "
+      - "&8&m----------------------------------------------"
+  exploding_sheep:
+    display_name: "Exploding Sheep"
+    description:
+      - "&8&m----------------------------------------------"
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - " "
+      - "&fGame description:"
+      - "&7Shear as many sheep as possible, but be careful,"
+      - "&7some will explode! "
+      - " "
+      - "&8&m----------------------------------------------"
+  tnt_tag:
+    display_name: "TNT Tag"
+    description:
+      - "&8&m----------------------------------------------"
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - " "
+      - "&fGame description:"
+      - "&7Pass the TNT to other players before it"
+      - "&7explodes. "
+      - " "
+      - "&8&m----------------------------------------------"
+  red_alert:
+    display_name: "Red Alert"
+    description:
+      - "&8&m----------------------------------------------"
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - " "
+      - "&fGame description:"
+      - "&7Dont fall while the floor is disappearing!"
+      - " "
+      - "&8&m----------------------------------------------"
+  knock_back:
+    display_name: "Knock Back"
+    description:
+      - "&8&m----------------------------------------------"
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - " "
+      - "&fGame description:"
+      - "&7Knock your opponents over with a push stick."
+      - "&7The last survivor wins."
+      - " "
+      - "&8&m----------------------------------------------"
+  fast_zone:
+    display_name: "Fast Zone"
+    description:
+      - "&8&m----------------------------------------------"
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - " "
+      - "&fGame description:"
+      - "&7Go through the obstacles in the fast zone"
+      - "&7and be the first to arrive."
+      - " "
+      - "&8&m----------------------------------------------"
+scoreboards:
+  lobby:
+    waiting:
+      title: "&b&lBlue &d&lArcade"
+      list:
+        - "&a"
+        - "&fArena: &b{arena}"
+        - "&fPlayers: &b{players}&7/&b{max_players}"
+        - "&b"
+        - "&bWaiting..."
+        - "&c"
+        - "&ewww.servername.com"
+    starting:
+      title: "&b&lBlue &d&lArcade"
+      list:
+        - "&a"
+        - "&fArena: &b{arena}"
+        - "&fPlayers: &b{players}/&b{max_players}"
+        - "&b"
+        - "&bStarting in &d{time}"
+        - "&c"
+        - "&ewww.servername.com"
+  limbo:
+    title: "&b&lBlue &d&lArcade"
+    list:
+      - "&a"
+      - "&fArena: &b{arena}"
+      - "&fPlayers: &b{players}"
+      - "&fRound: &b{round}/{round_max}"
+      - "&b"
+      - " &a➀ &l{place_1} &f✯ {stars_1}"
+      - " &6➁ &l{place_2} &f✯ {stars_2}"
+      - " &c➂ &l{place_3} &f✯ {stars_3}"
+      - " &f{place_player} &l{player} &7✯ {stars_player}"
+      - "&d"
+      - "&ewww.servername.com"
+  in_game:
+    starting:
+      title: "&b&lBlue &d&lArcade"
+      list:
+        - "&a"
+        - "&fArena: &b{arena}"
+        - "&fGame: &b{game_display_name}"
+        - "&fPlayers: &b{players}"
+        - "&b"
+        - "&bStarting in &d{time}"
+        - "&c"
+        - "&ewww.servername.com"
+    global:
+      playing:
+        title: "&b&lBlue &d&lArcade"
+        list:
+          - "&a"
+          - "&fArena: &b{arena}"
+          - "&fGame: &b{game_display_name}"
+          - "&fTime: &b{time}"
+          - "&b"
+          - "&d{mini_description}"
+          - "&c"
+          - "&ewww.servername.com"
+        mini_description:
+          race: "Reach the finish line!"
+          spleef: "Break the floor!"
+          snowball_fight: "Shoot snowballs!"
+          all_against_all: "Kill your opponents!"
+          minefield: "Beware of mines!"
+          red_alert: "Don't fall!"
+          fast_zone: "Avoid the obstacles!"
+    one_in_the_chamber:
+      playing:
+        title: "&b&lBlue &d&lArcade"
+        list:
+          - "&a"
+          - "&fArena: &b{arena}"
+          - "&fGame: &b{game_display_name}"
+          - "&fTime: &b{time}"
+          - "&b"
+          - "&fKills: &b{kills_oitc}"
+          - "&fDeaths: &b{deaths_oitc}"
+          - "&c"
+          - "&ewww.servername.com"
+    traffic_light:
+      playing:
+        title: "&b&lBlue &d&lArcade"
+        list:
+          - "&a"
+          - "&fArena: &b{arena}"
+          - "&fGame: &b{game_display_name}"
+          - "&fTime: &b{time}"
+          - "&b"
+          - "{light_color}"
+          - "&c"
+          - "&ewww.servername.com"
+    exploding_sheep:
+      playing:
+        title: "&b&lBlue &d&lArcade"
+        list:
+          - "&a"
+          - "&fArena: &b{arena}"
+          - "&fGame: &b{game_display_name}"
+          - "&fTime: &b{time}"
+          - "&b"
+          - "&fSheared sheep: &b{sheared_sheep}"
+          - "&c"
+          - "&ewww.servername.com"
+    tnt_tag:
+      playing:
+        title: "&b&lBlue &d&lArcade"
+        list:
+          - "&a"
+          - "&fArena: &b{arena}"
+          - "&fGame: &b{game_display_name}"
+          - "&fTagged: {player_tagged}"
+          - "&b"
+          - "&fExploding in: &b{time}"
+          - "&c"
+          - "&ewww.servername.com"
+    knock_back:
+      playing:
+        title: "&b&lBlue &d&lArcade"
+        list:
+          - "&a"
+          - "&fArena: &b{arena}"
+          - "&fGame: &b{game_display_name}"
+          - "&fTime: &b{time}"
+          - "&b"
+          - "&fKills: &b{kills_kb}"
+          - "&c"
+          - "&ewww.servername.com"
+  finish:
+    title: "&b&lBlue &d&lArcade"
+    list:
+      - "&a"
+      - "&fArena: &b{arena}"
+      - "&fPlayers: &b{players}"
+      - "&b"
+      - " &a➊ &l{place_1} &7✯ {stars_1}"
+      - " &6➋ &l{place_2} &7✯ {stars_2}"
+      - " &c➌ &l{place_3} &7✯ {stars_3}"
+      - " &f{place_player} &l{player} &7✯ {stars_player} &8(You)"
+      - "&d"
+      - "&ewww.servername.com"
+action_bar:
+  lobby:
+    starting: "&bStarting in &d{time}"
+  in_game:
+    global: "&bTime: &f{time} &8| &bRound: &f{round}&7/&f{round_max}"
+titles:
+  join:
+    title: "&b&lBlue&d&lArcade"
+    subtitle: "&fwww.servername.com"
+  starting_arena:
+    title: "&b&l{time}"
+    subtitle: "&f"
+  starting_game:
+    title: "&b&l{game_display_name}"
+    subtitle: "&fStarting in &d{time}"
+  game_started:
+    title: "&b&l{game_display_name}"
+    subtitle: "&a&lLET'S GO!"
+  you_died:
+    title: "&c&lYOU DIED!"
+    subtitle: "&fYou have been placed &e#{place}&f."
+  classified:
+    title: "&a&lCLASSIFIED!"
+    subtitle: "&fYou have been placed &e#{place}&f."
+signs:
+  arena:
+    line1: "&b&lBlue &d&lArcade"
+    line2: "&e{arena_status}"
+    line3: "{arena_displayname}"
+    line4: "&3{players}&7/&3{players_max}"
+  quickjoin:
+    line1: ""
+    line2: "&b&lBlue &d&lArcade"
+    line3: "&e&lQuick Join"
+    line4: ""
+  leave:
+    line1: ""
+    line2: "&b&lBlue &d&lArcade"
+    line3: "&c&lLeave"
+    line4: ""
+commands:
+  bluearcade:
+    info:
+      - "&8&m--------------------------"
+      - " "
+      - "&b&lBlue&d&lArcade &7- &e{plugin_version}"
+      - "&7Created by Blueva (blueva.net)"
+      - " "
+      - "&7Use &d/ba help &7to get help."
+      - " "
+      - "&8&m--------------------------"
+    help:
+      - "&b&lBlue&d&lArcade &8- &7Help Command for users"
+      - "&e[] Requiered &7- &a() Optional"
+      - " "
+      - "&d/ba quickjoin (player) &8- &7Enter a random game"
+      - "&d/ba join [name/id] (player) &8- &7Enter a specific game"
+      - "&d/ba leave (player) &8- &7Leave the current game"
+      - "&d/ba help admin &8- &7Help for administrators"
+    adminhelp:
+      - "&b&lBlue&d&lArcade &8- &7Help Command for admins"
+      - "&e[] Requiered &7- &a() Optional"
+      - " "
+      - "&d/ba setup [id] "
+      - "&d/ba delete [id]"
+      - "&d/ba enable [id]"
+      - "&d/ba disable [id]"
+      - "&d/ba reload [all/lang/arenas/file name]"
+      - "&d/ba goto [id] [minigame]"

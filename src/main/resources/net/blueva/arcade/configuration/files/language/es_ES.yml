@@ -1,0 +1,629 @@
+#  ____  _               _                      _
+# | __ )| |_   _  ___   / \   _ __ ___ __ _  __| | ___
+# |  _ \| | | | |/ _ \ / _ \ | '__/ __/ _` |/ _` |/ _ \
+# | |_) | | |_| |  __// ___ \| | | (_| (_| | (_| |  __/
+# |____/|_|\__,_|\___/_/   \_|_|  \___\__,_|\__,_|\___|
+#
+# [!] Arcade by Blueva | https://blueva.net/wiki/arcade/ [!]
+# Translated by Iruvatar Network (www.iruvatar.com)
+
+language: "Spanish (ES)"
+global:
+  success:
+    arena_created: "&aLa arena &b{arena_id} &afue creada correctamente."
+    arena_removed: "&aLa arena &b{arena_id} &afue eliminada correctamente."
+    display_name_set: "&aPusiste el nombre &b{display_name} &apara la arena &b{arena_id}&a."
+    main_lobby_set: "&aPusiste correctamente el lobby principal en MUNDO: {ml_world},
+      X: {ml_x}, Y: {ml_y}, Z: {ml_z}"
+    waiting_lobby_set: "&aPusiste correctamente el lobby de espera en la arena {arena_id}
+      en el MUNDO: {wl_world}, X: {wl_x}, Y: {wl_y}, Z: {wl_z}"
+    magic_stick_pos: "&aLa posición &b{pos} &ase puso en el MUNDO: {ms_world}, X: {ms_x}, Y:
+      {ms_y}, Z: {ms_z}."
+    min_players_set: "&aPusiste correctamente el número minimo de jugadores a &b{min_players}&a."
+    max_players_set: "&aPusiste correctamente el número máximo de jugadores a &b{max_players}&a."
+    mini_game_set: "&aMinijuego {game} configurado correctamente."
+    spawn_added: "&aEl spawn &b{spawn} &afue añadido al minijuego &b{game} &ade la arena &b{arena_id}&a."
+    spawn_removed: "&aEl spawn &b{spawn} &afue eliminado del minijuego &b{game}
+      &ade la arena &b{arena_id}&a."
+    setup_finished: "&aHas configurado correctamente la arena. &eAhora puedes reiniciar el serivodr para que la arena cargue correctamente."
+    sign_added: "&aUn nuevo cartel de tipo {s_type} ha sido añadido en X: {s_x}, Y: {s_y}, Z: {s_z}."
+    sign_removed: "&aEliminado un cartel de tipo {s_type} en X: {s_x}, Y: {s_y}, Z: {s_z}."
+    teleported_to_game: "&aYou have been teleported to Spawn 1 of the &b{game} &agame."
+    reloaded_file: "&aReloaded {file}.yml file"
+    all_files_reloaded: "&aAll files have been reloaded. &e(Some files may require a restart of the entire server to apply the changes.)"
+  error:
+    id_taken: "&cEsa ID ya está en uso."
+    unknown_id: "&cLa ID que pusiste no le corresponde a ninguna arena."
+    no_arena: "&cNo hay arenas disponibles en este momento. Prueba más tarde."
+    only_numbers: "&cTienes que poner un número."
+    only_numbers_arena: "&cDebe ingresar un número. Puedes establecer el nombre de la arena más tarde."
+    only_players: "&cTienes que ser un un jugador para ejecutar ese comando"
+    error_deleting_file: "&cUn error ocurrio cuando quisite eliminar el archivo {file}"
+    already_in_game: "&cYa estás en un juego. Para salir usa /xa leave"
+    not_in_game: "&cAhora mismo no estás en ningún juego"
+    no_mini_game: "&cel minijuego introducido no existe."
+    arena_started: "&cLa arena &e{arena_display_name} &cya ha empezado."
+    arena_full: "&cLa arena &e{arena_display_name} &cesta llena."
+    arena_disabled: "&cLa arena {arena_id} esta actualmetne desabilitada."
+    arena_stopped: "&cLa arena se pauso, ya que se necesitan
+      &e{min_players} &cjugadores para emepzar."
+    bounds_same_world: "&cAmbos límites deben tener el mismo mundo."
+    chat_muted: "&cEl chat fue muteado. Podrás hablar en unos pocos segundos."
+    not_allowed_command: "&cNo puedes usar ese comando mientras estás jugando. Usa
+      /leave para salir."
+    at_least_one_game: "&cConfigura el anterior minijuego para continuar."
+    minimum_spawns: "&cTienes que poenr aun {minimum_spawns} spawns para continuar."
+    finish_first: "&cFinaliza el paso anterior primero."
+    no_setup_pause: "&cEsta no es una arena activada, el proceso se pauso."
+    no_setup_cancel: "&cEsta no es una arena activa, el proceso se cancelo"
+    air_selection_error: "&cEn este paso en particular, tu no puedes seleccionar aire, tienes que seleccionar un bloque."
+    process_cancelled: "&cProceso cancelado..."
+    player_offline: "&cEl jugador especificado no esta en linea."
+    error_sign: "&cAn error occurred while registering the sign. Check that you have typed everything correctly."
+    error_reloading: "&cAn error occurred reloading the {file}.yml file"
+    insufficient_permissions: "&cNo tienes suficientes permisos para ejecutar ese comando."
+    unknown_command: "&cEse comando no existe, prueba a revisar el comando."
+  info:
+    sets_spawn: "&cNo hay un spawn configurado para Blue Arcade. Puede hacerlo con /ba
+      setmainlobby"
+    you_join: "&eTe has unido a la arena &b{arena_display_name}&e."
+    you_left: "&eHas salido de la arena &b{arena_display_name}."
+    player_joined: "&7{player} &ese ha unido a la arena. (&b{players}&8/&b{max_players}&e)"
+    player_leaves: "&7{player} &cse salio de la arena. (&b{players}&8/&b{max_players}&c)"
+    lobby_countdown: "&eLa arena empezara en &b{time} &esegundos."
+    cancelled_setup: "&eEl proceso de creación de la arena se cancelo."
+    paused_setup: "&eEl proceso de creación de la arena se pauso."
+    selected_mini_game_setup: "&eHas seleccionado el minijuego {mini_game}."
+    selection_eliminated_setup: "&eEliminaste la selección. Ahora puede seguir configurando un minijuego."
+    set_display_name: "&7Pon el nombre de la arena en el chat para mostrar los jugadores. Puede incluir colores. Pon `&ccancel&7` para cancelar."
+    setup_step_1: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Arena] [Paso 1] &ePonel punto de aparacion para la la sala de espera de la arena poniendo el faro en la posición correcta. Nota la posición se guardara con la dirección de donde estas mirando."
+    setup_step_2: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Arena] [Paso 2] &epon el mínimo y máximo numero de jugadores en la arena clicando con click derecho o izquierdo los items"
+    setup_step_3: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Arena] [Paso 3] &eClick en la etiqueta para establecer el nombre de la arena. Puedes usar colores"
+    setup_step_4: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Arena] [Paso 4] &eSeleccionar el minijuego. Es recomentable configurar hasta 8 minijuegos&e."
+    setup_step_5: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Arena - Game] [Paso 5] &eSelecciona el límite máximo y minimo del juego co el Palo mágico (click izquiero/click derecho)&e."
+    setup_step_6: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Arena - Game] [Paso 6] &eEstablece los spawnpoints de los jugadores en el minijuego con el faro. Nota, la posición se guardara con la dirección de donde estas mirando"
+    setup_step_7: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Arena - Game] [Paso7] &eEstablece el numero de miniutos que el minijuego durara con el reloj (click izquierdo/click derecho)"
+    setup_race_step_1: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Carrera] [Paso 1] &eSelecciona el límite máximo y minimo de la linea de meta con el palo mágico."
+    setup_spleef_step_1: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Spleef] [Paso 1] &eSelecciona el
+      suelo del mini-juego con el Palo Mágico. Debe estar completamente hecho de bloques de nieve."
+    setup_traffic_light_step_1: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Semáforo] [Paso
+      1] &eSelecciona el límite máximo y minimo de la linea de meta con el Palo Mágico."
+    setup_fast_zone_step_1: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Fast Zone] [Step 1] &eSelect the minimum and maximum bound of the finish line with the Magic Stick."
+    setup_minefield_step_1: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Carrera] [Paso 1] &eSelecciona el límite máximo y minimo de la linea de meta con el Palo Mágico."
+    setup_minefield_step_2: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Spleef] [Paso 1] &eSelecciona el suelo del minijuego con el Palo Mágico. Debe ser necesariamente un piso de una sola capa."
+    setup_red_alert_step_1: "&7[&b&lB&d&lA &8- &c&lSetup&7] [Red Alert] [Step 1] &eSet the floor of the mini-game with the Magic Stick."
+  other:
+    use_goto_subcommand: "&cUse: /ba goto [arena] [mini game]"
+    use_help_subcommand: "&cUsa: /ba help (user/admin)"
+    use_join_subcommand: "&cUsa: /ba join [arena] (player)"
+    use_quickjoin_subcommand: "&cUse: /ba quickjoin (player)"
+    use_leave_subcommand: "&cUse: /ba leave [player]"
+    use_create_subcommand: "&cUsa: /ba create [id]"
+    use_remove_subcommand: "&cUsa: /ba remove [id]"
+    use_setup_subcommand: "&cUsa: /ba setup [id]"
+    use_reload_subcommand: "&cUse: /ba reload [all/lang/arenas/file name]"
+items:
+  lobby: {}
+  game:
+    vote_game: "&bVota por minijuegos"
+    leave_game: "&cSalir del juego"
+  setup:
+    cancel_setup: "&7[&b&lB&d&lA&7] &c&lCancelar el setup &8(ID: {arena_id})"
+    pause_setup: "&7[&b&lB&d&lA&7] &c&lPausar el setup &8(ID: {arena_id})"
+    previous_step: "&7[&b&lB&d&lA&7] &e&lPaso anterior &8(ID: {arena_id})"
+    previous_step_1: "&7[&b&lB&d&lA&7] &e&lPaso anterior &c(Cancel Setup) &8(ID: {arena_id})"
+    next_step: "&7[&b&lB&d&lA&7] &a&lSiguiente paso &8(ID: {arena_id})"
+    set_waiting_lobby: "&7[&b&lB&d&lA&7] &e&lEstablecer el lobby de espera &8(ID: {arena_id})"
+    minimum_players: "&7[&b&lB&d&lA&7] &e&lJugadores mínimos &8(ID: {arena_id})"
+    maximum_players: "&7[&b&lB&d&lA&7] &e&lJugadores máximos &8(ID: {arena_id})"
+    display_name: "&7[&b&lB&d&lA&7] &e&lSeleccionar nombre &8(ID: {arena_id})"
+    select_mini_game: "&7[&b&lB&d&lA&7] &e&lSelecciona Minijuego &8(ID: {arena_id})"
+    minimum_border: "&7[&b&lB&d&lA&7] &e&lEstablece el borde mínimo &8(ID: {arena_id})"
+    maximum_border: "&7[&b&lB&d&lA&7] &e&lEstablece el borde máximo &8(ID: {arena_id})"
+    spawning_points: "&7[&b&lB&d&lA&7] &e&lEstablece el spawn de los jugaores &8(ID: {arena_id})"
+    set_time: "&7[&b&lB&d&lA&7] &e&lDuración de la arena (en minutos) &8(ID: {arena_id})"
+    magic_stick: "&7[&b&lB&d&lA&7] &ePalo mágico &7(Click derecho/Click izquierdo) &8(ID:
+      {arena_id})"
+gui:
+  game:
+    vote_game:
+      title: "&bVota por un minijuego"
+      items: []
+  setup:
+    select_game:
+      title: "&7[&b&lB&d&lA&7] &fSelecciona un minijuego"
+      items:
+        exit:
+          name: "&7[&b&lB&d&lA&7] &cSalir del menú"
+          lore:
+            - ""
+            - "&eClick para seleccionar"
+        remove_selection:
+          name: "&7[&b&lB&d&lA&7] &7Eliminar selección"
+          lore:
+            - "&7Elimina tus selecciones para continuar con"
+            - "&7el siguiente paso o configurar otro minijuego."
+            - ""
+            - "&eClick para seleccionar"
+        race:
+          name: "&aCarrera"
+          lore:
+            - "&7Minijuego de carrera, corre hsta la meta."
+            - ""
+            - "&aRequerido:"
+            - " &2✔ &aUn mapa con parkour o obstaculos."
+            - " &2✔ &aEstablecer una linea de meta."
+            - ""
+            - "&eClick para seleccionar"
+        spleef:
+          name: "&aSpleef"
+          lore:
+            - "&7Minijuego para tirar a tus oponentes al vacio."
+            - ""
+            - "&aRequerido:"
+            - " &2✔ &aUn mapa con nieve en el suelo."
+            - " &2✔ &aAbajo del suele tiene que estar vacio"
+            - ""
+            - "&eClick para seleccionar"
+        snowball_fight:
+          name: "&aGuerra de bolas de nieve"
+          lore:
+            - "&7Minijuego de bolas de nieve."
+            - ""
+            - "&aRequerido:"
+            - " &2✔ &aAlgun mapa donde los jugadores puedan tirarse bolas de nieve."
+            - ""
+            - "&eClick para seleccionar"
+        all_against_all:
+          name: "&aTodos contra todos"
+          lore:
+            - "&7Minijuego para matar a tus oponentes con una espada."
+            - ""
+            - "&aRequerido:"
+            - " &2✔ &aAlgún mapa donde poder matar a los oponentes con una espada."
+            - ""
+            - "&eClick para seleccionar"
+        one_in_the_chamber:
+          name: "&aUna en la recamara"
+          lore:
+            - "&7Minijuego para matar a tus oponentes con un arco"
+            - ""
+            - "&aRequerido:"
+            - " &2✔ &aAlgún mapa donde los jugadores puedan disparar."
+            - " &2 a sus oponentes con arco"
+            - ""
+            - "&eClick para seleccionar"
+        traffic_light:
+          name: "&aSemaforo"
+          lore:
+            - "&7Minijuego de correr a la linea de meta con un semaforo"
+            - ""
+            - "&aRequerido:"
+            - " &2✔ &aUn mapa con obstaculos para avanzar."
+            - " &2✔ &aEstablecer una linea de meta."
+            - ""
+            - "&eClick para seleccionar"
+        minefield:
+          name: "&aMinefield"
+          lore:
+            - "&7Minijuego de correr hasta la linea de meat sin pisar las minas."
+            - ""
+            - "&aRequerido:"
+            - " &2✔ &aUn mapa con un suelo sin agujeros."
+            - " &2✔ &aEstablece una linea de meta."
+            - ""
+            - "&eClick para seleccionar"
+        exploding_sheep:
+          name: "&aOvejas explosivas"
+          lore:
+            - "&7Minijuego de esquilar ovejas que puede explotar."
+            - ""
+            - "&aRequerido:"
+            - " &2✔ &aUn mapa con poca profundidad de bloque."
+            - " &2✔ &aDebajo del mapa debe estar vacío."
+            - ""
+            - "&eClick para seleccionar"
+        tnt_tag:
+          name: "&aTNT Tag"
+          lore:
+            - "&7Explosive tag game with TNT."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aAny map to pass the tag to other players."
+            - ""
+            - "&eClick to select"
+        red_alert:
+          name: "&aRed Alert"
+          lore:
+            - "&7Parkour mini-game on a disappearing platform."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aA map with white wool ground."
+            - ""
+            - "&eClick to select"
+        knock_back:
+          name: "&aKnock Back"
+          lore:
+            - "&7Mini-game of throwing opponents into the void."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aA map with flat ground and holes"
+            - "     &athat players can fall into."
+            - ""
+            - "&eClick to select"
+        fast_zone:
+          name: "&aFast Zone"
+          lore:
+            - "&7Racing mini-game with finish line."
+            - ""
+            - "&aRequired:"
+            - " &2✔ &aA map with a parkour or route."
+            - " &2✔ &aEstablish a finish line."
+            - ""
+            - "&eClick to select"
+summary:
+  mini_game:
+    - "&8&m----------------------------------------------"
+    - ""
+    - "     &a➀ &l{place_1} &7✯ +3"
+    - "     &6➁ &l{place_2} &7✯ +2"
+    - "     &c➂ &l{place_3} &7✯ +1"
+    - ""
+    - "  &6⛁ &e{credits_earned}  &7|  &6✯ &e{stars_earned}  &7|  &aYour place: &6{place_player}"
+    - ""
+    - "&8&m----------------------------------------------"
+  final:
+    - "&8&m----------------------------------------------"
+    - ""
+    - "  &b&lBlue &d&lArcade &7- &eJuego finalizado &7- &aResultados:"
+    - ""
+    - "     &a➊ &l{place_1} &7✯ {stars_1}"
+    - "     &6➋ &l{place_2} &7✯ {stars_2}"
+    - "     &c➌ &l{place_3} &7✯ {stars_3}"
+    - "     &f{place_player} &l{player} &7✯ {stars_player} &8(Tu)"
+    - ""
+    - "&8&m----------------------------------------------"
+mini_games:
+  race:
+    display_name: Carrera
+    description:
+      - "&2&m=============================================="
+      - "&aJuego &7&m-&e&l {game_display_name}"
+      - ""
+      - "&fDescripción del juego:"
+      - "&7Llega a la meta antes que los otros jugadores."
+      - ""
+      - "&2&m============================================== "
+  spleef:
+    display_name: Spleef
+    description:
+      - "&2&m============================================== "
+      - "&aJuego &7&m-&e&l {game_display_name}"
+      - ""
+      - "&fDescripción del juego:"
+      - "&7Rompe el suelo de nieve para hacer que tus"
+      - "&7oponentes se caigan y que tu seas el último en pie."
+      - ""
+      - "&2&m============================================== "
+  snowball_fight:
+    display_name: Guerra de bolas de nieve
+    description:
+      - "&2&m============================================== "
+      - "&aJuego &7&m-&e&l {game_display_name}"
+      - ""
+      - "&fDescripción del juego:"
+      - "&7Pega con bolas de nieve a tus oponentes"
+      - "&7para eliminarlos y ser el último en pie."
+      - ""
+      - "&2&m============================================== "
+  all_against_all:
+    display_name: Todos contra todos
+    description:
+      - "&2&m============================================== "
+      - "&aJuego &7&m-&e&l {game_display_name}"
+      - ""
+      - "&fDescripción del juego:"
+      - "&7Mata a tus oponentes y se el último"
+      - "&7jugador en pie."
+      - ""
+      - "&2&m============================================== "
+  one_in_the_chamber:
+    display_name: Una en la recámara
+    description:
+      - "&2&m============================================== "
+      - "&aJuego &7&m-&e&l {game_display_name}"
+      - ""
+      - "&fDescripción del juego:"
+      - "&7Pega a tus oponentes con un arco para eliminarlos"
+      - "&7No puedes fallar una flecha o te"
+      - "&7quedarás sin forma de defenderte."
+      - ""
+      - "&2&m============================================== "
+  traffic_light:
+    display_name: Semáforo
+    description:
+      - "&2&m============================================== "
+      - "&aJuego &7&m-&e&l {game_display_name}"
+      - ""
+      - "&fDescripción del juego:"
+      - "&7Avanza hasta la meta sin ser"
+      - "&7eliminado cuando el semaforo este"
+      - "&7en rojo."
+      - ""
+      - "&2&m============================================== "
+  minefield:
+    display_name: Minefield
+    description:
+      - "&2&m============================================== "
+      - "&aJuego &7&m-&e&l {game_display_name}"
+      - ""
+      - "&fDescipción del juego:"
+      - "&7Avanza hasta la meta sin pisar"
+      - "&7ninguna mina. "
+      - ""
+      - "&2&m============================================== "
+  exploding_sheep:
+    display_name: Ovejas explosivas
+    description:
+      - "&2&m============================================== "
+      - "&aJuego &7&m-&e&l {game_display_name}"
+      - ""
+      - "&fDescripción del juego:"
+      - "&7Esquila la mayor cantidad de ovejas posibles, pero con cuidado,"
+      - "&7algunas podrán explotar! "
+      - ""
+      - "&2&m============================================== "
+  tnt_tag:
+    display_name: "TNT Tag"
+    description:
+      - "&2&m============================================== "
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - ""
+      - "&fGame description:"
+      - "&7Pass the TNT to other players before it"
+      - "&7explodes. "
+      - ""
+      - "&2&m============================================== "
+  red_alert:
+    display_name: "Red Alert"
+    description:
+      - "&2&m============================================== "
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - ""
+      - "&fGame description:"
+      - "&7Dont fall while the floor is disappearing!"
+      - ""
+      - "&2&m============================================== "
+  knock_back:
+    display_name: "Knock Back"
+    description:
+      - "&2&m============================================== "
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - ""
+      - "&fGame description:"
+      - "&7Knock your opponents over with a push stick."
+      - "&7The last survivor wins."
+      - ""
+      - "&2&m============================================== "
+  fast_zone:
+    display_name: "Fast Zone"
+    description:
+      - "&2&m============================================== "
+      - "&aGame &7&m-&e&l {game_display_name}"
+      - ""
+      - "&fGame description:"
+      - "&7-"
+      - "&7-"
+      - ""
+      - "&2&m============================================== "
+scoreboards:
+  lobby:
+    waiting:
+      title: "&b&lBlue &d&lArcade"
+      list:
+        - "&a"
+        - "&fArena: &b{arena}"
+        - "&fJugadores: &b{players}/&b{max_players}"
+        - "&b"
+        - "&bEsperando..."
+        - "&c"
+        - "&ewww.servername.com"
+    starting:
+      title: "&b&lBlue &d&lArcade"
+      list:
+        - "&a"
+        - "&fArena: &b{arena}"
+        - "&fJugadores: &b{players}/&b{max_players}"
+        - "&b"
+        - "&bEmpezando en &d{time}"
+        - "&c"
+        - "&ewww.servername.com"
+  limbo:
+    title: "&b&lBlue &d&lArcade"
+    list:
+      - "&a"
+      - "&fArena: &b{arena}"
+      - "&fJugadores: &b{players}"
+      - "&fRonda: &b{round}/{round_max}"
+      - "&b"
+      - " &a➀ &l{place_1} &f✯ {stars_1}"
+      - " &6➁ &l{place_2} &f✯ {stars_2}"
+      - " &c➂ &l{place_3} &f✯ {stars_3}"
+      - " &f{place_player} &l{player} &7✯ {stars_player}"
+      - "&d"
+      - "&ewww.servername.com"
+  in_game:
+    starting:
+      title: "&b&lBlue &d&lArcade"
+      list:
+        - "&a"
+        - "&fArena: &b{arena}"
+        - "&fJuego: &b{game_display_name}"
+        - "&fJugadores: &b{players}"
+        - "&b"
+        - "&bEmpieza en &d{time}"
+        - "&c"
+        - "&ewww.servername.com"
+    global:
+      playing:
+        title: "&b&lBlue &d&lArcade"
+        list:
+          - "&a"
+          - "&fArena: &b{arena}"
+          - "&fGame: &b{game_display_name}"
+          - "&fTime: &b{time}"
+          - "&b"
+          - "&d{mini_description}"
+          - "&c"
+          - "&ewww.servername.com"
+        mini_description:
+          race: Llega a la meta!
+          spleef: Rompe el suelo!
+          snowball_fight: Dispara bolas de nieve!
+          all_against_all: Mata a tus oponentes!
+          minefield: "Beware of mines!"
+          red_alert: "Don't fall!"
+          fast_zone: "Reach the finish line!"
+    one_in_the_chamber:
+      playing:
+        title: "&b&lBlue &d&lArcade"
+        list:
+          - "&a"
+          - "&fArena: &b{arena}"
+          - "&fJuego: &b{game_display_name}"
+          - "&fTiempo: &b{time}"
+          - "&b"
+          - "&fAsesinatos: &b{kills_oitc}"
+          - "&fMuertes: &b{deaths_oitc}"
+          - "&c"
+          - "&ewww.servername.com"
+    traffic_light:
+      playing:
+        title: "&b&lBlue &d&lArcade"
+        list:
+          - "&a"
+          - "&fArena: &b{arena}"
+          - "&fJuego: &b{game_display_name}"
+          - "&fTiempo: &b{time}"
+          - "&b"
+          - "{light_color}"
+          - "&c"
+          - "&ewww.servername.com"
+    exploding_sheep:
+      playing:
+        title: "&b&lBlue &d&lArcade"
+        list:
+          - "&a"
+          - "&fArena: &b{arena}"
+          - "&fJuego: &b{game_display_name}"
+          - "&fTiempo: &b{time}"
+          - "&b"
+          - "&fOvejas esquiladas: &b{sheared_sheep}"
+          - "&c"
+          - "&ewww.servername.com"
+    tnt_tag:
+      playing:
+        title: "&b&lBlue &d&lArcade"
+        list:
+          - "&a"
+          - "&fArena: &b{arena}"
+          - "&fJuego: &b{game_display_name}"
+          - "&fTagueado: {player_tagged}"
+          - "&b"
+          - "&fExplotando en: &b{time}"
+          - "&c"
+          - "&ewww.servername.com"
+    knock_back:
+      playing:
+        title: "&b&lBlue &d&lArcade"
+        list:
+          - "&a"
+          - "&fArena: &b{arena}"
+          - "&fGame: &b{game_display_name}"
+          - "&fTime: &b{time}"
+          - "&b"
+          - "&fKills: &b{kills_kb}"
+          - "&c"
+          - "&ewww.servername.com"
+  finish:
+    title: "&b&lBlue &d&lArcade"
+    list:
+      - "&a"
+      - "&fArena: &b{arena}"
+      - "&fJugadores: &b{players}"
+      - "&b"
+      - " &a➊ &l{place_1} &7✯ {stars_1}"
+      - " &6➋ &l{place_2} &7✯ {stars_2}"
+      - " &c➌ &l{place_3} &7✯ {stars_3}"
+      - " &f{place_player} &l{player} &7✯ {stars_player} &8(Tu)"
+      - "&d"
+      - "&ewww.servername.com"
+action_bar:
+  lobby:
+    starting: "&bEmpezando en &d{time}"
+  in_game:
+    global: "&bTiempo: &f{time} &8| &bRonda: &f{round}&7/&f{round_max}"
+titles:
+  join:
+    title: "&b&lBlue&d&lArcade"
+    subtitle: "&fwww.servername.com"
+  starting_arena:
+    title: "&b&l{time}"
+    subtitle: "&f"
+  starting_game:
+    title: "&b&l{game_display_name}"
+    subtitle: "&fEmpieza en &d{time}"
+  game_started:
+    title: "&b&l{game_display_name}"
+    subtitle: "&a&lADELANTE!"
+  you_died:
+    title: "&c&lMORISTE!"
+    subtitle: "&fTe pusiste en el lugar &e#{place}&f."
+  classified:
+    title: "&a&lCLASIFICADO!"
+    subtitle: "&fTe pusiste en el lugar &e#{place}&f."
+signs:
+  arena:
+    line1: "&b&lBlue &d&lArcade"
+    line2: "&e{arena_status}"
+    line3: "{arena_displayname}"
+    line4: "&3{players}&7/&3{players_max}"
+  quickjoin:
+    line1: ""
+    line2: "&b&lBlue &d&lArcade"
+    line3: "&e&lEntrar Rápido"
+    line4: ""
+  leave:
+    line1: ""
+    line2: "&b&lBlue &d&lArcade"
+    line3: "&c&lSalir"
+    line4: ""
+commands:
+  bluearcade:
+    info:
+      - "&8&m--------------------------"
+      - ""
+      - "&b&lBlue&d&lArcade &7- &e{plugin_version}"
+      - "&7Creado por Blueva (blueva.net)"
+      - ""
+      - "&7Usa &d/ba help &7para obtener ayuda."
+      - ""
+      - "&8&m--------------------------"
+    help:
+      - "&b&lBlue&d&lArcade &8- &7Ayuda de comandos para usuarios"
+      - "&e[] Requerido &7- &a() Opcional"
+      - ""
+      - "&d/ba quickjoin (player) &8- &7Entra a un juego al azar"
+      - "&d/ba join [name/id] (player) &8- &7Entrar a un juego especifico"
+      - "&d/ba leave (player) &8- &7Salir de el minijuego actual"
+      - "&d/ba help admin &8- &7Ayuda para administradores"
+    adminhelp:
+      - "&b&lBlue&d&lArcade &8- &7Ayuda de comandos para administraores"
+      - "&e[] Requerido &7- &a() Opcional"
+      - ""
+      - "&d/ba setup [id] "
+      - "&d/ba delete [id]"
+      - "&d/ba enable [id]"
+      - "&d/ba disable [id]"
+      - "&d/ba reload [all/lang/arenas/file name]"
+      - "&d/ba goto [id] [minigame]"
