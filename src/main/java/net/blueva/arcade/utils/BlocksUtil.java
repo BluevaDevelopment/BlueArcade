@@ -147,10 +147,6 @@ public class BlocksUtil {
 
             if(blockType != null) {
                 block.setType(blockType);
-                if(Main.getPlugin().bukkitVersion.contains("1.8") || Main.getPlugin().bukkitVersion.contains("1.12")) {
-                    block.setData(dataByte);
-                }
-
                 blockMap.put(loc, blockType);
             }
         }

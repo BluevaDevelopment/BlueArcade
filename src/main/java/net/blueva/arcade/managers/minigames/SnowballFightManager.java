@@ -1,7 +1,6 @@
 package net.blueva.arcade.managers.minigames;
 
 import net.blueva.arcade.Main;
-import net.blueva.arcade.ObjectResolver;
 import net.blueva.arcade.managers.ArenaManager;
 import net.blueva.arcade.managers.CacheManager;
 import net.blueva.arcade.managers.PlayerManager;
@@ -197,7 +196,7 @@ public class SnowballFightManager {
     }
 
     private static void giveItems(int arenaid, Main main) {
-        ItemStack snowball = new ItemStack(Material.valueOf(ObjectResolver.getItem.SNOWBALL()), 4);
+        ItemStack snowball = new ItemStack(Material.SNOWBALL, 4);
 
         for(final Player allp : Bukkit.getOnlinePlayers()) {
             if(PlayerManager.PlayerStatus.containsKey(allp)) {

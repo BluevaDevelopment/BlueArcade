@@ -1,6 +1,5 @@
 package net.blueva.arcade.managers;
 
-import net.blueva.arcade.ObjectResolver;
 import net.blueva.arcade.utils.InventoryUtil;
 import net.blueva.arcade.utils.SyncUtil;
 import net.blueva.arcade.utils.TitlesUtil;
@@ -63,7 +62,7 @@ public class PlayerManager {
 
                         player.getInventory().setHeldItemSlot(4);
 
-                        ItemStack leave = new ItemStack(Material.valueOf(ObjectResolver.getItem.BED()), 1);
+                        ItemStack leave = new ItemStack(Material.RED_BED, 1);
                         ItemMeta leavemeta = leave.getItemMeta();
                         leavemeta.setDisplayName(StringUtils.formatMessage(player.getName(), CacheManager.Language.ITEMS_GAME_LEAVE_GAME));
                         leave.setItemMeta(leavemeta);

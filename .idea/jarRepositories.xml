@@ -12,6 +12,11 @@
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="spigotmc" />
+      <option name="name" value="spigotmc" />
+      <option name="url" value="https://hub.spigotmc.org/nexus/content/groups/public/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="mavenpublic" />
       <option name="name" value="mavenpublic" />
       <option name="url" value="https://repo.codemc.io/repository/maven-public/" />

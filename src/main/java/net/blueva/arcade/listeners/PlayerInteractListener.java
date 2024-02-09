@@ -1,7 +1,6 @@
 package net.blueva.arcade.listeners;
 
 import net.blueva.arcade.Main;
-import net.blueva.arcade.ObjectResolver;
 import net.blueva.arcade.commands.main.subcommands.QuickjoinSubCommand;
 import net.blueva.arcade.managers.ArenaManager;
 import net.blueva.arcade.managers.CacheManager;
@@ -38,8 +37,8 @@ public class PlayerInteractListener implements Listener {
 
         if(p.hasPermission("bluearcade.join")) {
             if(event.getClickedBlock() != null) {
-                if (event.getClickedBlock().getType() == Material.SIGN ||
-                        event.getClickedBlock().getType() == Material.WALL_SIGN) {
+                if (event.getClickedBlock().getType() == Material.OAK_SIGN ||
+                        event.getClickedBlock().getType() == Material.OAK_WALL_SIGN) {
                     if(main.signManager.isRegisteredSign(event.getClickedBlock().getLocation())) {
                         if(p.getGameMode() == GameMode.CREATIVE) {
                             if(p.hasPermission("bluearcade.admin")) {
@@ -72,7 +71,7 @@ public class PlayerInteractListener implements Listener {
 
                 if(playerActualGame.equalsIgnoreCase("Minefield")) {
                     if(event.getAction() == Action.PHYSICAL) {
-                        if(event.getClickedBlock().getType() == Material.valueOf(ObjectResolver.getBlock.STONE_PLATE())) {
+                        if(event.getClickedBlock().getType() == Material.STONE_PRESSURE_PLATE) {
                             playerLocation.getWorld().createExplosion(playerLocation.getX(), playerLocation.getY(), playerLocation.getZ(), 4.0f, false, false);
                             event.getPlayer().teleport(ArenaManager.getRandomSpawn(main, PlayerManager.PlayerArena.get(event.getPlayer()), "minefield"));
                             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(main, () -> event.getClickedBlock().setType(Material.AIR), 5);
@@ -254,14 +253,14 @@ public class PlayerInteractListener implements Listener {
                         if(p.getInventory().getHeldItemSlot() == 0) {
                             if(event.getAction().name().contains("RIGHT_CLICK")) {
                                 if(VersionUtil.getQuantityItemsMainHand(p) < 64) {
-                                    InventoryUtil.addItems(p.getInventory(), Material.valueOf(ObjectResolver.getItem.CLOCK()), 1);
+                                    InventoryUtil.addItems(p.getInventory(), Material.CLOCK, 1);
                                     main.configManager.getArena(arenaid).set("arena.mini_games."+main.setupManager.selectedGame.get(p)+".basic.time", VersionUtil.getQuantityItemsMainHand(p)*60);
                                     main.configManager.saveArena(arenaid);
                                     main.configManager.reloadArena(arenaid);
                                 }
                             } else if(event.getAction().name().contains("LEFT_CLICK")) {
                                 if(VersionUtil.getQuantityItemsMainHand(p) > 1) {
-                                    InventoryUtil.removeItems(p.getInventory(), Material.valueOf(ObjectResolver.getItem.CLOCK()), 1);
+                                    InventoryUtil.removeItems(p.getInventory(), Material.CLOCK, 1);
                                     main.configManager.getArena(arenaid).set("arena.mini_games."+main.setupManager.selectedGame.get(p)+".basic.time", VersionUtil.getQuantityItemsMainHand(p)*60);
                                     main.configManager.saveArena(arenaid);
                                     main.configManager.reloadArena(arenaid);

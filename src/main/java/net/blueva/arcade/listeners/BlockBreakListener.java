@@ -1,6 +1,5 @@
 package net.blueva.arcade.listeners;
 
-import net.blueva.arcade.ObjectResolver;
 import net.blueva.arcade.managers.ArenaManager;
 import net.blueva.arcade.managers.PlayerManager;
 import org.bukkit.*;
@@ -24,8 +23,8 @@ public class BlockBreakListener implements Listener {
         Player p = event.getPlayer();
 
         if(p.hasPermission("bluearcade.admin")) {
-            if(event.getBlock().getType() == Material.SIGN ||
-                    event.getBlock().getType() == Material.WALL_SIGN) {
+            if(event.getBlock().getType() == Material.OAK_SIGN ||
+                    event.getBlock().getType() == Material.OAK_WALL_SIGN) {
                 main.signManager.removeRegisteredSign(p, event.getBlock().getLocation());
             }
         }
@@ -33,7 +32,7 @@ public class BlockBreakListener implements Listener {
         if(PlayerManager.PlayerStatus.containsKey(p)) {
             if(PlayerManager.PlayerStatus.get(p).equalsIgnoreCase("Playing")) {
                 if(ArenaManager.ArenaActualGame.get(PlayerManager.PlayerArena.get(p)).equalsIgnoreCase("Spleef")) {
-                    ItemStack snowballStack = new ItemStack(Material.valueOf(ObjectResolver.getItem.SNOWBALL()), 1);
+                    ItemStack snowballStack = new ItemStack(Material.SNOWBALL);
                     p.getInventory().addItem(snowballStack);
                     if(event.getBlock().getType().equals(Material.SNOW_BLOCK)) {
                         Block block = event.getBlock();

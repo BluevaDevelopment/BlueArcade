@@ -1,7 +1,6 @@
 package net.blueva.arcade.managers.setup;
 
 import net.blueva.arcade.Main;
-import net.blueva.arcade.ObjectResolver;
 import net.blueva.arcade.managers.ArenaManager;
 import net.blueva.arcade.managers.CacheManager;
 import net.blueva.arcade.utils.InventoryUtil;
@@ -368,25 +367,25 @@ public class SetupManager {
     }
 
     public static void setDefaultItems(Main main, Player player, Integer arenaid) {
-        ItemStack cancel = new ItemStack(Material.valueOf(ObjectResolver.getBlock.WOOL("red")), 1, (short) 14);
+        ItemStack cancel = new ItemStack(Material.RED_WOOL);
         ItemMeta cancelmeta = cancel.getItemMeta();
         cancelmeta.setDisplayName(StringUtils.formatMessage(player.getName(), CacheManager.Language.ITEMS_SETUP_CANCEL_SETUP.replace("{arena_id}", String.valueOf(arenaid))));
         cancel.setItemMeta(cancelmeta);
         player.getInventory().setItem(5, cancel);
 
-        ItemStack pause = new ItemStack(Material.valueOf(ObjectResolver.getBlock.WOOL("orange")), 1, (short) 1);
+        ItemStack pause = new ItemStack(Material.ORANGE_WOOL);
         ItemMeta pausemeta = pause.getItemMeta();
         pausemeta.setDisplayName(StringUtils.formatMessage(player.getName(), CacheManager.Language.ITEMS_SETUP_PAUSE_SETUP.replace("{arena_id}", String.valueOf(arenaid))));
         pause.setItemMeta(pausemeta);
         player.getInventory().setItem(6, pause);
 
-        ItemStack previous = new ItemStack(Material.valueOf(ObjectResolver.getBlock.WOOL("yellow")), 1, (short) 4);
+        ItemStack previous = new ItemStack(Material.YELLOW_WOOL);
         ItemMeta previousmeta = previous.getItemMeta();
         previousmeta.setDisplayName(StringUtils.formatMessage(player.getName(), CacheManager.Language.ITEMS_SETUP_PREVIOUS_STEP.replace("{arena_id}", String.valueOf(arenaid))));
         previous.setItemMeta(previousmeta);
         player.getInventory().setItem(7, previous);
 
-        ItemStack next = new ItemStack(Material.valueOf(ObjectResolver.getBlock.WOOL("lime")), 1, (short) 5);
+        ItemStack next = new ItemStack(Material.LIME_WOOL);
         ItemMeta nextmeta = next.getItemMeta();
         nextmeta.setDisplayName(StringUtils.formatMessage(player.getName(), CacheManager.Language.ITEMS_SETUP_NEXT_STEP.replace("{arena_id}", String.valueOf(arenaid))));
         next.setItemMeta(nextmeta);
@@ -408,7 +407,7 @@ public class SetupManager {
         setlobby.setItemMeta(setlobbymeta);
         player.getInventory().setItem(0, setlobby);
 
-        ItemStack empty = new ItemStack(Material.valueOf(ObjectResolver.getItem.STAINED_GLASS_PANE("gray")), 1, (short) 7);
+        ItemStack empty = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta emptymeta = empty.getItemMeta();
         emptymeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', " &7 "));
         empty.setItemMeta(emptymeta);
@@ -443,7 +442,7 @@ public class SetupManager {
         maxplayers.setItemMeta(maxplayersmeta);
         player.getInventory().setItem(1, maxplayers);
 
-        ItemStack empty = new ItemStack(Material.valueOf(ObjectResolver.getItem.STAINED_GLASS_PANE("gray")), 1, (short) 7);
+        ItemStack empty = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta emptymeta = empty.getItemMeta();
         emptymeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', " &7 "));
         empty.setItemMeta(emptymeta);
@@ -470,7 +469,7 @@ public class SetupManager {
         minplayers.setItemMeta(minplayersmeta);
         player.getInventory().setItem(0, minplayers);
 
-        ItemStack empty = new ItemStack(Material.valueOf(ObjectResolver.getItem.STAINED_GLASS_PANE("gray")), 1, (short) 7);
+        ItemStack empty = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta emptymeta = empty.getItemMeta();
         emptymeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', " &7 "));
         empty.setItemMeta(emptymeta);
@@ -500,7 +499,7 @@ public class SetupManager {
         minplayers.setItemMeta(minplayersmeta);
         player.getInventory().setItem(0, minplayers);
 
-        ItemStack empty = new ItemStack(Material.valueOf(ObjectResolver.getItem.STAINED_GLASS_PANE("gray")), 1, (short) 7);
+        ItemStack empty = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta emptymeta = empty.getItemMeta();
         emptymeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', " &7 "));
         empty.setItemMeta(emptymeta);
@@ -526,7 +525,7 @@ public class SetupManager {
         stickbounds.setItemMeta(stickboundsmeta);
         player.getInventory().setItem(0, stickbounds);
 
-        ItemStack empty = new ItemStack(Material.valueOf(ObjectResolver.getItem.STAINED_GLASS_PANE("gray")), 1, (short) 7);
+        ItemStack empty = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta emptymeta = empty.getItemMeta();
         emptymeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', " &7 "));
         empty.setItemMeta(emptymeta);
@@ -551,7 +550,7 @@ public class SetupManager {
         spawnpoints.setItemMeta(spawnpointsmeta);
         player.getInventory().setItem(0, spawnpoints);
 
-        ItemStack empty = new ItemStack(Material.valueOf(ObjectResolver.getItem.STAINED_GLASS_PANE("gray")), 1, (short) 7);
+        ItemStack empty = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta emptymeta = empty.getItemMeta();
         emptymeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', " &7 "));
         empty.setItemMeta(emptymeta);
@@ -568,7 +567,7 @@ public class SetupManager {
 
         StringUtils.sendMessage(player, player.getName(), CacheManager.Language.GLOBAL_INFO_SETUP_STEP_7);
 
-        ItemStack time = new ItemStack(Material.valueOf(ObjectResolver.getItem.CLOCK()), 1);
+        ItemStack time = new ItemStack(Material.CLOCK);
         ItemMeta timemeta = time.getItemMeta();
         timemeta.addEnchant(Enchantment.DURABILITY, 1, true);
         timemeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -576,7 +575,7 @@ public class SetupManager {
         time.setItemMeta(timemeta);
         player.getInventory().setItem(0, time);
 
-        ItemStack empty = new ItemStack(Material.valueOf(ObjectResolver.getItem.STAINED_GLASS_PANE("gray")), 1, (short) 7);
+        ItemStack empty = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta emptymeta = empty.getItemMeta();
         emptymeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', " &7 "));
         empty.setItemMeta(emptymeta);

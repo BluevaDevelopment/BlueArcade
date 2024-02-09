@@ -1,6 +1,5 @@
 package net.blueva.arcade.managers.setup;
 
-import net.blueva.arcade.ObjectResolver;
 import net.blueva.arcade.managers.CacheManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -31,7 +30,7 @@ public class SpleefSetupManager {
         stickfloor.setItemMeta(stickfloormeta);
         player.getInventory().setItem(0, stickfloor);
 
-        ItemStack empty = new ItemStack(Material.valueOf(ObjectResolver.getItem.STAINED_GLASS_PANE("gray")), 1, (short) 7);
+        ItemStack empty = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
         ItemMeta emptymeta = empty.getItemMeta();
         emptymeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', " &7 "));
         empty.setItemMeta(emptymeta);

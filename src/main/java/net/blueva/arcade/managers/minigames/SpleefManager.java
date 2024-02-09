@@ -1,7 +1,6 @@
 package net.blueva.arcade.managers.minigames;
 
 import net.blueva.arcade.Main;
-import net.blueva.arcade.ObjectResolver;
 import net.blueva.arcade.managers.ArenaManager;
 import net.blueva.arcade.managers.CacheManager;
 import net.blueva.arcade.managers.PlayerManager;
@@ -177,7 +176,7 @@ public class SpleefManager {
     }
 
     private static void giveItems(int arenaid, Main main) {
-        ItemStack shovel = new ItemStack(Material.valueOf(ObjectResolver.getItem.DIAMOND_SHOVEL()), 1);
+        ItemStack shovel = new ItemStack(Material.DIAMOND_SHOVEL, 1);
         ItemMeta shovelmeta = shovel.getItemMeta();
         shovelmeta.addEnchant(Enchantment.DIG_SPEED, 5, true);
         shovelmeta.addEnchant(Enchantment.DURABILITY, 3, true);

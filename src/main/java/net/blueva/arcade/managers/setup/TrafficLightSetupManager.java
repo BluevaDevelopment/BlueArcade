@@ -1,7 +1,6 @@
 package net.blueva.arcade.managers.setup;
 
 import net.blueva.arcade.Main;
-import net.blueva.arcade.ObjectResolver;
 import net.blueva.arcade.managers.CacheManager;
 import net.blueva.arcade.utils.StringUtils;
 import org.bukkit.ChatColor;
@@ -26,7 +25,7 @@ public class TrafficLightSetupManager {
         stickfinish.setItemMeta(stickfinishmeta);
         player.getInventory().setItem(0, stickfinish);
 
-        ItemStack empty = new ItemStack(Material.valueOf(ObjectResolver.getItem.STAINED_GLASS_PANE("gray")), 1, (short) 7);
+        ItemStack empty = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
         ItemMeta emptymeta = empty.getItemMeta();
         emptymeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', " &7 "));
         empty.setItemMeta(emptymeta);

@@ -1,7 +1,6 @@
 package net.blueva.arcade.managers.minigames;
 
 import net.blueva.arcade.Main;
-import net.blueva.arcade.ObjectResolver;
 import net.blueva.arcade.managers.ArenaManager;
 import net.blueva.arcade.managers.CacheManager;
 import net.blueva.arcade.managers.PlayerManager;
@@ -267,9 +266,7 @@ public class TrafficLightManager {
 
     private static void giveItemsRed(Player player) {
         try {
-            String woolMaterialName = ObjectResolver.getBlock.WOOL("red");
-            Material woolMaterial = Material.valueOf(woolMaterialName);
-            ItemStack wool = new ItemStack(woolMaterial, 1, (short) 14);
+            ItemStack wool = new ItemStack(Material.RED_WOOL, 1);
 
             for (int i = 0; i < 9; i++) {
                 player.getInventory().setItem(i, wool);
@@ -282,9 +279,7 @@ public class TrafficLightManager {
 
     private static void giveItemsYellow(Player player) {
         try {
-            String woolMaterialName = ObjectResolver.getBlock.WOOL("yellow");
-            Material woolMaterial = Material.valueOf(woolMaterialName);
-            ItemStack wool = new ItemStack(woolMaterial, 1, (short) 4);
+            ItemStack wool = new ItemStack(Material.YELLOW_WOOL, 1);
 
             for (int i = 0; i < 9; i++) {
                 player.getInventory().setItem(i, wool);
@@ -296,8 +291,7 @@ public class TrafficLightManager {
 
     private static void giveItemsGreen(Player player) {
         try {
-            String woolMaterialName = ObjectResolver.getBlock.WOOL("lime");
-            Material woolMaterial = Material.valueOf(woolMaterialName);
+            Material woolMaterial = Material.LIME_WOOL;
             ItemStack wool = new ItemStack(woolMaterial, 1, (short) 5);
 
             for (int i = 0; i < 9; i++) {

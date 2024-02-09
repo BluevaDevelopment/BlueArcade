@@ -1,7 +1,6 @@
 package net.blueva.arcade.managers.minigames;
 
 import net.blueva.arcade.Main;
-import net.blueva.arcade.ObjectResolver;
 import net.blueva.arcade.managers.ArenaManager;
 import net.blueva.arcade.managers.CacheManager;
 import net.blueva.arcade.managers.PlayerManager;
@@ -228,7 +227,7 @@ public class RedAlertManager {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        BlocksUtil.setBlocks(floormin, floormax, Material.valueOf(ObjectResolver.getBlock.WOOL("WHITE")));
+                        BlocksUtil.setBlocks(floormin, floormax, Material.WHITE_WOOL);
                     }
                 }.runTaskLater(main, finalDelayTicks);
             }
@@ -279,25 +278,25 @@ public class RedAlertManager {
                                 for (int z = minZ; z <= maxZ; z++) {
                                     if (random.nextInt(100) < chance) {
                                         Block block = world.getBlockAt(x, y, z);
-                                        if(block.getType() == Material.valueOf(ObjectResolver.getBlock.WOOL("WHITE"))
-                                                || block.getType() == Material.valueOf(ObjectResolver.getBlock.WOOL("YELLOW"))
-                                                || block.getType() == Material.valueOf(ObjectResolver.getBlock.WOOL("ORANGE"))
-                                                || block.getType() == Material.valueOf(ObjectResolver.getBlock.WOOL("RED"))) {
+                                        if(block.getType() == Material.WHITE_WOOL
+                                                || block.getType() == Material.YELLOW_WOOL
+                                                || block.getType() == Material.ORANGE_WOOL
+                                                || block.getType() == Material.RED_WOOL) {
                                             Wool wool = (Wool) block.getState().getData();
                                             String colorName = wool.getColor().name();
 
                                             if (colorName.equalsIgnoreCase("WHITE")) {
-                                                ItemStack yellow = new ItemStack(Material.valueOf(ObjectResolver.getBlock.WOOL("YELLOW")), (short) 4);
+                                                ItemStack yellow = new ItemStack(Material.YELLOW_WOOL);
                                                 block.setType(yellow.getType());
                                                 block.getState().setData(yellow.getData());
                                             }
                                             if (colorName.equalsIgnoreCase("YELLOW")) {
-                                                ItemStack orange = new ItemStack(Material.valueOf(ObjectResolver.getBlock.WOOL("ORANGE")), (short) 1);
+                                                ItemStack orange = new ItemStack(Material.ORANGE_WOOL);
                                                 block.setType(orange.getType());
                                                 block.getState().setData(orange.getData());
                                             }
                                             if (colorName.equalsIgnoreCase("ORANGE")) {
-                                                ItemStack red = new ItemStack(Material.valueOf(ObjectResolver.getBlock.WOOL("RED")), (short) 14);
+                                                ItemStack red = new ItemStack(Material.RED_WOOL);
                                                 block.setType(red.getType());
                                                 block.getState().setData(red.getData());
                                             }

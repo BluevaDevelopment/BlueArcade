@@ -1,7 +1,6 @@
 package net.blueva.arcade.managers;
 
 import net.blueva.arcade.Main;
-import net.blueva.arcade.ObjectResolver;
 import net.blueva.arcade.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -58,7 +57,7 @@ public class InventoryManager {
         inv.setItem(11, itemSpleef);
 
         // snowball fight
-        ItemStack itemSnowballFight = new ItemStack(Material.valueOf(ObjectResolver.getItem.SNOWBALL()), 1);
+        ItemStack itemSnowballFight = new ItemStack(Material.SNOWBALL, 1);
         ItemMeta metaSnowballFight = itemSnowballFight.getItemMeta();
 
         metaSnowballFight.setDisplayName(StringUtils.formatMessage(p.getName(), CacheManager.Language.GUI_SETUP_SELECT_GAME_ITEMS_SNOWBALL_FIGHT_NAME));
@@ -109,7 +108,7 @@ public class InventoryManager {
         inv.setItem(14, itemOneInTheChamber);
 
         // trafficlight
-        ItemStack itemTrafficLight = new ItemStack(Material.valueOf(ObjectResolver.getItem.RED_ROSE()), 1);
+        ItemStack itemTrafficLight = new ItemStack(Material.ROSE_BUSH, 1);
         ItemMeta metaTrafficLight = itemTrafficLight.getItemMeta();
 
         metaTrafficLight.setDisplayName(StringUtils.formatMessage(p.getName(), CacheManager.Language.GUI_SETUP_SELECT_GAME_ITEMS_TRAFFIC_LIGHT_NAME));
@@ -126,7 +125,7 @@ public class InventoryManager {
         inv.setItem(15, itemTrafficLight);
 
         // minefield
-        ItemStack itemMinefield = new ItemStack(Material.valueOf(ObjectResolver.getBlock.GOLD_PLATE()), 1);
+        ItemStack itemMinefield = new ItemStack(Material.LIGHT_WEIGHTED_PRESSURE_PLATE, 1);
         ItemMeta metaMinefield = itemTrafficLight.getItemMeta();
 
         metaMinefield.setDisplayName(StringUtils.formatMessage(p.getName(), CacheManager.Language.GUI_SETUP_SELECT_GAME_ITEMS_MINEFIELD_NAME));
@@ -244,7 +243,7 @@ public class InventoryManager {
         inv.setItem(49, leave);
 
         // remove selection
-        ItemStack selection = new ItemStack(Material.valueOf(ObjectResolver.getItem.STAINED_GLASS_PANE("black")), 1, (short) 15);
+        ItemStack selection = new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1);
         ItemMeta selectionmeta = selection.getItemMeta();
         selectionmeta.setDisplayName(StringUtils.formatMessage(p.getName(), CacheManager.Language.GUI_SETUP_SELECT_GAME_ITEMS_REMOVE_SELECTION_NAME));
 

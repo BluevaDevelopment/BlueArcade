@@ -1,7 +1,6 @@
 package net.blueva.arcade.managers.minigames;
 
 import net.blueva.arcade.Main;
-import net.blueva.arcade.ObjectResolver;
 import net.blueva.arcade.managers.ArenaManager;
 import net.blueva.arcade.managers.CacheManager;
 import net.blueva.arcade.managers.PlayerManager;
@@ -210,7 +209,7 @@ public class MinefieldManager {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        BlocksUtil.setBlocks(floormin, floormax, Material.valueOf(ObjectResolver.getBlock.STONE_PLATE()), Material.AIR);
+                        BlocksUtil.setBlocks(floormin, floormax, Material.STONE_PRESSURE_PLATE, Material.AIR);
                     }
                 }.runTask(main);
             }
