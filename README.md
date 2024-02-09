@@ -10,18 +10,40 @@
   <a href="https://discord.gg/kgxBr8pwpU"><img src="https://github.com/intergrav/devins-badges/blob/v3/assets/cozy/social/discord-plural_64h.png?raw=true" alt="Discord"></a>
 </div>
 
-### The code for this project will be released soon.
-Our goal is to foster the growth and accessibility of Blue Arcade. To achieve this, we have decided to release its source code on GitHub, making it entirely free. This means that all users now have the opportunity to contribute, and collectively, we can collaborate to enhance and refine the plugin, creating a better tool for everyone.
+## What is Blue Arcade?
+Blue Arcade is a plugin that deals with the classic Party Games game that offers a wide variety of mini-games. The objective is to get the highest score by winning as many mini-games as possible, with the ultimate goal of securing first place.
 
-### What happens to the people who have paid for the plugin?
-Customers who have acquired the plugin will have the option to select one or more products, totaling $9.99 in value, even if the original purchase was made at a discounted price.
+In addition, if you prefer, you can also set up arenas with a single round of a specific mini-game. For example, if you need a server for the "TNT Tag" mini-game (or any other available mini-game), this plugin can help you.
 
-### What guarantee is there that the plugin will continue to be updated to new versions?
-The financial support for this project will persist through Setups on BuiltByBit and Polymart. Currently, the available setup is 'Party Games Setup 2.0.0 ($14.99)', and looking ahead, we have plans for additional setups, including but not limited to:
-- Block Party Setup 3.0.0 ($6.99)
-- Run From The Beast Setup 3.0.0 ($9.99)
-- Arcade Games Setup 1.0.0 ($19.99)
-- And more to come in the future....
+## Features
+- Multi arena support. You can create as many arenas as you want.
+- Compatible with 1.17+
+- Easy to setup through a configuration wizard.
+- Highly customizable. You can customize all messages and sounds of the plugin.
+- PlaceholderAPI support.
+- Current mini-games included in BlueArcade (12): Race, Spleef, Snowball Fight, All Against All, One In The Chamber, Traffic Light, Minefield, Exploding Sheep, TNT Tag, Red Alert, Knock Back
 
-### What remains to be known?
-If you are interested in the project, give it a star and follow it to find out all the news.
+### Planned Features
+- Vote to choose mini-games before starting an arena.
+- Leaderboards with players statistics.
+- Party system with menu.
+- Bungee mode.
+- MySQL support.
+
+## Contribute
+All pull requests are welcome! We greatly appreciate contributions from the community to improve Blue Arcade. Whether you have ideas for new features, improvements to existing code, or bug fixes, feel free to submit a pull request.
+
+To contribute to the project, follow these steps:
+
+1. Fork the Blue Arcade repository to your GitHub account.
+2. Make your changes in a new branch, ensuring to follow branch naming conventions.
+3. Submit your changes via a pull request to the main Blue Arcade repository.
+4. Provide a detailed description of the changes made and the issues they address in your pull request.
+5. Await feedback and comments from the project maintainers. We're happy to review your contribution and work with you to incorporate it into the main project.
+
+Thank you for contributing to making Blue Arcade a better experience for everyone!
+
+## Support Blue Arcade
+Blue Arcade is maintained by developers in their spare time. If you enjoy using Blue Core and would like to support its development, consider [making a donation](https://ko-fi.com/bluecore). Your support will help us continue to improve and maintain this project.
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/V7V3IE7VS)
