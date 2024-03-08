@@ -4,9 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Project information -->
     <groupId>net.blueva</groupId>
     <artifactId>BlueArcade</artifactId>
-    <version>1.7.0</version>
+    <packaging>jar</packaging>
+
+    <!-- Plugin Information -->
+    <name>BlueArcade</name>
+    <description>Spigot plugin with 12 mini-games. </description>
+    <version>1.6.1</version>
+    <url>https://github.com/BluevaDevelopment/BlueArcade</url>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -14,6 +21,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <!-- External repositories -->
     <repositories>
         <repository>
             <id>spigotmc</id>
@@ -33,6 +41,7 @@
         </repository>
     </repositories>
 
+    <!-- Dependencies imports -->
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -50,11 +59,43 @@
             <version>2.11.1</version>
         </dependency>
         <dependency>
+            <groupId>fr.mrmicky</groupId>
+            <artifactId>fastboard</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>19.0.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
+    <!-- Build settings -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>fr.mrmicky.fastboard</pattern>
+                            <shadedPattern>net.blueva.arcade.libraries.fastboard</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

@@ -1,6 +1,6 @@
 package net.blueva.arcade.managers;
 
-import net.blueva.arcade.libraries.fastboard.FastBoard;
+import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
