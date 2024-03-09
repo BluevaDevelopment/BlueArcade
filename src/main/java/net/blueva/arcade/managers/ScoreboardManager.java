@@ -98,7 +98,9 @@ public class ScoreboardManager {
                 if(board != null) {
                     BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
                     scheduler.runTaskLater(main, () -> {
-                        board.delete();
+                        if(!board.isDeleted()) {
+                            board.delete();
+                        }
                         boards.remove(player.getUniqueId());
                     }, 20L);
                 }
