@@ -131,6 +131,7 @@ public class TNTTagManager {
             }
         }
 
+        countNonSpectators(arenaid);
         setTaggedPlayers(arenaid);
 
         GameTasks.remove(arenaid);
@@ -158,16 +159,17 @@ public class TNTTagManager {
 
                 if (this.time <= 0) {
                     removeTaggedPlayers(arenaid);
-                    checkNonSpectators(arenaid, false);
+                    countNonSpectators(arenaid);
+                }
 
-                    time = main.configManager.getArena(arenaid).getInt("arena.mini_games.tnt_tag.basic.time", 60);
-
-                    if(!arenaNonSpectatorsPlayers.get(arenaid).equals(1))  {
+                if(this.time <= -1) {
+                    if(countNonSpectators(arenaid) > 1)  {
+                        time = main.configManager.getArena(arenaid).getInt("arena.mini_games.tnt_tag.basic.time", 60);
                         setTaggedPlayers(arenaid);
                     }
                 }
 
-                if(checkNonSpectators(arenaid, true) || arenaNonSpectatorsPlayers.get(arenaid).equals(0)) {
+                if(checkWinner(arenaid) || arenaNonSpectatorsPlayers.get(arenaid).equals(0)) {
                     cancelGameTask(arenaid);
 
                     Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> {
@@ -255,7 +257,7 @@ public class TNTTagManager {
                     if(PlayerManager.PlayerInGameStatus.get(player).equalsIgnoreCase("PLAYING")) {
                         if(playerHasTNT.containsKey(player) && playerHasTNT.get(player)) {
                             Bukkit.getScheduler().runTask(Main.getPlugin(), () -> {
-                                player.getWorld().createExplosion(player.getLocation(), 2.5f, false, false);
+                                player.getWorld().createExplosion(player.getLocation(), 4.0f, false, false);
                             });
                             finishPlayerSync(arenaid, player);
                         }
@@ -265,31 +267,40 @@ public class TNTTagManager {
         }
     }
 
-    private static boolean checkNonSpectators(int arenaid, boolean checkWinner) {
+    private static int countNonSpectators(int arenaid) {
         int nonSpectatorCount = 0;
-        Player winner = null;
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (PlayerManager.PlayerArena.containsKey(player) && PlayerManager.PlayerArena.get(player).equals(arenaid)) {
                 if (!PlayerManager.PlayerInGameStatus.get(player).equalsIgnoreCase("SPECTATOR")) {
                     nonSpectatorCount++;
-                    winner = player;
                 }
             }
         }
 
-        if (checkWinner && nonSpectatorCount == 1 && winner != null) {
-            finishPlayerSync(arenaid, winner);
-            return true;
-        }
+        arenaNonSpectatorsPlayers.putIfAbsent(arenaid, 0);
+        arenaNonSpectatorsPlayers.replace(arenaid, nonSpectatorCount);
 
-        if (checkWinner && winner != null) {
-            arenaNonSpectatorsPlayers.putIfAbsent(arenaid, 0);
-            arenaNonSpectatorsPlayers.replace(arenaid, nonSpectatorCount);
+        return nonSpectatorCount;
+    }
+
+    private static boolean checkWinner(int arenaid) {
+        int nonSpectatorCount = countNonSpectators(arenaid);
+
+        if (nonSpectatorCount == 1) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (PlayerManager.PlayerArena.containsKey(player) && PlayerManager.PlayerArena.get(player).equals(arenaid)) {
+                    if (!PlayerManager.PlayerInGameStatus.get(player).equalsIgnoreCase("SPECTATOR")) {
+                        finishPlayerSync(arenaid, player);
+                        return true;
+                    }
+                }
+            }
         }
 
         return false;
     }
+
 
     private static void changeInventory(Player player) {
         player.getInventory().clear();
