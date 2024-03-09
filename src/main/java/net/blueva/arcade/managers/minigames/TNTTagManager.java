@@ -131,7 +131,6 @@ public class TNTTagManager {
             }
         }
 
-        checkNonSpectators(arenaid, false);
         setTaggedPlayers(arenaid);
 
         GameTasks.remove(arenaid);
@@ -163,7 +162,7 @@ public class TNTTagManager {
 
                     time = main.configManager.getArena(arenaid).getInt("arena.mini_games.tnt_tag.basic.time", 60);
 
-                    if(arenaNonSpectatorsPlayers.get(arenaid) != 1)  {
+                    if(!arenaNonSpectatorsPlayers.get(arenaid).equals(1))  {
                         setTaggedPlayers(arenaid);
                     }
                 }
@@ -234,20 +233,6 @@ public class TNTTagManager {
         oldPlayer.getInventory().clear();
     }
 
-    /*private static void checkNonSpectatorsPlayers(int arenaid) {
-        arenaNonSpectatorsPlayers.putIfAbsent(arenaid, 0);
-        arenaNonSpectatorsPlayers.replace(arenaid, 0);
-        for(Player player : Bukkit.getOnlinePlayers()) {
-            if(PlayerManager.PlayerStatus.containsKey(player) && PlayerManager.PlayerArena.containsKey(player)) {
-                if(PlayerManager.PlayerStatus.get(player).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(player).equals(arenaid)) {
-                    if(PlayerManager.PlayerInGameStatus.get(player).equalsIgnoreCase("PLAYING")) {
-                        arenaNonSpectatorsPlayers.replace(arenaid, arenaNonSpectatorsPlayers.get(arenaid)+1);
-                    }
-                }
-            }
-        }
-    }*/
-
     private static void checkPlayers(int arenaid) {
         arenaTaggedPlayers.putIfAbsent(arenaid, 0);
         if(arenaNonSpectatorsPlayers.get(arenaid) >= 20) {
@@ -269,7 +254,9 @@ public class TNTTagManager {
                 if(PlayerManager.PlayerStatus.get(player).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(player).equals(arenaid)) {
                     if(PlayerManager.PlayerInGameStatus.get(player).equalsIgnoreCase("PLAYING")) {
                         if(playerHasTNT.containsKey(player) && playerHasTNT.get(player)) {
-                            //player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 2.5f, false, false);
+                            Bukkit.getScheduler().runTask(Main.getPlugin(), () -> {
+                                player.getWorld().createExplosion(player.getLocation(), 2.5f, false, false);
+                            });
                             finishPlayerSync(arenaid, player);
                         }
                     }
@@ -291,15 +278,15 @@ public class TNTTagManager {
             }
         }
 
-        if(checkWinner) {
-            if (nonSpectatorCount == 1 && winner != null) {
-                finishPlayerSync(arenaid, winner);
-                return true;
-            }
+        if (checkWinner && nonSpectatorCount == 1 && winner != null) {
+            finishPlayerSync(arenaid, winner);
+            return true;
         }
 
-        arenaNonSpectatorsPlayers.putIfAbsent(arenaid, 0);
-        arenaNonSpectatorsPlayers.replace(arenaid, nonSpectatorCount);
+        if (checkWinner && winner != null) {
+            arenaNonSpectatorsPlayers.putIfAbsent(arenaid, 0);
+            arenaNonSpectatorsPlayers.replace(arenaid, nonSpectatorCount);
+        }
 
         return false;
     }
