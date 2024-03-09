@@ -39,7 +39,7 @@ public class SnowballFightManager {
                 player.setGameMode(GameMode.SPECTATOR);
                 player.getInventory().clear();
                 if(dead) {
-                    SoundsManager.playSounds(Main.getPlugin(), player, CacheManager.Sounds.SOUNDS_IN_GAME_DEAD);
+                    SoundsManager.playSounds(player, CacheManager.Sounds.SOUNDS_IN_GAME_DEAD);
                     TitlesUtil.sendTitle(player,
                             CacheManager.Language.TITLES_YOU_DIED_TITLE
                                     .replace("{place}", String.valueOf(ArenaManager.getPlayerPositionOnPodium(arenaid, player))),
@@ -47,7 +47,7 @@ public class SnowballFightManager {
                                     .replace("{place}", String.valueOf(ArenaManager.getPlayerPositionOnPodium(arenaid, player)))
                             , 0, 80, 20);
                 } else {
-                    SoundsManager.playSounds(Main.getPlugin(), player, CacheManager.Sounds.SOUNDS_IN_GAME_CLASSIFIED);
+                    SoundsManager.playSounds(player, CacheManager.Sounds.SOUNDS_IN_GAME_CLASSIFIED);
                     TitlesUtil.sendTitle(player,
                             CacheManager.Language.TITLES_CLASSIFIED_TITLE
                                     .replace("{place}", String.valueOf(ArenaManager.getPlayerPositionOnPodium(arenaid, player))),
@@ -87,7 +87,7 @@ public class SnowballFightManager {
                 for(final Player players : Bukkit.getOnlinePlayers()) {
                     if(PlayerManager.PlayerStatus.containsKey(players)) {
                         if (PlayerManager.PlayerStatus.get(players).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(players).equals(arenaid)) {
-                            SoundsManager.playSounds(main, players, CacheManager.Sounds.SOUNDS_STARTING_GAME_COUNTDOWN);
+                            SoundsManager.playSounds(players, CacheManager.Sounds.SOUNDS_STARTING_GAME_COUNTDOWN);
                             TitlesUtil.sendTitle(players, CacheManager.Language.TITLES_STARTING_GAME_TITLE
                                             .replace("{game_display_name}", CacheManager.Language.MINI_GAMES_SNOWBALL_FIGHT_DISPLAY_NAME)
                                             .replace("{time}", String.valueOf(time)),
@@ -131,7 +131,7 @@ public class SnowballFightManager {
                 if (PlayerManager.PlayerStatus.get(players).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(players).equals(arenaid)) {
                     PlayerManager.PlayerMuted.replace(players.getPlayer(), 0);
                     SyncUtil.setFlying(main, false, players);
-                    SoundsManager.playSounds(main, players, CacheManager.Sounds.SOUNDS_STARTING_GAME_START);
+                    SoundsManager.playSounds(players, CacheManager.Sounds.SOUNDS_STARTING_GAME_START);
                     TitlesUtil.sendTitle(players,
                             CacheManager.Language.TITLES_GAME_STARTED_TITLE
                                     .replace("{game_display_name}", CacheManager.Language.MINI_GAMES_SNOWBALL_FIGHT_DISPLAY_NAME),
@@ -183,19 +183,19 @@ public class SnowballFightManager {
                 for(final Player players : Bukkit.getOnlinePlayers()) {
                     if(PlayerManager.PlayerStatus.containsKey(players) && PlayerManager.PlayerArena.containsKey(players)) {
                         if (PlayerManager.PlayerStatus.get(players).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(players).equals(arenaid)) {
-                            players.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ScoreboardUtil.format(main, players, CacheManager.Language.ACTION_BAR_IN_GAME_GLOBAL)));
+                            players.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ScoreboardUtil.format(players, CacheManager.Language.ACTION_BAR_IN_GAME_GLOBAL)));
                         }
                     }
                 }
 
-                giveItems(arenaid, main);
+                giveItems(arenaid);
 
                 this.time--;
             }
         }, 0L, 20L));
     }
 
-    private static void giveItems(int arenaid, Main main) {
+    private static void giveItems(int arenaid) {
         ItemStack snowball = new ItemStack(Material.SNOWBALL, 4);
 
         for(final Player allp : Bukkit.getOnlinePlayers()) {
@@ -222,7 +222,7 @@ public class SnowballFightManager {
 
         if (nonSpectatorCount == 1 && winner != null) {
             finishPlayerSync(arenaid, winner, false);
-            SoundsManager.playSounds(Main.getPlugin(), winner, CacheManager.Sounds.SOUNDS_IN_GAME_CLASSIFIED);
+            SoundsManager.playSounds(winner, CacheManager.Sounds.SOUNDS_IN_GAME_CLASSIFIED);
             return true;
         }
 

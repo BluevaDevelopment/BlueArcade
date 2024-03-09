@@ -11,6 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class GotoSubCommand implements CommandInterface {
     private final Main main;
 
@@ -32,25 +34,25 @@ public class GotoSubCommand implements CommandInterface {
         if(sender.hasPermission("bluearcade.admin") || sender.hasPermission("bluearcade.*")) {
             if(args.length == 3) {
                 Player player = ((Player) sender).getPlayer();
+                if(player != null) {
+                    if(org.apache.commons.lang.StringUtils.isNumeric(args[1])) {
+                        int arenaid = Integer.parseInt(args[1]);
+                        String minigame = args[2];
 
-                //ba goto[0] id[1] minigame[2]
-                if(org.apache.commons.lang.StringUtils.isNumeric(args[1])) {
-                    int arenaid = Integer.parseInt(args[1]);
-                    String minigame = args[2];
-
-                    if(main.configManager.getArena(arenaid).isSet("arena.mini_games."+minigame+".basic.enabled")) {
-                        Location minigameloc = new Location(
-                                Bukkit.getWorld(main.configManager.getArena(arenaid).getString("arena.mini_games."+minigame+".basic.world")),
-                                main.configManager.getArena(arenaid).getInt("arena.mini_games."+minigame+".spawns.list.s1.x"),
-                                main.configManager.getArena(arenaid).getInt("arena.mini_games."+minigame+".spawns.list.s1.y"),
-                                main.configManager.getArena(arenaid).getInt("arena.mini_games."+minigame+".spawns.list.s1.z"),
-                                main.configManager.getArena(arenaid).getInt("arena.mini_games."+minigame+".spawns.list.s1.yaw"),
-                                main.configManager.getArena(arenaid).getInt("arena.mini_games."+minigame+".spawns.list.s1.pitch"));
-                        player.teleport(minigameloc);
-                        StringUtils.sendMessage(sender, playerstring, CacheManager.Language.GLOBAL_SUCCESS_TELEPORTED_TO_GAME
-                                .replace("{game}", minigame));
-                    } else {
-                        StringUtils.sendMessage(sender, playerstring, CacheManager.Language.GLOBAL_ERROR_NO_MINI_GAME);
+                        if(main.configManager.getArena(arenaid).isSet("arena.mini_games."+minigame+".basic.enabled")) {
+                            Location minigameloc = new Location(
+                                    Bukkit.getWorld(Objects.requireNonNull(main.configManager.getArena(arenaid).getString("arena.mini_games." + minigame + ".basic.world"))),
+                                    main.configManager.getArena(arenaid).getInt("arena.mini_games."+minigame+".spawns.list.s1.x"),
+                                    main.configManager.getArena(arenaid).getInt("arena.mini_games."+minigame+".spawns.list.s1.y"),
+                                    main.configManager.getArena(arenaid).getInt("arena.mini_games."+minigame+".spawns.list.s1.z"),
+                                    main.configManager.getArena(arenaid).getInt("arena.mini_games."+minigame+".spawns.list.s1.yaw"),
+                                    main.configManager.getArena(arenaid).getInt("arena.mini_games."+minigame+".spawns.list.s1.pitch"));
+                            player.teleport(minigameloc);
+                            StringUtils.sendMessage(sender, playerstring, CacheManager.Language.GLOBAL_SUCCESS_TELEPORTED_TO_GAME
+                                    .replace("{game}", minigame));
+                        } else {
+                            StringUtils.sendMessage(sender, playerstring, CacheManager.Language.GLOBAL_ERROR_NO_MINI_GAME);
+                        }
                     }
                 }
             } else {

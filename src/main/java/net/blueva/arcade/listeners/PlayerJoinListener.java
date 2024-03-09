@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import net.blueva.arcade.Main;
 import net.blueva.arcade.utils.StringUtils;
 
+import java.util.Objects;
+
 public class PlayerJoinListener implements Listener {
     private final Main main;
 
@@ -52,7 +54,7 @@ public class PlayerJoinListener implements Listener {
             }
         } else {
             if(CacheManager.Settings.SPAWN_ON_JOIN) {
-                Location loc = new Location(Bukkit.getWorld(main.configManager.getGlobal().getString("cords.spawn.world")),
+                Location loc = new Location(Bukkit.getWorld(Objects.requireNonNull(main.configManager.getGlobal().getString("cords.spawn.world"))),
                         main.configManager.getGlobal().getInt("cords.spawn.x"), main.configManager.getGlobal().getInt("cords.spawn.y"),
                         main.configManager.getGlobal().getInt("cords.spawn.z"));
                 event.getPlayer().teleport(loc);

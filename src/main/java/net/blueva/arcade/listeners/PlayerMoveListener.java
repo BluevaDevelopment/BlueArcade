@@ -55,7 +55,7 @@ public class PlayerMoveListener implements Listener {
 
                             if (!racebounds.isIn(event.getPlayer()) || blockUnderFeet.getType() == Material.valueOf(CacheManager.Arenas.ARENA_MINIGAME_STRING.get(playerArenaID).get("race").get("death_block"))) {
                                 event.getPlayer().teleport(ArenaManager.getRandomSpawn(main, playerArenaID, "race"));
-                                SoundsManager.playSounds(Main.getPlugin(), event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
+                                SoundsManager.playSounds(event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
                             }
 
                             // finish race
@@ -89,7 +89,7 @@ public class PlayerMoveListener implements Listener {
 
                             if (!snowballfightbounds.isIn(event.getPlayer()) || blockUnderFeet.getType() == Material.valueOf(main.configManager.getArena(playerArenaID).getString("arena.mini_games.snowball_fight.basic.death_block", main.configManager.getSettings().getString("game.global.default_death_block")))) {
                                 event.getPlayer().teleport(ArenaManager.getRandomSpawn(main, playerArenaID, "snowball_fight"));
-                                SoundsManager.playSounds(Main.getPlugin(), event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
+                                SoundsManager.playSounds(event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
                             }
                         } else if (actualGame.equalsIgnoreCase("AllAgainstAll")) {
                             // minigame bounds
@@ -99,7 +99,7 @@ public class PlayerMoveListener implements Listener {
 
                             if (!aaabounds.isIn(event.getPlayer()) || blockUnderFeet.getType() == Material.valueOf(main.configManager.getArena(playerArenaID).getString("arena.mini_games.all_against_all.basic.death_block", main.configManager.getSettings().getString("game.global.default_death_block")))) {
                                 event.getPlayer().teleport(ArenaManager.getRandomSpawn(main, playerArenaID, "all_against_all"));
-                                SoundsManager.playSounds(Main.getPlugin(), event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
+                                SoundsManager.playSounds(event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
                             }
                         } else if (actualGame.equalsIgnoreCase("OneInTheChamber")) {
                             // minigame bounds
@@ -109,7 +109,7 @@ public class PlayerMoveListener implements Listener {
 
                             if (!oitcbounds.isIn(event.getPlayer()) || blockUnderFeet.getType() == Material.valueOf(main.configManager.getArena(playerArenaID).getString("arena.mini_games.one_in_the_chamber.basic.death_block", main.configManager.getSettings().getString("game.global.default_death_block")))) {
                                 event.getPlayer().teleport(ArenaManager.getRandomSpawn(main, playerArenaID, "one_in_the_chamber"));
-                                SoundsManager.playSounds(Main.getPlugin(), event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
+                                SoundsManager.playSounds(event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
                             }
                         } else if (actualGame.equalsIgnoreCase("TrafficLight")) {
                             // minigame bounds
@@ -120,13 +120,13 @@ public class PlayerMoveListener implements Listener {
                             if (!tlbounds.isIn(event.getPlayer()) || blockUnderFeet.getType() == Material.valueOf(main.configManager.getArena(playerArenaID).getString("arena.mini_games.traffic_light.basic.death_block", main.configManager.getSettings().getString("game.global.default_death_block")))) {
                                 //event.getPlayer().teleport(racebounds.getRandomLocation());
                                 event.getPlayer().teleport(ArenaManager.getRandomSpawn(main, playerArenaID, "traffic_light"));
-                                SoundsManager.playSounds(Main.getPlugin(), event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
+                                SoundsManager.playSounds(event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
                             }
 
                             if (TrafficLightManager.ArenaLightStatus.get(playerArenaID).equalsIgnoreCase("RED")) {
                                 if (event.getTo().getBlockX() > event.getFrom().getBlockX() || event.getTo().getBlockX() < event.getFrom().getBlockX() || event.getTo().getBlockZ() > event.getFrom().getBlockZ() || event.getTo().getBlockZ() < event.getFrom().getBlockZ()) {
                                     event.getPlayer().teleport(ArenaManager.getRandomSpawn(main, playerArenaID, "traffic_light"));
-                                    SoundsManager.playSounds(Main.getPlugin(), event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
+                                    SoundsManager.playSounds(event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
                                 }
                             }
 
@@ -147,7 +147,7 @@ public class PlayerMoveListener implements Listener {
                             if (!minefieldbounds.isIn(event.getPlayer()) || blockUnderFeet.getType() == Material.valueOf(main.configManager.getArena(playerArenaID).getString("arena.mini_games.minefield.basic.death_block", main.configManager.getSettings().getString("game.global.default_death_block")))) {
                                 //event.getPlayer().teleport(racebounds.getRandomLocation());
                                 event.getPlayer().teleport(ArenaManager.getRandomSpawn(main, PlayerManager.PlayerArena.get(event.getPlayer()), "minefield"));
-                                SoundsManager.playSounds(Main.getPlugin(), event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
+                                SoundsManager.playSounds(event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
                             }
 
                             // finish race
@@ -180,7 +180,7 @@ public class PlayerMoveListener implements Listener {
 
                             if (!aaabounds.isIn(event.getPlayer()) || blockUnderFeet.getType() == Material.valueOf(main.configManager.getArena(playerArenaID).getString("arena.mini_games.tnt_tag.basic.death_block", main.configManager.getSettings().getString("game.global.default_death_block")))) {
                                 event.getPlayer().teleport(ArenaManager.getRandomSpawn(main, playerArenaID, "tnt_tag"));
-                                SoundsManager.playSounds(Main.getPlugin(), event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
+                                SoundsManager.playSounds(event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
                             }
                         } else if (actualGame.equalsIgnoreCase("RedAlert")) {
                             // minigame bounds
@@ -213,7 +213,7 @@ public class PlayerMoveListener implements Listener {
 
                             if (!fastzonebounds.isIn(event.getPlayer()) || blockUnderFeet.getType() == Material.valueOf(CacheManager.Arenas.ARENA_MINIGAME_STRING.get(playerArenaID).get("fast_zone").get("death_block"))) {
                                 event.getPlayer().teleport(ArenaManager.getRandomSpawn(main, playerArenaID, "fast_zone"));
-                                SoundsManager.playSounds(Main.getPlugin(), event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
+                                SoundsManager.playSounds(event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
                             }
 
                             Player player = event.getPlayer();
@@ -223,7 +223,7 @@ public class PlayerMoveListener implements Listener {
                             Location blockLocation = eyeLocation.add(direction);
                             if (blockLocation.getBlock().getType() != Material.AIR) {
                                 event.getPlayer().teleport(ArenaManager.getRandomSpawn(main, playerArenaID, "fast_zone"));
-                                SoundsManager.playSounds(Main.getPlugin(), event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
+                                SoundsManager.playSounds(event.getPlayer(), CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
                             }
 
                             // finish race

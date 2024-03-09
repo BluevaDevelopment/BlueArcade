@@ -9,6 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class SetupSubCommand implements CommandInterface {
     private final Main main;
 
@@ -47,7 +49,7 @@ public class SetupSubCommand implements CommandInterface {
                 }
 
                 if(org.apache.commons.lang.StringUtils.isNumeric(args[1])) {
-                    main.setupManager.start(((Player) sender).getPlayer(), Integer.parseInt(args[1]));
+                    main.setupManager.start(Objects.requireNonNull(((Player) sender).getPlayer()), Integer.parseInt(args[1]));
                 }
             } else {
                 StringUtils.sendMessage(sender, playerstring, CacheManager.Language.GLOBAL_OTHER_USE_SETUP_SUBCOMMAND);

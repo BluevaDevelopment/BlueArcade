@@ -74,7 +74,7 @@ public class QuickjoinSubCommand implements CommandInterface {
         }
         if (availableArenas.contains(lastSelectedArena)) {
             return lastSelectedArena;
-        } else if (availableArenas.size() > 0) {
+        } else if (!availableArenas.isEmpty()) {
             int selectedArenaId = availableArenas.get((int) (Math.random() * availableArenas.size()));
             lastSelectedArena = selectedArenaId;
             return selectedArenaId;

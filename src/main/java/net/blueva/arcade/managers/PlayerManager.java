@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class PlayerManager {
     public static ArrayList<Player> PlayerList = new ArrayList<>();
@@ -43,7 +44,7 @@ public class PlayerManager {
                         TitlesUtil.sendTitle(player, CacheManager.Language.TITLES_JOIN_TITLE, CacheManager.Language.TITLES_JOIN_SUBTITLE, 20, 80, 20);
 
                         // Waiting lobby
-                        World world = Bukkit.getWorld(main.configManager.getArena(arenaid).getString("arena.waiting_lobby.world"));
+                        World world = Bukkit.getWorld(Objects.requireNonNull(main.configManager.getArena(arenaid).getString("arena.waiting_lobby.world")));
                         double x = main.configManager.getArena(arenaid).getDouble("arena.waiting_lobby.x");
                         double y = main.configManager.getArena(arenaid).getDouble("arena.waiting_lobby.y");
                         double z = main.configManager.getArena(arenaid).getDouble("arena.waiting_lobby.z");
@@ -117,14 +118,16 @@ public class PlayerManager {
             // Main lobby
             Bukkit.getScheduler().runTask(Main.getPlugin(), () -> {
                 String worldName = main.configManager.getGlobal().getString("cords.spawn.world");
-                World world = Bukkit.getWorld(worldName);
-                double x = main.configManager.getGlobal().getDouble("cords.spawn.x");
-                double y = main.configManager.getGlobal().getDouble("cords.spawn.y");
-                double z = main.configManager.getGlobal().getDouble("cords.spawn.z");
-                double yaw = main.configManager.getGlobal().getDouble("cords.spawn.yaw");
-                double pitch = main.configManager.getGlobal().getDouble("cords.spawn.pitch");
+                if(worldName != null) {
+                    World world = Bukkit.getWorld(worldName);
+                    double x = main.configManager.getGlobal().getDouble("cords.spawn.x");
+                    double y = main.configManager.getGlobal().getDouble("cords.spawn.y");
+                    double z = main.configManager.getGlobal().getDouble("cords.spawn.z");
+                    double yaw = main.configManager.getGlobal().getDouble("cords.spawn.yaw");
+                    double pitch = main.configManager.getGlobal().getDouble("cords.spawn.pitch");
 
-                player.teleport(new Location(world, x, y, z, (float) yaw, (float) pitch));
+                    player.teleport(new Location(world, x, y, z, (float) yaw, (float) pitch));
+                }
             });
             SyncUtil.setFlying(main, false, player);
             SyncUtil.setGameMode(main, GameMode.SURVIVAL, player);

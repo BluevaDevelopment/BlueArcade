@@ -20,8 +20,7 @@ public class ProjectileHitListener implements Listener {
         BlockIterator iterator = new BlockIterator(event.getEntity().getWorld(), event.getEntity().getLocation().toVector(), event.getEntity().getVelocity().normalize(), 0.0D, 4);
         Block hitBlock = null;
 
-        if(event.getEntity().getShooter() instanceof Player) {
-            Player shooter = (Player) event.getEntity().getShooter();
+        if(event.getEntity().getShooter() instanceof Player shooter) {
             if(PlayerManager.PlayerStatus.containsKey(shooter)) {
                 if(PlayerManager.PlayerStatus.get(shooter).equalsIgnoreCase("Playing")) {
                     if(ArenaManager.ArenaActualGame.get(PlayerManager.PlayerArena.get(shooter)).equalsIgnoreCase("Spleef")) {
@@ -34,15 +33,16 @@ public class ProjectileHitListener implements Listener {
                             }
                         }
 
-                        if (hitBlock.getType() == Material.SNOW_BLOCK) {
-                            hitBlock.getWorld().playEffect(hitBlock.getLocation(), Effect.STEP_SOUND, hitBlock.getType());
-                            hitBlock.setType(Material.AIR);
+                        if(hitBlock != null) {
+                            if (hitBlock.getType() == Material.SNOW_BLOCK) {
+                                hitBlock.getWorld().playEffect(hitBlock.getLocation(), Effect.STEP_SOUND, hitBlock.getType());
+                                hitBlock.setType(Material.AIR);
+                            }
                         }
 
                     } else if(ArenaManager.ArenaActualGame.get(PlayerManager.PlayerArena.get(shooter)).equalsIgnoreCase("OneInTheChamber")) {
                         if(Main.getPlugin().configManager.getArena(PlayerManager.PlayerArena.get(shooter)).getBoolean("arena.mini_games.one_in_the_chamber.basic.remove_arrows", true)) {
-                            if(event.getEntity() instanceof Arrow){
-                                Arrow arrow = (Arrow) event.getEntity();
+                            if(event.getEntity() instanceof Arrow arrow){
                                 arrow.remove();
                             }
                         }

@@ -3,7 +3,6 @@ package net.blueva.arcade.utils;
 import net.blueva.arcade.Main;
 import net.blueva.arcade.managers.SerializeManager;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;

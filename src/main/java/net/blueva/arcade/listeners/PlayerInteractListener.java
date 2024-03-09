@@ -22,6 +22,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class PlayerInteractListener implements Listener {
     private final Main main;
@@ -71,9 +72,9 @@ public class PlayerInteractListener implements Listener {
 
                 if(playerActualGame.equalsIgnoreCase("Minefield")) {
                     if(event.getAction() == Action.PHYSICAL) {
-                        if(event.getClickedBlock().getType() == Material.STONE_PRESSURE_PLATE) {
-                            playerLocation.getWorld().createExplosion(playerLocation.getX(), playerLocation.getY(), playerLocation.getZ(), 4.0f, false, false);
-                            event.getPlayer().teleport(ArenaManager.getRandomSpawn(main, PlayerManager.PlayerArena.get(event.getPlayer()), "minefield"));
+                        if(Objects.requireNonNull(event.getClickedBlock()).getType() == Material.STONE_PRESSURE_PLATE) {
+                            Objects.requireNonNull(playerLocation.getWorld()).createExplosion(playerLocation.getX(), playerLocation.getY(), playerLocation.getZ(), 4.0f, false, false);
+                            event.getPlayer().teleport(Objects.requireNonNull(ArenaManager.getRandomSpawn(main, PlayerManager.PlayerArena.get(event.getPlayer()), "minefield")));
                             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(main, () -> event.getClickedBlock().setType(Material.AIR), 5);
                         }
                     }
@@ -170,7 +171,7 @@ public class PlayerInteractListener implements Listener {
                                     x = clickedLocation.getX();
                                     y = clickedLocation.getY();
                                     z = clickedLocation.getZ();
-                                    world = clickedLocation.getWorld().getName();
+                                    world = Objects.requireNonNull(clickedLocation.getWorld()).getName();
                                 }
 
                                 main.configManager.getArena(arenaid).set("arena.mini_games."+main.setupManager.selectedGame.get(p)+".basic.world", world);
@@ -207,7 +208,7 @@ public class PlayerInteractListener implements Listener {
                                     x = clickedLocation.getX();
                                     y = clickedLocation.getY();
                                     z = clickedLocation.getZ();
-                                    world = clickedLocation.getWorld().getName();
+                                    world = Objects.requireNonNull(clickedLocation.getWorld()).getName();
                                 }
 
                                 main.configManager.getArena(arenaid).set("arena.mini_games."+main.setupManager.selectedGame.get(p)+".basic.world", world);
@@ -288,7 +289,7 @@ public class PlayerInteractListener implements Listener {
                                         x = clickedLocation.getX();
                                         y = clickedLocation.getY();
                                         z = clickedLocation.getZ();
-                                        world = clickedLocation.getWorld().getName();
+                                        world = Objects.requireNonNull(clickedLocation.getWorld()).getName();
                                     }
 
                                     main.configManager.getArena(arenaid).set("arena.mini_games.race.basic.world", world);
@@ -325,7 +326,7 @@ public class PlayerInteractListener implements Listener {
                                         x = clickedLocation.getX();
                                         y = clickedLocation.getY();
                                         z = clickedLocation.getZ();
-                                        world = clickedLocation.getWorld().getName();
+                                        world = Objects.requireNonNull(clickedLocation.getWorld()).getName();
                                     }
 
                                     main.configManager.getArena(arenaid).set("arena.mini_games.race.basic.world", world);
@@ -367,7 +368,7 @@ public class PlayerInteractListener implements Listener {
                                         x = clickedLocation.getX();
                                         y = clickedLocation.getY();
                                         z = clickedLocation.getZ();
-                                        world = clickedLocation.getWorld().getName();
+                                        world = Objects.requireNonNull(clickedLocation.getWorld()).getName();
                                     }
 
                                     main.configManager.getArena(arenaid).set("arena.mini_games.spleef.basic.world", world);
@@ -404,7 +405,7 @@ public class PlayerInteractListener implements Listener {
                                         x = clickedLocation.getX();
                                         y = clickedLocation.getY();
                                         z = clickedLocation.getZ();
-                                        world = clickedLocation.getWorld().getName();
+                                        world = Objects.requireNonNull(clickedLocation.getWorld()).getName();
                                     }
 
                                     main.configManager.getArena(arenaid).set("arena.mini_games.spleef.basic.world", world);
@@ -444,7 +445,7 @@ public class PlayerInteractListener implements Listener {
                                         x = clickedLocation.getX();
                                         y = clickedLocation.getY();
                                         z = clickedLocation.getZ();
-                                        world = clickedLocation.getWorld().getName();
+                                        world = Objects.requireNonNull(clickedLocation.getWorld()).getName();
                                     }
 
                                     main.configManager.getArena(arenaid).set("arena.mini_games.traffic_light.basic.world", world);
@@ -522,7 +523,7 @@ public class PlayerInteractListener implements Listener {
                                         x = clickedLocation.getX();
                                         y = clickedLocation.getY();
                                         z = clickedLocation.getZ();
-                                        world = clickedLocation.getWorld().getName();
+                                        world = Objects.requireNonNull(clickedLocation.getWorld()).getName();
                                     }
 
                                     main.configManager.getArena(arenaid).set("arena.mini_games.minefield.basic.world", world);
@@ -559,7 +560,7 @@ public class PlayerInteractListener implements Listener {
                                         x = clickedLocation.getX();
                                         y = clickedLocation.getY();
                                         z = clickedLocation.getZ();
-                                        world = clickedLocation.getWorld().getName();
+                                        world = Objects.requireNonNull(clickedLocation.getWorld()).getName();
                                     }
 
                                     main.configManager.getArena(arenaid).set("arena.mini_games.minefield.basic.world", world);
@@ -601,7 +602,7 @@ public class PlayerInteractListener implements Listener {
                                         x = clickedLocation.getX();
                                         y = clickedLocation.getY();
                                         z = clickedLocation.getZ();
-                                        world = clickedLocation.getWorld().getName();
+                                        world = Objects.requireNonNull(clickedLocation.getWorld()).getName();
                                     }
 
                                     main.configManager.getArena(arenaid).set("arena.mini_games.red_alert.basic.world", world);
@@ -638,7 +639,7 @@ public class PlayerInteractListener implements Listener {
                                         x = clickedLocation.getX();
                                         y = clickedLocation.getY();
                                         z = clickedLocation.getZ();
-                                        world = clickedLocation.getWorld().getName();
+                                        world = Objects.requireNonNull(clickedLocation.getWorld()).getName();
                                     }
 
                                     main.configManager.getArena(arenaid).set("arena.mini_games.red_alert.basic.world", world);
@@ -679,7 +680,7 @@ public class PlayerInteractListener implements Listener {
                                         x = clickedLocation.getX();
                                         y = clickedLocation.getY();
                                         z = clickedLocation.getZ();
-                                        world = clickedLocation.getWorld().getName();
+                                        world = Objects.requireNonNull(clickedLocation.getWorld()).getName();
                                     }
 
                                     main.configManager.getArena(arenaid).set("arena.mini_games.fast_zone.basic.world", world);
@@ -716,7 +717,7 @@ public class PlayerInteractListener implements Listener {
                                         x = clickedLocation.getX();
                                         y = clickedLocation.getY();
                                         z = clickedLocation.getZ();
-                                        world = clickedLocation.getWorld().getName();
+                                        world = Objects.requireNonNull(clickedLocation.getWorld()).getName();
                                     }
 
                                     main.configManager.getArena(arenaid).set("arena.mini_games.fast_zone.basic.world", world);

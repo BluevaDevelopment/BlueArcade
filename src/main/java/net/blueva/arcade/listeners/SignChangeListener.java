@@ -12,6 +12,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
+import java.util.Objects;
+
 public class SignChangeListener implements Listener {
 
     private final Main main;
@@ -30,11 +32,11 @@ public class SignChangeListener implements Listener {
         }
         
         if(player.hasPermission("bluearcade.admin")) {
-            if(event.getLine(0).equalsIgnoreCase("[BlueArcade]")) {
-                if(event.getLine(1).equalsIgnoreCase("join")) {
+            if(Objects.requireNonNull(event.getLine(0)).equalsIgnoreCase("[BlueArcade]")) {
+                if(Objects.requireNonNull(event.getLine(1)).equalsIgnoreCase("join")) {
                     if(org.apache.commons.lang.StringUtils.isNumeric(event.getLine(2))) {
-                        Integer arenaid = Integer.parseInt(event.getLine(2));
-                        if(ArenaManager.ArenaList.contains(Integer.valueOf(event.getLine(2)))) {
+                        Integer arenaid = Integer.parseInt(Objects.requireNonNull(event.getLine(2)));
+                        if(ArenaManager.ArenaList.contains(Integer.valueOf(Objects.requireNonNull(event.getLine(2))))) {
                             event.setLine(0, SignsUtil.format(CacheManager.Language.SIGNS_ARENA_LINE1, arenaid));
                             event.setLine(1, SignsUtil.format(CacheManager.Language.SIGNS_ARENA_LINE2, arenaid));
                             event.setLine(2, SignsUtil.format(CacheManager.Language.SIGNS_ARENA_LINE3, arenaid));
@@ -72,7 +74,7 @@ public class SignChangeListener implements Listener {
                         event.setCancelled(true);
                         StringUtils.sendMessage(player, player.getName(), CacheManager.Language.GLOBAL_ERROR_ERROR_SIGN);
                     }
-                } else if(event.getLine(1).equalsIgnoreCase("quickjoin")) {
+                } else if(Objects.requireNonNull(event.getLine(1)).equalsIgnoreCase("quickjoin")) {
                     if(org.apache.commons.lang.StringUtils.isNumeric(event.getLine(2))) {
                         event.setLine(0, SignsUtil.format(CacheManager.Language.SIGNS_QUICKJOIN_LINE1, null));
                         event.setLine(1, SignsUtil.format(CacheManager.Language.SIGNS_QUICKJOIN_LINE2, null));
@@ -82,7 +84,7 @@ public class SignChangeListener implements Listener {
                         Integer totalSigns = main.configManager.getSigns().getInt("signs.total")+1;
                         main.configManager.getSigns().set("signs.list.s"+totalSigns+".info.type", "quickjoin");
                         main.configManager.saveSigns();
-                        main.configManager.getSigns().set("signs.list.s"+totalSigns+".cords.world", event.getBlock().getLocation().getWorld().getName());
+                        main.configManager.getSigns().set("signs.list.s"+totalSigns+".cords.world", Objects.requireNonNull(event.getBlock().getLocation().getWorld()).getName());
                         main.configManager.saveSigns();
                         main.configManager.getSigns().set("signs.list.s"+totalSigns+".cords.x", event.getBlock().getLocation().getX());
                         main.configManager.saveSigns();

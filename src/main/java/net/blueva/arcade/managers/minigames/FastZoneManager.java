@@ -38,7 +38,7 @@ public class FastZoneManager {
                 ArenaManager.addPlayerToPodium(arenaid, player, 1);
                 PlayerManager.PlayerInGameStatus.replace(player, "SPECTATOR");
                 player.setGameMode(GameMode.SPECTATOR);
-                SoundsManager.playSounds(Main.getPlugin(), player, CacheManager.Sounds.SOUNDS_IN_GAME_CLASSIFIED);
+                SoundsManager.playSounds(player, CacheManager.Sounds.SOUNDS_IN_GAME_CLASSIFIED);
                 TitlesUtil.sendTitle(player,
                         CacheManager.Language.TITLES_CLASSIFIED_TITLE
                                 .replace("{place}", String.valueOf(ArenaManager.getPlayerPositionOnPodium(arenaid, player))),
@@ -64,22 +64,12 @@ public class FastZoneManager {
         StartTasks.put(arenaid, Bukkit.getScheduler().runTaskTimerAsynchronously(main, new Runnable() {
 
             int time = CacheManager.Settings.GAME_GLOBAL_GAME_COUNTDOWN;
-            boolean shouldCancel = false; // agregar variable booleana
             @Override
             public void run() {
-                if (shouldCancel) { // verificar si la tarea debe cancelarse
-                    BukkitTask task = StartTasks.get(arenaid);
-                    if(task != null) {
-                        task.cancel();
-                        StartTasks.remove(arenaid);
-                    }
-                    return; // salir del método run()
-                }
-
                 for(final Player players : Bukkit.getOnlinePlayers()) {
                     if(PlayerManager.PlayerStatus.containsKey(players) && PlayerManager.PlayerArena.containsKey(players)) {
                         if (PlayerManager.PlayerStatus.get(players).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(players).equals(arenaid)) {
-                            SoundsManager.playSounds(main, players, CacheManager.Sounds.SOUNDS_STARTING_GAME_COUNTDOWN);
+                            SoundsManager.playSounds(players, CacheManager.Sounds.SOUNDS_STARTING_GAME_COUNTDOWN);
                             TitlesUtil.sendTitle(players, CacheManager.Language.TITLES_STARTING_GAME_TITLE
                                             .replace("{game_display_name}", CacheManager.Language.MINI_GAMES_FAST_ZONE_DISPLAY_NAME)
                                             .replace("{time}", String.valueOf(time)),
@@ -125,7 +115,7 @@ public class FastZoneManager {
                     PlayerManager.PlayerMuted.replace(players.getPlayer(), 0);
                     SyncUtil.setFlying(main, false, players);
                     SyncUtil.setSpeed(main, 0.2f, players);
-                    SoundsManager.playSounds(main, players, CacheManager.Sounds.SOUNDS_STARTING_GAME_START);
+                    SoundsManager.playSounds(players, CacheManager.Sounds.SOUNDS_STARTING_GAME_START);
                     TitlesUtil.sendTitle(players,
                             CacheManager.Language.TITLES_GAME_STARTED_TITLE
                                     .replace("{game_display_name}", CacheManager.Language.MINI_GAMES_FAST_ZONE_DISPLAY_NAME),
@@ -181,7 +171,7 @@ public class FastZoneManager {
                 for(final Player players : Bukkit.getOnlinePlayers()) {
                     if(PlayerManager.PlayerStatus.containsKey(players) && PlayerManager.PlayerArena.containsKey(players)) {
                         if (PlayerManager.PlayerStatus.get(players).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(players).equals(arenaid)) {
-                            players.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ScoreboardUtil.format(main, players, CacheManager.Language.ACTION_BAR_IN_GAME_GLOBAL)));
+                            players.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ScoreboardUtil.format(players, CacheManager.Language.ACTION_BAR_IN_GAME_GLOBAL)));
                         }
                     }
                 }

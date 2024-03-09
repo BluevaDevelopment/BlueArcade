@@ -23,10 +23,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class OneInTheChamberManager {
     private static final HashMap<Integer, BukkitTask> StartTasks = new HashMap<>();
@@ -46,7 +43,7 @@ public class OneInTheChamberManager {
         if(PlayerManager.PlayerInGameStatus.containsKey(player)) {
             if(PlayerManager.PlayerInGameStatus.get(player).equalsIgnoreCase("Playing")) {
                 ArenaManager.addPlayerToPodium(arenaid, player, 1);
-                SoundsManager.playSounds(Main.getPlugin(), player, CacheManager.Sounds.SOUNDS_IN_GAME_CLASSIFIED);
+                SoundsManager.playSounds(player, CacheManager.Sounds.SOUNDS_IN_GAME_CLASSIFIED);
                 TitlesUtil.sendTitle(player,
                         CacheManager.Language.TITLES_CLASSIFIED_TITLE
                                 .replace("{place}", String.valueOf(ArenaManager.getPlayerPositionOnPodium(arenaid, player))),
@@ -76,13 +73,13 @@ public class OneInTheChamberManager {
             if(PlayerManager.PlayerInGameStatus.get(player).equalsIgnoreCase("Playing")) {
                 SyncUtil.setGameMode(main, GameMode.SPECTATOR, player);
                 player.getInventory().clear();
-                SoundsManager.playSounds(Main.getPlugin(), player, CacheManager.Sounds.SOUNDS_IN_GAME_DEAD);
+                SoundsManager.playSounds(player, CacheManager.Sounds.SOUNDS_IN_GAME_DEAD);
                 PlayerTasks.remove(player);
                 PlayerTasks.put(player, Bukkit.getScheduler().runTaskLater(main, () -> {
-                    player.teleport(ArenaManager.getRandomSpawn(main, PlayerManager.PlayerArena.get(player), "one_in_the_chamber"));
+                    player.teleport(Objects.requireNonNull(ArenaManager.getRandomSpawn(main, PlayerManager.PlayerArena.get(player), "one_in_the_chamber")));
                     player.setGameMode(GameMode.SURVIVAL);
                     giveItems(player);
-                    SoundsManager.playSounds(Main.getPlugin(), player, CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
+                    SoundsManager.playSounds(player, CacheManager.Sounds.SOUNDS_IN_GAME_RESPAWN);
                 }, 60L));
             }
         }
@@ -111,7 +108,7 @@ public class OneInTheChamberManager {
                 for(final Player players : Bukkit.getOnlinePlayers()) {
                     if(PlayerManager.PlayerStatus.containsKey(players) && PlayerManager.PlayerArena.containsKey(players)) {
                         if (PlayerManager.PlayerStatus.get(players).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(players).equals(arenaid)) {
-                            SoundsManager.playSounds(main, players, CacheManager.Sounds.SOUNDS_STARTING_GAME_COUNTDOWN);
+                            SoundsManager.playSounds(players, CacheManager.Sounds.SOUNDS_STARTING_GAME_COUNTDOWN);
                             TitlesUtil.sendTitle(players, CacheManager.Language.TITLES_STARTING_GAME_TITLE
                                             .replace("{game_display_name}", CacheManager.Language.MINI_GAMES_ONE_IN_THE_CHAMBER_DISPLAY_NAME)
                                             .replace("{time}", String.valueOf(time)),
@@ -155,7 +152,7 @@ public class OneInTheChamberManager {
                 if (PlayerManager.PlayerStatus.get(players).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(players).equals(arenaid)) {
                     PlayerManager.PlayerMuted.replace(players.getPlayer(), 0);
                     SyncUtil.setFlying(main, false, players);
-                    SoundsManager.playSounds(main, players, CacheManager.Sounds.SOUNDS_STARTING_GAME_START);
+                    SoundsManager.playSounds(players, CacheManager.Sounds.SOUNDS_STARTING_GAME_START);
                     TitlesUtil.sendTitle(players,
                             CacheManager.Language.TITLES_GAME_STARTED_TITLE
                                     .replace("{game_display_name}", CacheManager.Language.MINI_GAMES_ONE_IN_THE_CHAMBER_DISPLAY_NAME),
@@ -200,7 +197,7 @@ public class OneInTheChamberManager {
                 for(final Player players : Bukkit.getOnlinePlayers()) {
                     if(PlayerManager.PlayerStatus.containsKey(players) && PlayerManager.PlayerArena.containsKey(players)) {
                         if (PlayerManager.PlayerStatus.get(players).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(players).equals(arenaid)) {
-                            players.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ScoreboardUtil.format(main, players, CacheManager.Language.ACTION_BAR_IN_GAME_GLOBAL)));
+                            players.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ScoreboardUtil.format(players, CacheManager.Language.ACTION_BAR_IN_GAME_GLOBAL)));
                         }
                     }
                 }

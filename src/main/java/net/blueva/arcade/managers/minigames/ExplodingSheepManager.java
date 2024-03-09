@@ -43,7 +43,7 @@ public class ExplodingSheepManager {
 
                 if(reverse) {
                     ArenaManager.addPlayerToPodiumInReverseOrder(arenaid, player, ArenaManager.ArenaPlayerCountCache.get(arenaid));
-                    SoundsManager.playSounds(Main.getPlugin(), player, CacheManager.Sounds.SOUNDS_IN_GAME_DEAD);
+                    SoundsManager.playSounds(player, CacheManager.Sounds.SOUNDS_IN_GAME_DEAD);
                 } else {
                     ArenaManager.addPlayerToPodium(arenaid, player, 1);
                 }
@@ -95,7 +95,7 @@ public class ExplodingSheepManager {
                 for(final Player players : Bukkit.getOnlinePlayers()) {
                     if(PlayerManager.PlayerStatus.containsKey(players) && PlayerManager.PlayerArena.containsKey(players)) {
                         if (PlayerManager.PlayerStatus.get(players).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(players).equals(arenaid)) {
-                            SoundsManager.playSounds(main, players, CacheManager.Sounds.SOUNDS_STARTING_GAME_COUNTDOWN);
+                            SoundsManager.playSounds(players, CacheManager.Sounds.SOUNDS_STARTING_GAME_COUNTDOWN);
                             TitlesUtil.sendTitle(players, CacheManager.Language.TITLES_STARTING_GAME_TITLE
                                             .replace("{game_display_name}", CacheManager.Language.MINI_GAMES_EXPLODING_SHEEP_DISPLAY_NAME)
                                             .replace("{time}", String.valueOf(time)),
@@ -139,7 +139,7 @@ public class ExplodingSheepManager {
                 if (PlayerManager.PlayerStatus.get(players).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(players).equals(arenaid)) {
                     PlayerManager.PlayerMuted.replace(players.getPlayer(), 0);
                     SyncUtil.setFlying(main, false, players);
-                    SoundsManager.playSounds(main, players, CacheManager.Sounds.SOUNDS_STARTING_GAME_START);
+                    SoundsManager.playSounds(players, CacheManager.Sounds.SOUNDS_STARTING_GAME_START);
                     TitlesUtil.sendTitle(players,
                             CacheManager.Language.TITLES_GAME_STARTED_TITLE
                                     .replace("{game_display_name}", CacheManager.Language.MINI_GAMES_EXPLODING_SHEEP_DISPLAY_NAME),
@@ -156,7 +156,7 @@ public class ExplodingSheepManager {
             int time = main.configManager.getArena(arenaid).getInt("arena.mini_games.exploding_sheep.basic.time", 60);
             @Override
             public void run() {
-                World world = Bukkit.getWorld(main.configManager.getArena(arenaid).getString("arena.mini_games.exploding_sheep.basic.world"));
+                World world = Bukkit.getWorld(Objects.requireNonNull(main.configManager.getArena(arenaid).getString("arena.mini_games.exploding_sheep.basic.world")));
                 double boundsminx = main.configManager.getArena(arenaid).getDouble("arena.mini_games.exploding_sheep.bounds.min.x");
                 double boundsminy = main.configManager.getArena(arenaid).getDouble("arena.mini_games.exploding_sheep.bounds.min.y");
                 double boundsminz = main.configManager.getArena(arenaid).getDouble("arena.mini_games.exploding_sheep.bounds.min.z");
@@ -210,7 +210,7 @@ public class ExplodingSheepManager {
                 for(final Player players : Bukkit.getOnlinePlayers()) {
                     if(PlayerManager.PlayerStatus.containsKey(players) && PlayerManager.PlayerArena.containsKey(players)) {
                         if (PlayerManager.PlayerStatus.get(players).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(players).equals(arenaid)) {
-                            players.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ScoreboardUtil.format(main, players, CacheManager.Language.ACTION_BAR_IN_GAME_GLOBAL)));
+                            players.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ScoreboardUtil.format(players, CacheManager.Language.ACTION_BAR_IN_GAME_GLOBAL)));
                         }
                     }
                 }
@@ -265,7 +265,7 @@ public class ExplodingSheepManager {
 
         if (nonSpectatorCount == 1 && winner != null) {
             finishPlayerSync(arenaid, winner, false);
-            SoundsManager.playSounds(Main.getPlugin(), winner, CacheManager.Sounds.SOUNDS_IN_GAME_CLASSIFIED);
+            SoundsManager.playSounds(winner, CacheManager.Sounds.SOUNDS_IN_GAME_CLASSIFIED);
             return true;
         }
 
@@ -276,21 +276,20 @@ public class ExplodingSheepManager {
         World world = boundsmin.getWorld();
         Random random = new Random();
 
-        for (int i = 0; i < cantidadOvejas; i++) {
-            double x = boundsmin.getX() + (boundsmax.getX() - boundsmin.getX()) * random.nextDouble();
-            double y = boundsmin.getY() + (boundsmax.getY() - boundsmin.getY()) * random.nextDouble();
-            double z = boundsmin.getZ() + (boundsmax.getZ() - boundsmin.getZ()) * random.nextDouble();
+        if(world != null) {
+            for (int i = 0; i < cantidadOvejas; i++) {
+                double x = boundsmin.getX() + (boundsmax.getX() - boundsmin.getX()) * random.nextDouble();
+                double y = boundsmin.getY() + (boundsmax.getY() - boundsmin.getY()) * random.nextDouble();
+                double z = boundsmin.getZ() + (boundsmax.getZ() - boundsmin.getZ()) * random.nextDouble();
 
-            y = world.getHighestBlockYAt(new Location(world, x, y, z)) + 3;
+                y = world.getHighestBlockYAt(new Location(world, x, y, z)) + 3;
 
-            Location sheepLocation = new Location(world, x, y, z);
+                Location sheepLocation = new Location(world, x, y, z);
 
-            Location blockBelow = sheepLocation.clone().subtract(0, 1, 0);
-            if (blockBelow.getBlock().getType() != Material.BARRIER) {
-                Sheep sheep = (Sheep) world.spawnEntity(sheepLocation, EntityType.SHEEP);
-                sheep.setColor(DyeColor.values()[random.nextInt(DyeColor.values().length)]);
-                if (!Main.getPlugin().bukkitVersion.startsWith("1.8")) {
-                    sheep.setInvulnerable(true);
+                Location blockBelow = sheepLocation.clone().subtract(0, 1, 0);
+                if (blockBelow.getBlock().getType() != Material.BARRIER) {
+                    Sheep sheep = (Sheep) world.spawnEntity(sheepLocation, EntityType.SHEEP);
+                    sheep.setColor(DyeColor.values()[random.nextInt(DyeColor.values().length)]);
                 }
             }
         }

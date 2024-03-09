@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import net.blueva.arcade.Main;
 import net.blueva.arcade.commands.CommandInterface;
 import net.blueva.arcade.utils.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,14 +15,11 @@ import java.util.HashMap;
 public class CommandHandler implements CommandExecutor
 {
 
-    private Main main;
-
     public CommandHandler(Main main) {
-        this.main = main;
     }
 
     //This is where we will store the commands
-    private static HashMap<String, CommandInterface> commands = new HashMap<String, CommandInterface>();
+    private static final HashMap<String, CommandInterface> commands = new HashMap<String, CommandInterface>();
 
     //Register method. When we register commands in our onEnable() we will use this.
     public void register(String name, CommandInterface cmd) {
@@ -46,7 +44,7 @@ public class CommandHandler implements CommandExecutor
 
     //This will be a template. All commands will have this in common.
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String commandLabel, String[] args) {
 
         //If there aren't any arguments, what is the command name going to be? For this example, we are going to call it /example.
         //This means that all commands will have the base of /example.
@@ -60,27 +58,22 @@ public class CommandHandler implements CommandExecutor
         }
 
         //What if there are arguments in the command? Such as /example args
-        if(args.length > 0) {
+        //If that argument exists in our registration in the onEnable();
+        if(exists(args[0])){
 
-            //If that argument exists in our registration in the onEnable();
-            if(exists(args[0])){
-
-                //Get The executor with the name of args[0]. With our example, the name of the executor will be args because in
-                //the command /example args, args is our args[0].
-                try {
-                    getExecutor(args[0]).onCommand(sender, cmd, commandLabel, args);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                return true;
-            } else {
-
-                //We want to send a message to the sender if the command doesn't exist.
-                StringUtils.sendMessage(sender, sender.getName(), CacheManager.Language.GLOBAL_ERROR_UNKNOWN_COMMAND);
-                return true;
+            //Get The executor with the name of args[0]. With our example, the name of the executor will be args because in
+            //the command /example args, args is our args[0].
+            try {
+                getExecutor(args[0]).onCommand(sender, cmd, commandLabel, args);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+        } else {
+
+            //We want to send a message to the sender if the command doesn't exist.
+            StringUtils.sendMessage(sender, sender.getName(), CacheManager.Language.GLOBAL_ERROR_UNKNOWN_COMMAND);
         }
-        return false;
+        return true;
     }
 
 }

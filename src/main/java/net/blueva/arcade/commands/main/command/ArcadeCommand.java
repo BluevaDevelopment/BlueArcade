@@ -25,8 +25,8 @@ public class ArcadeCommand implements CommandInterface
                              String commandLabel, String[] args) {
 
         if(sender.hasPermission("bluearcade.info") || sender.hasPermission("bluearcade.*")) {
-            List<String> xainfo = CacheManager.Language.COMMANDS_BLUEARCADE_INFO;
-            for (String message : xainfo) {
+            List<String> bainfo = CacheManager.Language.COMMANDS_BLUEARCADE_INFO;
+            for (String message : bainfo) {
                 String player = sender.getName();
                 StringUtils.sendMessage(sender, player, message.replace("{plugin_version}", main.pluginversion));
             }

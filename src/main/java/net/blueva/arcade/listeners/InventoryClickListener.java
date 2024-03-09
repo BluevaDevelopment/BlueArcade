@@ -13,7 +13,7 @@ import org.bukkit.event.inventory.InventoryType;
 import net.blueva.arcade.Main;
 
 public class InventoryClickListener implements Listener {
-    private Main main;
+    private final Main main;
 
     public InventoryClickListener(Main main) {
         this.main = main;
@@ -24,10 +24,12 @@ public class InventoryClickListener implements Listener {
         Player p = (Player) event.getWhoClicked();
         if(PlayerManager.PlayerStatus.containsKey(p)) {
             if(PlayerManager.PlayerStatus.get(p).equals("Playing")) {
-                if((event.getInventory().getType().equals(InventoryType.PLAYER) || event.getInventory().getType().equals(InventoryType.CRAFTING))
-                        && event.getSlotType() != null & event.getCurrentItem() != null) {
-                    if(event.getCurrentItem().getType().equals(Material.AIR)) {
-                        event.setCancelled(true);
+                if((event.getInventory().getType().equals(InventoryType.PLAYER) || event.getInventory().getType().equals(InventoryType.CRAFTING))) {
+                    event.getSlotType();
+                    if (event.getCurrentItem() != null) {
+                        if (event.getCurrentItem().getType().equals(Material.AIR)) {
+                            event.setCancelled(true);
+                        }
                     }
                 }
             }

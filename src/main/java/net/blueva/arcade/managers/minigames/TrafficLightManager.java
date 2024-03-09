@@ -42,7 +42,7 @@ public class TrafficLightManager {
                 ArenaManager.addPlayerToPodium(arenaid, player, 1);
                 PlayerManager.PlayerInGameStatus.replace(player, "SPECTATOR");
                 player.setGameMode(GameMode.SPECTATOR);
-                SoundsManager.playSounds(Main.getPlugin(), player, CacheManager.Sounds.SOUNDS_IN_GAME_CLASSIFIED);
+                SoundsManager.playSounds(player, CacheManager.Sounds.SOUNDS_IN_GAME_CLASSIFIED);
                 TitlesUtil.sendTitle(player,
                         CacheManager.Language.TITLES_CLASSIFIED_TITLE
                                 .replace("{place}", String.valueOf(ArenaManager.getPlayerPositionOnPodium(arenaid, player))),
@@ -83,7 +83,7 @@ public class TrafficLightManager {
                 for(final Player players : Bukkit.getOnlinePlayers()) {
                     if(PlayerManager.PlayerStatus.containsKey(players) && PlayerManager.PlayerArena.containsKey(players)) {
                         if (PlayerManager.PlayerStatus.get(players).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(players).equals(arenaid)) {
-                            SoundsManager.playSounds(main, players, CacheManager.Sounds.SOUNDS_STARTING_GAME_COUNTDOWN);
+                            SoundsManager.playSounds(players, CacheManager.Sounds.SOUNDS_STARTING_GAME_COUNTDOWN);
                             TitlesUtil.sendTitle(players, CacheManager.Language.TITLES_STARTING_GAME_TITLE
                                             .replace("{game_display_name}", CacheManager.Language.MINI_GAMES_TRAFFIC_LIGHT_DISPLAY_NAME)
                                             .replace("{time}", String.valueOf(time)),
@@ -129,7 +129,7 @@ public class TrafficLightManager {
                     PlayerManager.PlayerMuted.replace(players.getPlayer(), 0);
                     SyncUtil.setFlying(main, false, players);
                     SyncUtil.setSpeed(main, 0.2f, players);
-                    SoundsManager.playSounds(main, players, CacheManager.Sounds.SOUNDS_STARTING_GAME_START);
+                    SoundsManager.playSounds(players, CacheManager.Sounds.SOUNDS_STARTING_GAME_START);
                     TitlesUtil.sendTitle(players,
                             CacheManager.Language.TITLES_GAME_STARTED_TITLE
                                     .replace("{game_display_name}", CacheManager.Language.MINI_GAMES_TRAFFIC_LIGHT_DISPLAY_NAME),
@@ -201,7 +201,7 @@ public class TrafficLightManager {
                 for(final Player players : Bukkit.getOnlinePlayers()) {
                     if(PlayerManager.PlayerStatus.containsKey(players) && PlayerManager.PlayerArena.containsKey(players)) {
                         if (PlayerManager.PlayerStatus.get(players).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(players).equals(arenaid)) {
-                            players.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ScoreboardUtil.format(main, players, CacheManager.Language.ACTION_BAR_IN_GAME_GLOBAL)));
+                            players.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ScoreboardUtil.format(players, CacheManager.Language.ACTION_BAR_IN_GAME_GLOBAL)));
                         }
                     }
                 }
@@ -291,8 +291,7 @@ public class TrafficLightManager {
 
     private static void giveItemsGreen(Player player) {
         try {
-            Material woolMaterial = Material.LIME_WOOL;
-            ItemStack wool = new ItemStack(woolMaterial, 1, (short) 5);
+            ItemStack wool = new ItemStack(Material.LIME_WOOL, 1);
 
             for (int i = 0; i < 9; i++) {
                 player.getInventory().setItem(i, wool);

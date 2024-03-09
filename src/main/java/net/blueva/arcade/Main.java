@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Main extends JavaPlugin implements Listener {
 
@@ -86,8 +87,6 @@ public class Main extends JavaPlugin implements Listener {
         return plugin;
     }
 
-    public static boolean defaultLicense = false;
-
     // managers
     public SetupManager setupManager = null;
     public SignManager signManager = null;
@@ -128,7 +127,7 @@ public class Main extends JavaPlugin implements Listener {
         pm.registerEvents(new BlockPlaceListener(this), this);
         pm.registerEvents(new EntityDamageByEntityListener(this), this);
         pm.registerEvents(new EntityDamageListener(this), this);
-        pm.registerEvents(new FoodLevelChangeListener(this), this);
+        pm.registerEvents(new FoodLevelChangeListener(), this);
         pm.registerEvents(new InventoryClickListener(this), this);
         pm.registerEvents(new PlayerChatListener(this), this);
         pm.registerEvents(new PlayerCommandPreprocessListener(this), this);
@@ -137,7 +136,7 @@ public class Main extends JavaPlugin implements Listener {
         pm.registerEvents(new PlayerLeaveListener(this), this);
         pm.registerEvents(new PlayerMoveListener(this), this);
         pm.registerEvents(new PlayerInteractListener(this), this);
-        pm.registerEvents(new PlayerPickupItemListener(this), this);
+        pm.registerEvents(new EntityPickupItemListener(this), this);
         pm.registerEvents(new PlayerShearEntityListener(), this);
         pm.registerEvents(new ProjectileHitListener(), this);
         pm.registerEvents(new SignChangeListener(this), this);
@@ -199,8 +198,8 @@ public class Main extends JavaPlugin implements Listener {
         handler.register("setmainlobby", new SetMainLobbySubCommand(this));
         handler.register("setup", new SetupSubCommand(this));
 
-        getCommand("arcade").setExecutor(handler);
-        getCommand("arcade").setTabCompleter(new ArcadeTabComplete());
+        Objects.requireNonNull(getCommand("arcade")).setExecutor(handler);
+        Objects.requireNonNull(getCommand("arcade")).setTabCompleter(new ArcadeTabComplete());
     }
 
     public void registerConfigFiles() {

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreboardUtil {
-    public static List<String> format(@NotNull Main main, Player player, @NotNull List<String> text) {
+    public static List<String> format(Player player, @NotNull List<String> text) {
         List<String> formattedText = new ArrayList<>();
 
         for (String line : text) {
@@ -55,7 +55,7 @@ public class ScoreboardUtil {
         return formattedText;
     }
 
-    public static String format(@NotNull Main main, Player player, @NotNull String text) {
+    public static String format(Player player, @NotNull String text) {
         text = text
                 .replace("{arena}", CacheManager.Arenas.ARENA_BASIC_STRING.get(PlayerManager.PlayerArena.get(player)).get("display_name"))
                 .replace("{time}", StringUtils.convertSecondsInMinutes(ArenaManager.ArenaCountdown.getOrDefault(PlayerManager.PlayerArena.get(player), 0)))

@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class SyncUtil {
@@ -84,21 +85,19 @@ public class SyncUtil {
             public void run() {
                 if(player != null) {
                     Location playerLocation = player.getLocation();
-                    if (playerLocation != null) {
-                        Firework firework = (Firework) playerLocation.getWorld().spawnEntity(playerLocation, EntityType.FIREWORK);
-                        FireworkMeta fireworkMeta = firework.getFireworkMeta();
+                    Firework firework = (Firework) Objects.requireNonNull(playerLocation.getWorld()).spawnEntity(playerLocation, EntityType.FIREWORK);
+                    FireworkMeta fireworkMeta = firework.getFireworkMeta();
 
-                        FireworkEffect effect = FireworkEffect.builder()
-                                .withColor(StringUtils.generateRandomColor())
-                                .withFade(StringUtils.generateRandomColor())
-                                .with(FireworkEffect.Type.values()[random.nextInt(FireworkEffect.Type.values().length)])
-                                .flicker(random.nextBoolean())
-                                .trail(random.nextBoolean())
-                                .build();
+                    FireworkEffect effect = FireworkEffect.builder()
+                            .withColor(StringUtils.generateRandomColor())
+                            .withFade(StringUtils.generateRandomColor())
+                            .with(FireworkEffect.Type.values()[random.nextInt(FireworkEffect.Type.values().length)])
+                            .flicker(random.nextBoolean())
+                            .trail(random.nextBoolean())
+                            .build();
 
-                        fireworkMeta.addEffect(effect);
-                        firework.setFireworkMeta(fireworkMeta);
-                    }
+                    fireworkMeta.addEffect(effect);
+                    firework.setFireworkMeta(fireworkMeta);
                 }
             }
         }.runTaskLater(main, 0);

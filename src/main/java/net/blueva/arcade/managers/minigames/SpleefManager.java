@@ -19,6 +19,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class SpleefManager {
     private static final HashMap<Integer, BukkitTask> StartTasks = new HashMap<>();
@@ -28,7 +29,7 @@ public class SpleefManager {
 
         ArenaManager.teleportPlayers(arenaid, "spleef", main);
         ArenaManager.sendDescription(arenaid, "spleef", main);
-        giveItems(arenaid, main);
+        giveItems(arenaid);
         startCountdown(arenaid, main);
     }
 
@@ -39,7 +40,7 @@ public class SpleefManager {
                 PlayerManager.PlayerInGameStatus.replace(player, "SPECTATOR");
                 player.setGameMode(GameMode.SPECTATOR);
                 player.getInventory().clear();
-                SoundsManager.playSounds(Main.getPlugin(), player, CacheManager.Sounds.SOUNDS_IN_GAME_DEAD);
+                SoundsManager.playSounds(player, CacheManager.Sounds.SOUNDS_IN_GAME_DEAD);
             }
         }
     }
@@ -70,7 +71,7 @@ public class SpleefManager {
                 for(final Player players : Bukkit.getOnlinePlayers()) {
                     if(PlayerManager.PlayerStatus.containsKey(players) && PlayerManager.PlayerArena.containsKey(players)) {
                         if (PlayerManager.PlayerStatus.get(players).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(players).equals(arenaid)) {
-                            SoundsManager.playSounds(main, players, CacheManager.Sounds.SOUNDS_STARTING_GAME_COUNTDOWN);
+                            SoundsManager.playSounds(players, CacheManager.Sounds.SOUNDS_STARTING_GAME_COUNTDOWN);
                             TitlesUtil.sendTitle(players, CacheManager.Language.TITLES_STARTING_GAME_TITLE
                                             .replace("{game_display_name}", CacheManager.Language.MINI_GAMES_SPLEEF_DISPLAY_NAME)
                                             .replace("{time}", String.valueOf(time)),
@@ -115,7 +116,7 @@ public class SpleefManager {
                     PlayerManager.PlayerMuted.replace(players.getPlayer(), 0);
                     SyncUtil.setFlying(main, false, players);
                     SyncUtil.setGameMode(main, GameMode.SURVIVAL, players);
-                    SoundsManager.playSounds(main, players, CacheManager.Sounds.SOUNDS_STARTING_GAME_START);
+                    SoundsManager.playSounds(players, CacheManager.Sounds.SOUNDS_STARTING_GAME_START);
                     TitlesUtil.sendTitle(players,
                             CacheManager.Language.TITLES_GAME_STARTED_TITLE
                                     .replace("{game_display_name}", CacheManager.Language.MINI_GAMES_SPLEEF_DISPLAY_NAME),
@@ -165,7 +166,7 @@ public class SpleefManager {
                 for(final Player players : Bukkit.getOnlinePlayers()) {
                     if(PlayerManager.PlayerStatus.containsKey(players) && PlayerManager.PlayerArena.containsKey(players)) {
                         if (PlayerManager.PlayerStatus.get(players).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(players).equals(arenaid)) {
-                            players.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ScoreboardUtil.format(main, players, CacheManager.Language.ACTION_BAR_IN_GAME_GLOBAL)));
+                            players.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ScoreboardUtil.format(players, CacheManager.Language.ACTION_BAR_IN_GAME_GLOBAL)));
                         }
                     }
                 }
@@ -175,7 +176,7 @@ public class SpleefManager {
         }, 0L, 20L));
     }
 
-    private static void giveItems(int arenaid, Main main) {
+    private static void giveItems(int arenaid) {
         ItemStack shovel = new ItemStack(Material.DIAMOND_SHOVEL, 1);
         ItemMeta shovelmeta = shovel.getItemMeta();
         shovelmeta.addEnchant(Enchantment.DIG_SPEED, 5, true);
@@ -194,7 +195,7 @@ public class SpleefManager {
     }
 
     private static void regenerateFloor(int arenaid, Main main) {
-        World world = Bukkit.getWorld(main.configManager.getArena(arenaid).getString("arena.mini_games.spleef.basic.world"));
+        World world = Bukkit.getWorld(Objects.requireNonNull(main.configManager.getArena(arenaid).getString("arena.mini_games.spleef.basic.world")));
 
         double floorminx = main.configManager.getArena(arenaid).getDouble("arena.mini_games.spleef.game.floor.bounds.min.x");
         double floorminy = main.configManager.getArena(arenaid).getDouble("arena.mini_games.spleef.game.floor.bounds.min.y");
@@ -237,7 +238,7 @@ public class SpleefManager {
 
         if (nonSpectatorCount == 1 && winner != null) {
             finishPlayerSync(arenaid, winner);
-            SoundsManager.playSounds(Main.getPlugin(), winner, CacheManager.Sounds.SOUNDS_IN_GAME_CLASSIFIED);
+            SoundsManager.playSounds(winner, CacheManager.Sounds.SOUNDS_IN_GAME_CLASSIFIED);
             return true;
         }
 

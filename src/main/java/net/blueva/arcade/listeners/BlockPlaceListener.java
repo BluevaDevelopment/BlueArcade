@@ -10,8 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import net.blueva.arcade.Main;
 
+import java.util.Objects;
+
 public class BlockPlaceListener implements Listener {
-    private Main main;
+    private final Main main;
 
     public BlockPlaceListener(Main main) {
         this.main = main;
@@ -31,7 +33,7 @@ public class BlockPlaceListener implements Listener {
             if(main.configManager.getArena(main.SetupArena.get(p)).getInt("arena.basic.setup_step") == 1) {
                 if(event.getPlayer().getInventory().getHeldItemSlot() == 0) {
                     Location l = event.getBlock().getLocation();
-                    String world = l.getWorld().getName();
+                    String world = Objects.requireNonNull(l.getWorld()).getName();
                     double x = l.getX() + 0.5;
                     double y = l.getY();
                     double z = l.getZ() + 0.5;
@@ -64,7 +66,7 @@ public class BlockPlaceListener implements Listener {
                 if(main.setupManager.selectedGame.containsKey(p)) {
                     if(main.setupManager.actualStepGame.get(p) == 6) {
                         Location l = event.getBlock().getLocation();
-                        String world = l.getWorld().getName();
+                        String world = Objects.requireNonNull(l.getWorld()).getName();
                         double x = l.getX() + 0.5;
                         double y = l.getY();
                         double z = l.getZ() + 0.5;

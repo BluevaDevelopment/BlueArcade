@@ -61,7 +61,7 @@ public class ArenaManager {
 
                     ArenaCountdown.replace(arenaid, time);
 
-                    SoundsManager.playSounds(main, player, CacheManager.Sounds.SOUNDS_STARTING_ARENA_COUNTDOWN);
+                    SoundsManager.playSounds(player, CacheManager.Sounds.SOUNDS_STARTING_ARENA_COUNTDOWN);
 
                     List<Integer> notifyTimes = CacheManager.Settings.GAME_GLOBAL_COUNTDOWN_NOTIFICATIONS;
 
@@ -69,7 +69,7 @@ public class ArenaManager {
                         if(PlayerManager.PlayerStatus.containsKey(allp) && PlayerManager.PlayerArena.containsKey(allp)) {
                             if(PlayerManager.PlayerStatus.get(allp).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(allp).equals(arenaid)) {
                                 if(notifyTimes.contains(time)) {
-                                    SoundsManager.playSounds(main, player, CacheManager.Sounds.SOUNDS_STARTING_ARENA_NOTIFY_COUNTDOWN);
+                                    SoundsManager.playSounds(player, CacheManager.Sounds.SOUNDS_STARTING_ARENA_NOTIFY_COUNTDOWN);
                                     StringUtils.sendMessage(allp, player.getName(), CacheManager.Language.GLOBAL_INFO_LOBBY_COUNTDOWN
                                             .replace("{time}", String.valueOf(time)));
                                     TitlesUtil.sendTitle(allp, CacheManager.Language.TITLES_STARTING_ARENA_TITLE.replace("{time}", String.valueOf(time)),
@@ -141,8 +141,6 @@ public class ArenaManager {
             EndTasks.remove(arenaid);
         }
     }
-
-    private static final Object gameLock = new Object();
 
     private static void nextGame(int arenaid, Main main) {
         ArenaStatusInternal.replace(arenaid, "Running");
@@ -227,7 +225,7 @@ public class ArenaManager {
 
         for(final Player allp : Bukkit.getOnlinePlayers()) {
             if(PlayerManager.PlayerStatus.containsKey(allp) && PlayerManager.PlayerArena.containsKey(allp)) {
-                SoundsManager.playSounds(main, allp, CacheManager.Sounds.SOUNDS_STARTING_GAME_TELEPORT);
+                SoundsManager.playSounds(allp, CacheManager.Sounds.SOUNDS_STARTING_GAME_TELEPORT);
             }
         }
 
@@ -237,13 +235,15 @@ public class ArenaManager {
 
     private static void startGames(int arenaid, Main main) {
         ConfigurationSection cs = main.configManager.getArena(arenaid).getConfigurationSection("arena.mini_games");
-        List<String> mini_games_list = new ArrayList<>();
-        for(Object mini_game : cs.getKeys(false)) {
-            if(main.configManager.getArena(arenaid).getBoolean("arena.mini_games."+mini_game+".basic.enabled")) {
-                mini_games_list.add(mini_game.toString());
+        if(cs != null) {
+            List<String> mini_games_list = new ArrayList<>();
+            for(Object mini_game : cs.getKeys(false)) {
+                if(main.configManager.getArena(arenaid).getBoolean("arena.mini_games."+mini_game+".basic.enabled")) {
+                    mini_games_list.add(mini_game.toString());
+                }
             }
+            ArenaMinigames.put(arenaid, mini_games_list);
         }
-        ArenaMinigames.put(arenaid, mini_games_list);
     }
 
     public static void startLimbo(int arenaid, Main main) {
@@ -311,7 +311,7 @@ public class ArenaManager {
                 if(PlayerManager.PlayerStatus.get(descp).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(descp).equals(arenaid)) {
                     assert description != null;
                     for (String message : description) {
-                        StringUtils.sendMessage(descp, player, message.replace("{game_display_name}", main.configManager.getLang().getString("mini_games."+game+".display_name")));
+                        StringUtils.sendMessage(descp, player, message.replace("{game_display_name}", Objects.requireNonNull(main.configManager.getLang().getString("mini_games." + game + ".display_name"))));
                     }
                     SyncUtil.removePotionEffects(main, descp);
                     SyncUtil.setFlying(main, false, descp);
@@ -335,7 +335,7 @@ public class ArenaManager {
 
                     int finalUsedspawns = usedspawns;
                     Bukkit.getScheduler().runTask(Main.getPlugin(), () -> {
-                        World world = Bukkit.getWorld(main.configManager.getArena(arena).getString("arena.mini_games."+game+".basic.world"));
+                        World world = Bukkit.getWorld(Objects.requireNonNull(main.configManager.getArena(arena).getString("arena.mini_games." + game + ".basic.world")));
                         double x = main.configManager.getArena(arena).getDouble("arena.mini_games."+game+".spawns.list.s"+ finalUsedspawns +".x");
                         double y = main.configManager.getArena(arena).getDouble("arena.mini_games."+game+".spawns.list.s"+ finalUsedspawns +".y");
                         double z = main.configManager.getArena(arena).getDouble("arena.mini_games."+game+".spawns.list.s"+ finalUsedspawns +".z");
@@ -357,22 +357,23 @@ public class ArenaManager {
     }
 
     public static Location getRandomSpawn(Main main, Integer arenaid, String game) {
-        // Obtener el mundo desde la configuración
         String worldName = main.configManager.getArena(arenaid).getString("arena.mini_games." + game + ".basic.world");
-        World world = Bukkit.getWorld(worldName);
+        World world = null;
+        if(worldName != null) {
+            world = Bukkit.getWorld(worldName);
+        }
 
-        // Obtener la sección de spawns del juego especificado
         ConfigurationSection spawns = main.configManager.getArena(arenaid).getConfigurationSection("arena.mini_games." + game + ".spawns");
 
-        // Obtener la cantidad total de spawns disponibles
-        int totalSpawns = spawns.getInt("total");
+        int totalSpawns = 0;
+        if(spawns != null) {
+            totalSpawns = spawns.getInt("total");
+        }
 
-        // Si no hay spawns disponibles, devuelve null
         if (totalSpawns == 0) {
             return null;
         }
 
-        // Obtener una ubicación aleatoria de spawn
         String spawnName = "list.s" + (new Random().nextInt(totalSpawns) + 1);
         double x = spawns.getDouble(spawnName + ".x");
         double y = spawns.getDouble(spawnName + ".y");
@@ -380,7 +381,6 @@ public class ArenaManager {
         float yaw = (float) spawns.getDouble(spawnName + ".yaw");
         float pitch = (float) spawns.getDouble(spawnName + ".pitch");
 
-        // Crear y devolver la ubicación de spawn
         return new Location(world, x, y, z, yaw, pitch);
     }
 
@@ -388,30 +388,25 @@ public class ArenaManager {
     public static void addPlayerToPodium(int arenaid, Player player, int position) {
         Map<Integer, Player> podium = ArenaPodium.computeIfAbsent(arenaid, k -> new HashMap<>());
 
-        // Verificar si la posición ya está ocupada
         while (podium.containsKey(position)) {
-            position++; // Probar la siguiente posición
+            position++;
         }
 
-        // Agregar el jugador a la posición libre en el podio
         podium.put(position, player);
     }
 
     public static void addPlayerToPodiumInReverseOrder(int arenaid, Player player, int maxPlayers) {
         Map<Integer, Player> podium = ArenaPodium.computeIfAbsent(arenaid, k -> new HashMap<>());
 
-        // Verificar si el jugador ya está en el podio
         if (podium.containsValue(player)) {
             return;
         }
 
-        // Buscar la última posición disponible en el podio
         int position = maxPlayers;
         while (podium.containsKey(position)) {
             position--;
         }
 
-        // Agregar el jugador a la posición libre en el podio
         podium.put(position, player);
     }
 
@@ -421,12 +416,12 @@ public class ArenaManager {
         if (podio != null) {
             for (Map.Entry<Integer, Player> entry : podio.entrySet()) {
                 if (entry.getValue().equals(player)) {
-                    return entry.getKey(); // Devuelve la posición en la que se encuentra el jugador
+                    return entry.getKey();
                 }
             }
         }
 
-        return 0; // Devuelve -1 si el jugador no está en el podio o si el podio no existe para el juego especificado.
+        return 0;
     }
 
     public static void clearPodium(int arenaid) {
@@ -463,20 +458,6 @@ public class ArenaManager {
         return player.map(Player::getName).orElse("-");
     }
 
-
-
-    public static int getPlayerPosition(int arenaId, Player player) {
-        Map<Player, Integer> arenaMap = ArenaStars.getOrDefault(arenaId, new HashMap<>());
-        List<Player> players = new ArrayList<>(arenaMap.keySet());
-        players.sort((p1, p2) -> arenaMap.get(p2) - arenaMap.get(p1));
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).equals(player)) {
-                return i + 1;
-            }
-        }
-        return -1;
-    }
-
     public static String getPodiumName(Integer arenaid, int position) {
         if (!ArenaPodium.containsKey(arenaid) || ArenaPodium.get(arenaid).get(position) == null) {
             return "-";
@@ -485,12 +466,10 @@ public class ArenaManager {
         }
     }
 
-
     public static int getStarsForPlayer(int arenaid, Player player) {
         Map<Player, Integer> arenaMap = ArenaStars.getOrDefault(arenaid, new HashMap<>());
         return arenaMap.getOrDefault(player, 0);
     }
-
 
     public static boolean areAllPlayersSpectators(int arenaid) {
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -613,7 +592,7 @@ public class ArenaManager {
             if(PlayerManager.PlayerStatus.containsKey(player) && PlayerManager.PlayerArena.containsKey(player)) {
                 if(PlayerManager.PlayerStatus.get(player).equalsIgnoreCase("Playing") && PlayerManager.PlayerArena.get(player).equals(arenaid)) {
 
-                    SoundsManager.playSounds(main, player, CacheManager.Sounds.SOUNDS_IN_GAME_GAME_OVER);
+                    SoundsManager.playSounds(player, CacheManager.Sounds.SOUNDS_IN_GAME_GAME_OVER);
 
                     int mini_games_played = main.configManager.getUser(player.getUniqueId()).getInt("stats.mini_games_played")+1;
                     main.configManager.getUser(player.getUniqueId()).set("stats.mini_games_played", mini_games_played);
@@ -678,26 +657,26 @@ public class ArenaManager {
         String secondPlace = getPlayerNameAtPosition(arenaid, 2);
         String thirdPlace = getPlayerNameAtPosition(arenaid, 3);
 
-        int playerFirst = main.configManager.getUser(Bukkit.getPlayer(firstPlace).getUniqueId()).getInt("stats.first_place")+1;
-        main.configManager.getUser(Bukkit.getPlayer(firstPlace).getUniqueId()).set("stats.first_place", playerFirst);
-        main.configManager.saveUser(Bukkit.getPlayer(firstPlace).getUniqueId());
-        main.configManager.reloadUser(Bukkit.getPlayer(firstPlace).getUniqueId());
+        int playerFirst = main.configManager.getUser(Objects.requireNonNull(Bukkit.getPlayer(firstPlace)).getUniqueId()).getInt("stats.first_place")+1;
+        main.configManager.getUser(Objects.requireNonNull(Bukkit.getPlayer(firstPlace)).getUniqueId()).set("stats.first_place", playerFirst);
+        main.configManager.saveUser(Objects.requireNonNull(Bukkit.getPlayer(firstPlace)).getUniqueId());
+        main.configManager.reloadUser(Objects.requireNonNull(Bukkit.getPlayer(firstPlace)).getUniqueId());
 
         if(secondPlace.equals("-")) {
             return;
         }
-        int playerSecond = main.configManager.getUser(Bukkit.getPlayer(secondPlace).getUniqueId()).getInt("stats.second_place")+1;
-        main.configManager.getUser(Bukkit.getPlayer(secondPlace).getUniqueId()).set("stats.second_place", playerSecond);
-        main.configManager.saveUser(Bukkit.getPlayer(secondPlace).getUniqueId());
-        main.configManager.reloadUser(Bukkit.getPlayer(secondPlace).getUniqueId());
+        int playerSecond = main.configManager.getUser(Objects.requireNonNull(Bukkit.getPlayer(secondPlace)).getUniqueId()).getInt("stats.second_place")+1;
+        main.configManager.getUser(Objects.requireNonNull(Bukkit.getPlayer(secondPlace)).getUniqueId()).set("stats.second_place", playerSecond);
+        main.configManager.saveUser(Objects.requireNonNull(Bukkit.getPlayer(secondPlace)).getUniqueId());
+        main.configManager.reloadUser(Objects.requireNonNull(Bukkit.getPlayer(secondPlace)).getUniqueId());
 
         if(thirdPlace.equals("-")) {
             return;
         }
-        int playerThird = main.configManager.getUser(Bukkit.getPlayer(thirdPlace).getUniqueId()).getInt("stats.third_place")+1;
-        main.configManager.getUser(Bukkit.getPlayer(thirdPlace).getUniqueId()).set("stats.third_place", playerThird);
-        main.configManager.saveUser(Bukkit.getPlayer(thirdPlace).getUniqueId());
-        main.configManager.reloadUser(Bukkit.getPlayer(thirdPlace).getUniqueId());
+        int playerThird = main.configManager.getUser(Objects.requireNonNull(Bukkit.getPlayer(thirdPlace)).getUniqueId()).getInt("stats.third_place")+1;
+        main.configManager.getUser(Objects.requireNonNull(Bukkit.getPlayer(thirdPlace)).getUniqueId()).set("stats.third_place", playerThird);
+        main.configManager.saveUser(Objects.requireNonNull(Bukkit.getPlayer(thirdPlace)).getUniqueId());
+        main.configManager.reloadUser(Objects.requireNonNull(Bukkit.getPlayer(thirdPlace)).getUniqueId());
 
     }
 

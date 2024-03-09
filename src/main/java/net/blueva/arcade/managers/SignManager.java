@@ -6,9 +6,12 @@ import net.blueva.arcade.utils.SignsUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
+import org.bukkit.block.sign.Side;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Objects;
 
 public class SignManager {
     private final Main main;
@@ -38,7 +41,7 @@ public class SignManager {
             double y = signSection.getDouble("cords.y");
             double z = signSection.getDouble("cords.z");
 
-            if (location.getWorld().getName().equals(worldName)
+            if (Objects.requireNonNull(location.getWorld()).getName().equals(worldName)
                     && location.getX() == x
                     && location.getY() == y
                     && location.getZ() == z) {
@@ -110,13 +113,15 @@ public class SignManager {
             }
 
             String worldName = signSection.getString("cords.world");
-            double x = signSection.getDouble("cords.x");
-            double y = signSection.getDouble("cords.y");
-            double z = signSection.getDouble("cords.z");
+            if(worldName != null) {
+                double x = signSection.getDouble("cords.x");
+                double y = signSection.getDouble("cords.y");
+                double z = signSection.getDouble("cords.z");
 
-            Location location = new Location(Bukkit.getWorld(worldName), x, y, z);
-            if (location.getBlock().getState() instanceof Sign) {
-                updateSign((Sign) location.getBlock().getState(), arenaIDFromSign(location));
+                Location location = new Location(Bukkit.getWorld(worldName), x, y, z);
+                if (location.getBlock().getState() instanceof Sign) {
+                    updateSign((Sign) location.getBlock().getState(), arenaIDFromSign(location));
+                }
             }
         }
     }
@@ -126,10 +131,10 @@ public class SignManager {
             return;
         }
 
-        sign.setLine(0, SignsUtil.format(CacheManager.Language.SIGNS_ARENA_LINE1, arenaID));
-        sign.setLine(1, SignsUtil.format(CacheManager.Language.SIGNS_ARENA_LINE2, arenaID));
-        sign.setLine(2, SignsUtil.format(CacheManager.Language.SIGNS_ARENA_LINE3, arenaID));
-        sign.setLine(3, SignsUtil.format(CacheManager.Language.SIGNS_ARENA_LINE4, arenaID));
+        sign.getSide(Side.FRONT).setLine(0, SignsUtil.format(CacheManager.Language.SIGNS_ARENA_LINE1, arenaID));
+        sign.getSide(Side.FRONT).setLine(1, SignsUtil.format(CacheManager.Language.SIGNS_ARENA_LINE2, arenaID));
+        sign.getSide(Side.FRONT).setLine(2, SignsUtil.format(CacheManager.Language.SIGNS_ARENA_LINE3, arenaID));
+        sign.getSide(Side.FRONT).setLine(3, SignsUtil.format(CacheManager.Language.SIGNS_ARENA_LINE4, arenaID));
         sign.update();
     }
 

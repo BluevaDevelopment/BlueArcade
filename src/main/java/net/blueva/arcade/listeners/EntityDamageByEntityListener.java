@@ -17,11 +17,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import java.util.Objects;
+
 import static net.blueva.arcade.managers.minigames.TNTTagManager.changePlayerTagged;
 
 public class EntityDamageByEntityListener implements Listener {
 
-    private Main main;
+    private final Main main;
 
     public EntityDamageByEntityListener(Main main) {
         this.main = main;
@@ -29,8 +31,7 @@ public class EntityDamageByEntityListener implements Listener {
 
     @EventHandler
     public void EDBEL(EntityDamageByEntityEvent event) {
-        if(event.getEntity() instanceof Player) {
-            Player player = (Player) event.getEntity();
+        if(event.getEntity() instanceof Player player) {
             Entity damager = event.getDamager();
 
             if(PlayerManager.PlayerStatus.containsKey(player)) {
@@ -49,12 +50,9 @@ public class EntityDamageByEntityListener implements Listener {
                             event.setCancelled(true);
                         }
                     } else if (ArenaManager.ArenaActualGame.get(PlayerManager.PlayerArena.get(player)).equalsIgnoreCase("OneInTheChamber")) {
-                        if(damager instanceof Projectile) {
-                            Projectile projectile = (Projectile) damager;
-                            if (projectile.getShooter() instanceof Player) {
+                        if(damager instanceof Projectile projectile) {
+                            if (projectile.getShooter() instanceof Player shooter) {
                                 OneInTheChamberManager.deathPlayer(player, main);
-
-                                Player shooter = (Player) projectile.getShooter();
 
                                 int playerKills = OneInTheChamberManager.PlayerKills.get(shooter)+1;
                                 OneInTheChamberManager.PlayerKills.replace(shooter, playerKills);
@@ -74,8 +72,7 @@ public class EntityDamageByEntityListener implements Listener {
                                 int playerDeaths = OneInTheChamberManager.PlayerDeaths.get(player)+1;
                                 OneInTheChamberManager.PlayerDeaths.replace(player, playerDeaths);
 
-                                if(event.getDamager() instanceof Player) {
-                                    Player killer = (Player) event.getDamager();
+                                if(event.getDamager() instanceof Player killer) {
 
                                     int playerKills = OneInTheChamberManager.PlayerKills.get(killer)+1;
                                     OneInTheChamberManager.PlayerKills.replace(killer, playerKills);
@@ -84,13 +81,12 @@ public class EntityDamageByEntityListener implements Listener {
                             }
                         }
                     } else if (ArenaManager.ArenaActualGame.get(PlayerManager.PlayerArena.get(player)).equalsIgnoreCase("KnockBack")) {
-                        if(event.getDamager() instanceof Player) {
-                            Player lastDamager = (Player) event.getDamager();
+                        if(event.getDamager() instanceof Player lastDamager) {
                             KnockBackManager.lastDamager.replace(player, lastDamager);
                         }
                     } else if (ArenaManager.ArenaActualGame.get(PlayerManager.PlayerArena.get(player)).equalsIgnoreCase("TNTTag")) {
                         if(damager instanceof Player) {
-                            if(((Player) damager).getPlayer().getInventory().contains(Material.TNT)) {
+                            if(Objects.requireNonNull(((Player) damager).getPlayer()).getInventory().contains(Material.TNT)) {
                                 changePlayerTagged((Player) damager, player);
                             }
                         }

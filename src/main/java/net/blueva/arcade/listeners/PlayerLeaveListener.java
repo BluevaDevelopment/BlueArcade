@@ -11,7 +11,7 @@ import net.blueva.arcade.managers.PlayerManager;
 import java.io.IOException;
 
 public class PlayerLeaveListener implements Listener {
-    private Main main;
+    private final Main main;
 
     public PlayerLeaveListener(Main main) {
         this.main = main;

@@ -6,10 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CacheManager {
 
@@ -58,15 +55,17 @@ public class CacheManager {
             Map<String, Map<String, String>> arenaMinigameString = ARENA_MINIGAME_STRING.get(arenaid);
             if(main.configManager.getArena(arenaid).getConfigurationSection("arena.mini_games") != null) {
                 ConfigurationSection cs = main.configManager.getArena(arenaid).getConfigurationSection("arena.mini_games");
-                for(String mini_game : cs.getKeys(false)) {
-                    if(main.configManager.getArena(arenaid).getBoolean("arena.mini_games."+mini_game+".basic.enabled")) {
-                        if(!arenaMinigameString.containsKey(mini_game)) {
-                            arenaMinigameString.put(mini_game, new HashMap<>());
-                        }
+                if(cs != null) {
+                    for(String mini_game : cs.getKeys(false)) {
+                        if(main.configManager.getArena(arenaid).getBoolean("arena.mini_games."+mini_game+".basic.enabled")) {
+                            if(!arenaMinigameString.containsKey(mini_game)) {
+                                arenaMinigameString.put(mini_game, new HashMap<>());
+                            }
 
-                        Map<String, String> arenaMiniGameFinal = arenaMinigameString.get(mini_game);
-                        if(!arenaMiniGameFinal.containsKey(mini_game)) {
-                            arenaMiniGameFinal.put("death_block", main.configManager.getArena(arenaid).getString("arena.mini_games."+mini_game+".basic.death_block"));
+                            Map<String, String> arenaMiniGameFinal = arenaMinigameString.get(mini_game);
+                            if(!arenaMiniGameFinal.containsKey(mini_game)) {
+                                arenaMiniGameFinal.put("death_block", main.configManager.getArena(arenaid).getString("arena.mini_games."+mini_game+".basic.death_block"));
+                            }
                         }
                     }
                 }
@@ -240,7 +239,7 @@ public class CacheManager {
             double x = main.configManager.getArena(arenaid).getDouble("arena.mini_games."+minigame+".bounds."+bound+".x");
             double y = main.configManager.getArena(arenaid).getDouble("arena.mini_games."+minigame+".bounds."+bound+".y");
             double z = main.configManager.getArena(arenaid).getDouble("arena.mini_games."+minigame+".bounds."+bound+".z");
-            World world = Bukkit.getWorld(main.configManager.getArena(arenaid).getString("arena.mini_games."+minigame+".basic.world"));
+            World world = Bukkit.getWorld(Objects.requireNonNull(main.configManager.getArena(arenaid).getString("arena.mini_games." + minigame + ".basic.world")));
             return new Location(world, x, y, z);
         }
 
@@ -296,11 +295,9 @@ public class CacheManager {
             double x = main.configManager.getArena(arenaid).getDouble("arena.mini_games." + minigame + ".game.finish_line.bounds." + bound + ".x");
             double y = main.configManager.getArena(arenaid).getDouble("arena.mini_games." + minigame + ".game.finish_line.bounds." + bound + ".y");
             double z = main.configManager.getArena(arenaid).getDouble("arena.mini_games." + minigame + ".game.finish_line.bounds." + bound + ".z");
-            World world = Bukkit.getWorld(main.configManager.getArena(arenaid).getString("arena.mini_games."+minigame+".basic.world"));
+            World world = Bukkit.getWorld(Objects.requireNonNull(main.configManager.getArena(arenaid).getString("arena.mini_games." + minigame + ".basic.world")));
             return new Location(world, x, y, z);
         }
-
-
 
         public static void removeBoundsCache(int arenaid) {
             ArenaBounds.remove(arenaid);

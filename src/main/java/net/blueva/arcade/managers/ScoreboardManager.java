@@ -44,25 +44,25 @@ public class ScoreboardManager {
             if(PlayerManager.PlayerStatus.get(player).equals("Playing")) {
                 String PlayerActualGame = ArenaManager.ArenaActualGame.get(PlayerManager.PlayerArena.get(player));
                 if(PlayerActualGame.equalsIgnoreCase("Lobby")) {
-                    board.updateTitle(ScoreboardUtil.format(main, player, CacheManager.Language.getScoreboardTitle("lobby_waiting")));
+                    board.updateTitle(ScoreboardUtil.format(player, CacheManager.Language.getScoreboardTitle("lobby_waiting")));
                     List<String> sblobbywaiting = CacheManager.Language.getScoreboardLines("lobby_waiting");
-                    board.updateLines(ScoreboardUtil.format(main, player, sblobbywaiting));
+                    board.updateLines(ScoreboardUtil.format(player, sblobbywaiting));
                 } else if (PlayerActualGame.equalsIgnoreCase("Starting")) {
-                    board.updateTitle(ScoreboardUtil.format(main, player, CacheManager.Language.getScoreboardTitle("lobby_starting")));
+                    board.updateTitle(ScoreboardUtil.format(player, CacheManager.Language.getScoreboardTitle("lobby_starting")));
                     List<String> sblobbystarting = CacheManager.Language.getScoreboardLines("lobby_starting");
-                    board.updateLines(ScoreboardUtil.format(main, player, sblobbystarting));
+                    board.updateLines(ScoreboardUtil.format(player, sblobbystarting));
                 } else if (PlayerActualGame.equalsIgnoreCase("Limbo")) {
-                    board.updateTitle(ScoreboardUtil.format(main, player, CacheManager.Language.getScoreboardTitle("limbo")));
+                    board.updateTitle(ScoreboardUtil.format(player, CacheManager.Language.getScoreboardTitle("limbo")));
                     List<String> sblimbo = CacheManager.Language.getScoreboardLines("limbo");
-                    board.updateLines(ScoreboardUtil.format(main, player, sblimbo));
+                    board.updateLines(ScoreboardUtil.format(player, sblimbo));
                 } else if (PlayerActualGame.equalsIgnoreCase("Finish")) {
-                    board.updateTitle(ScoreboardUtil.format(main, player, CacheManager.Language.getScoreboardTitle("finish")));
+                    board.updateTitle(ScoreboardUtil.format(player, CacheManager.Language.getScoreboardTitle("finish")));
                     List<String> sbfinish = CacheManager.Language.getScoreboardLines("finish");
-                    board.updateLines(ScoreboardUtil.format(main, player, sbfinish));
+                    board.updateLines(ScoreboardUtil.format(player, sbfinish));
                 } else if (PlayerActualGame.toLowerCase().contains("starting")) {
-                    board.updateTitle(ScoreboardUtil.format(main, player, CacheManager.Language.getScoreboardTitle("in_game_starting")));
+                    board.updateTitle(ScoreboardUtil.format(player, CacheManager.Language.getScoreboardTitle("in_game_starting")));
                     List<String> starting = CacheManager.Language.getScoreboardLines("in_game_starting");
-                    board.updateLines(ScoreboardUtil.format(main, player, starting));
+                    board.updateLines(ScoreboardUtil.format(player, starting));
                 } else if (PlayerActualGame.equalsIgnoreCase("Race")
                         || PlayerActualGame.equalsIgnoreCase("Spleef")
                         || PlayerActualGame.equalsIgnoreCase("SnowballFight")
@@ -70,29 +70,29 @@ public class ScoreboardManager {
                         || PlayerActualGame.equalsIgnoreCase("Minefield")
                         || PlayerActualGame.equalsIgnoreCase("RedAlert")
                         || PlayerActualGame.equalsIgnoreCase("FastZone")) {
-                    board.updateTitle(ScoreboardUtil.format(main, player, CacheManager.Language.getScoreboardTitle("in_game_playing_global")));
+                    board.updateTitle(ScoreboardUtil.format(player, CacheManager.Language.getScoreboardTitle("in_game_playing_global")));
                     List<String> sbglobal = CacheManager.Language.getScoreboardLines("in_game_playing_global");
-                    board.updateLines(ScoreboardUtil.format(main, player, sbglobal));
+                    board.updateLines(ScoreboardUtil.format(player, sbglobal));
                 } else if (PlayerActualGame.equalsIgnoreCase("OneInTheChamber")) {
-                    board.updateTitle(ScoreboardUtil.format(main, player, CacheManager.Language.getScoreboardTitle("in_game_playing_one_in_the_chamber")));
+                    board.updateTitle(ScoreboardUtil.format(player, CacheManager.Language.getScoreboardTitle("in_game_playing_one_in_the_chamber")));
                     List<String> sboitc = CacheManager.Language.getScoreboardLines("in_game_playing_one_in_the_chamber");
-                    board.updateLines(ScoreboardUtil.format(main, player, sboitc));
+                    board.updateLines(ScoreboardUtil.format(player, sboitc));
                 } else if (PlayerActualGame.equalsIgnoreCase("TrafficLight")) {
-                    board.updateTitle(ScoreboardUtil.format(main, player, CacheManager.Language.getScoreboardTitle("in_game_playing_traffic_light")));
+                    board.updateTitle(ScoreboardUtil.format(player, CacheManager.Language.getScoreboardTitle("in_game_playing_traffic_light")));
                     List<String> sbtrafficlight = CacheManager.Language.getScoreboardLines("in_game_playing_traffic_light");
-                    board.updateLines(ScoreboardUtil.format(main, player, sbtrafficlight));
+                    board.updateLines(ScoreboardUtil.format(player, sbtrafficlight));
                 } else if (PlayerActualGame.equalsIgnoreCase("ExplodingSheep")) {
-                    board.updateTitle(ScoreboardUtil.format(main, player, CacheManager.Language.getScoreboardTitle("in_game_playing_exploding_sheep")));
+                    board.updateTitle(ScoreboardUtil.format(player, CacheManager.Language.getScoreboardTitle("in_game_playing_exploding_sheep")));
                     List<String> sbexplodingsheep = CacheManager.Language.getScoreboardLines("in_game_playing_exploding_sheep");
-                    board.updateLines(ScoreboardUtil.format(main, player, sbexplodingsheep));
+                    board.updateLines(ScoreboardUtil.format(player, sbexplodingsheep));
                 } else if (PlayerActualGame.equalsIgnoreCase("TNTTag")) {
-                    board.updateTitle(ScoreboardUtil.format(main, player, CacheManager.Language.getScoreboardTitle("in_game_playing_tnt_tag")));
+                    board.updateTitle(ScoreboardUtil.format(player, CacheManager.Language.getScoreboardTitle("in_game_playing_tnt_tag")));
                     List<String> sbtnttag = CacheManager.Language.getScoreboardLines("in_game_playing_tnt_tag");
-                    board.updateLines(ScoreboardUtil.format(main, player, sbtnttag));
+                    board.updateLines(ScoreboardUtil.format(player, sbtnttag));
                 } else if (PlayerActualGame.equalsIgnoreCase("KnockBack")) {
-                    board.updateTitle(ScoreboardUtil.format(main, player, CacheManager.Language.getScoreboardTitle("in_game_playing_knock_back")));
+                    board.updateTitle(ScoreboardUtil.format(player, CacheManager.Language.getScoreboardTitle("in_game_playing_knock_back")));
                     List<String> sbknockback = CacheManager.Language.getScoreboardLines("in_game_playing_knock_back");
-                    board.updateLines(ScoreboardUtil.format(main, player, sbknockback));
+                    board.updateLines(ScoreboardUtil.format(player, sbknockback));
                 }
             } else {
                 if(board != null) {
