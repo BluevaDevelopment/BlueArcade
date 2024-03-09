@@ -10,10 +10,11 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ExplodingSheepSetupManager {
     public static void finishSetup(Player player, Integer arenaid, Main main) {
-        World world = Bukkit.getWorld(main.configManager.getArena(arenaid).getString("arena.mini_games.exploding_sheep.basic.world"));
+        World world = Bukkit.getWorld(Objects.requireNonNull(main.configManager.getArena(arenaid).getString("arena.mini_games.exploding_sheep.basic.world")));
         double boundsminx = main.configManager.getArena(arenaid).getDouble("arena.mini_games.exploding_sheep.bounds.min.x");
         double boundsminy = main.configManager.getArena(arenaid).getDouble("arena.mini_games.exploding_sheep.bounds.min.y");
         double boundsminz = main.configManager.getArena(arenaid).getDouble("arena.mini_games.exploding_sheep.bounds.min.z");

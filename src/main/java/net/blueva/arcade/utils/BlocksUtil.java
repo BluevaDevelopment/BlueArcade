@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -24,38 +23,18 @@ public class BlocksUtil {
         World world = pointA.getWorld();
         Random random = new Random();
 
-        for (int x = minX; x <= maxX; x++) {
-            for (int y = minY; y <= maxY; y++) {
-                for (int z = minZ; z <= maxZ; z++) {
-                    Block block = world.getBlockAt(x, y, z);
-                    Material randomMaterial = materials[random.nextInt(materials.length)];
-                    block.setType(randomMaterial);
+        if(world != null) {
+            for (int x = minX; x <= maxX; x++) {
+                for (int y = minY; y <= maxY; y++) {
+                    for (int z = minZ; z <= maxZ; z++) {
+                        Block block = world.getBlockAt(x, y, z);
+                        Material randomMaterial = materials[random.nextInt(materials.length)];
+                        block.setType(randomMaterial);
+                    }
                 }
             }
         }
     }
-
-    public static void setBlocksWithItem(Location pointA, Location pointB, ItemStack itemStack) {
-        int minX = Math.min(pointA.getBlockX(), pointB.getBlockX());
-        int minY = Math.min(pointA.getBlockY(), pointB.getBlockY());
-        int minZ = Math.min(pointA.getBlockZ(), pointB.getBlockZ());
-        int maxX = Math.max(pointA.getBlockX(), pointB.getBlockX());
-        int maxY = Math.max(pointA.getBlockY(), pointB.getBlockY());
-        int maxZ = Math.max(pointA.getBlockZ(), pointB.getBlockZ());
-
-        World world = pointA.getWorld();
-
-        for (int x = minX; x <= maxX; x++) {
-            for (int y = minY; y <= maxY; y++) {
-                for (int z = minZ; z <= maxZ; z++) {
-                    Block block = world.getBlockAt(x, y, z);
-                    block.setType(itemStack.getType());
-                    block.getState().setData(itemStack.getData());
-                }
-            }
-        }
-    }
-
 
     public static Entity[] getNearbyEntities(Location location1, Location location2, int margin) {
         int minX = Math.min(location1.getBlockX(), location2.getBlockX()) - margin;
@@ -105,15 +84,17 @@ public class BlocksUtil {
 
         World world = location1.getWorld();
 
-        for (int x = x1; x <= x2; x++) {
-            for (int y = y1; y <= y2; y++) {
-                for (int z = z1; z <= z2; z++) {
-                    Block block = world.getBlockAt(x, y, z);
-                    Material material = block.getType();
+        if(world != null) {
+            for (int x = x1; x <= x2; x++) {
+                for (int y = y1; y <= y2; y++) {
+                    for (int z = z1; z <= z2; z++) {
+                        Block block = world.getBlockAt(x, y, z);
+                        Material material = block.getType();
 
-                    if (material != Material.AIR && material != Material.BARRIER) {
-                        String blockData = block.getType().toString() + "," + block.getData();
-                        blockList.add(world.getName() + "," + x + "," + y + "," + z + "," + blockData);
+                        if (material != Material.AIR && material != Material.BARRIER) {
+                            String blockData = block.getType().toString();
+                            blockList.add(world.getName() + "," + x + "," + y + "," + z + "," + blockData);
+                        }
                     }
                 }
             }
@@ -121,8 +102,6 @@ public class BlocksUtil {
 
         return blockList;
     }
-
-
 
 
     public static List<String> loadBlocks(Main main, String region, int arenaid) {
@@ -140,7 +119,6 @@ public class BlocksUtil {
             int y = Integer.parseInt(data[2]);
             int z = Integer.parseInt(data[3]);
             Material blockType = Material.getMaterial(data[4]);
-            byte dataByte = Byte.parseByte(data[5]);
 
             Location loc = new Location(Bukkit.getWorld(worldName), x, y, z);
             Block block = loc.getBlock();

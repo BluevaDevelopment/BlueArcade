@@ -10,14 +10,15 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Wool;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Random;
 
 public class RedAlertManager {
@@ -197,7 +198,7 @@ public class RedAlertManager {
     }
 
     private static void regenerateFloor(int arenaid, Main main, boolean delay) {
-        World world = Bukkit.getWorld(main.configManager.getArena(arenaid).getString("arena.mini_games.red_alert.basic.world"));
+        World world = Bukkit.getWorld(Objects.requireNonNull(main.configManager.getArena(arenaid).getString("arena.mini_games.red_alert.basic.world")));
 
         double floorminx = main.configManager.getArena(arenaid).getDouble("arena.mini_games.red_alert.game.floor.bounds.min.x");
         double floorminy = main.configManager.getArena(arenaid).getDouble("arena.mini_games.red_alert.game.floor.bounds.min.y");
@@ -273,37 +274,37 @@ public class RedAlertManager {
                         World world = pointA.getWorld();
                         Random random = new Random();
 
-                        for (int x = minX; x <= maxX; x++) {
-                            for (int y = minY; y <= maxY; y++) {
-                                for (int z = minZ; z <= maxZ; z++) {
-                                    if (random.nextInt(100) < chance) {
-                                        Block block = world.getBlockAt(x, y, z);
-                                        if(block.getType() == Material.WHITE_WOOL
-                                                || block.getType() == Material.YELLOW_WOOL
-                                                || block.getType() == Material.ORANGE_WOOL
-                                                || block.getType() == Material.RED_WOOL) {
-                                            Wool wool = (Wool) block.getState().getData();
-                                            String colorName = wool.getColor().name();
-
-                                            if (colorName.equalsIgnoreCase("WHITE")) {
-                                                ItemStack yellow = new ItemStack(Material.YELLOW_WOOL);
-                                                block.setType(yellow.getType());
-                                                block.getState().setData(yellow.getData());
-                                            }
-                                            if (colorName.equalsIgnoreCase("YELLOW")) {
-                                                ItemStack orange = new ItemStack(Material.ORANGE_WOOL);
-                                                block.setType(orange.getType());
-                                                block.getState().setData(orange.getData());
-                                            }
-                                            if (colorName.equalsIgnoreCase("ORANGE")) {
-                                                ItemStack red = new ItemStack(Material.RED_WOOL);
-                                                block.setType(red.getType());
-                                                block.getState().setData(red.getData());
-                                            }
-                                            if (colorName.equalsIgnoreCase("RED")) {
-                                                block.setType(Material.AIR);
-                                                if(gameParticles.get(arenaid)) {
-                                                    block.getWorld().spawnParticle(Particle.FLAME, block.getLocation(), 5);
+                        if(world != null) {
+                            for (int x = minX; x <= maxX; x++) {
+                                for (int y = minY; y <= maxY; y++) {
+                                    for (int z = minZ; z <= maxZ; z++) {
+                                        if (random.nextInt(100) < chance) {
+                                            Block block = world.getBlockAt(x, y, z);
+                                            if(block.getType() == Material.WHITE_WOOL
+                                                    || block.getType() == Material.YELLOW_WOOL
+                                                    || block.getType() == Material.ORANGE_WOOL
+                                                    || block.getType() == Material.RED_WOOL) {
+                                                BlockData data = block.getBlockData();
+                                                if (data.getMaterial() == Material.WHITE_WOOL) {
+                                                    ItemStack yellow = new ItemStack(Material.YELLOW_WOOL);
+                                                    block.setType(yellow.getType());
+                                                    block.getState().setData(Objects.requireNonNull(yellow.getData()));
+                                                }
+                                                if (data.getMaterial() == Material.YELLOW_WOOL) {
+                                                    ItemStack orange = new ItemStack(Material.ORANGE_WOOL);
+                                                    block.setType(orange.getType());
+                                                    block.getState().setData(Objects.requireNonNull(orange.getData()));
+                                                }
+                                                if (data.getMaterial() == Material.ORANGE_WOOL) {
+                                                    ItemStack red = new ItemStack(Material.RED_WOOL);
+                                                    block.setType(red.getType());
+                                                    block.getState().setData(Objects.requireNonNull(red.getData()));
+                                                }
+                                                if (data.getMaterial() == Material.RED_WOOL) {
+                                                    block.setType(Material.AIR);
+                                                    if(gameParticles.get(arenaid)) {
+                                                        block.getWorld().spawnParticle(Particle.FLAME, block.getLocation(), 5);
+                                                    }
                                                 }
                                             }
                                         }
@@ -311,6 +312,7 @@ public class RedAlertManager {
                                 }
                             }
                         }
+
                     }
                 }.runTask(main);
             }
