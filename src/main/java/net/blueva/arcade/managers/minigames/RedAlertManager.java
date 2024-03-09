@@ -286,19 +286,13 @@ public class RedAlertManager {
                                                     || block.getType() == Material.RED_WOOL) {
                                                 BlockData data = block.getBlockData();
                                                 if (data.getMaterial() == Material.WHITE_WOOL) {
-                                                    ItemStack yellow = new ItemStack(Material.YELLOW_WOOL);
-                                                    block.setType(yellow.getType());
-                                                    block.getState().setData(Objects.requireNonNull(yellow.getData()));
+                                                    block.setType(Material.YELLOW_WOOL);
                                                 }
                                                 if (data.getMaterial() == Material.YELLOW_WOOL) {
-                                                    ItemStack orange = new ItemStack(Material.ORANGE_WOOL);
-                                                    block.setType(orange.getType());
-                                                    block.getState().setData(Objects.requireNonNull(orange.getData()));
+                                                    block.setType(Material.ORANGE_WOOL);
                                                 }
                                                 if (data.getMaterial() == Material.ORANGE_WOOL) {
-                                                    ItemStack red = new ItemStack(Material.RED_WOOL);
-                                                    block.setType(red.getType());
-                                                    block.getState().setData(Objects.requireNonNull(red.getData()));
+                                                    block.setType(Material.RED_WOOL);
                                                 }
                                                 if (data.getMaterial() == Material.RED_WOOL) {
                                                     block.setType(Material.AIR);
