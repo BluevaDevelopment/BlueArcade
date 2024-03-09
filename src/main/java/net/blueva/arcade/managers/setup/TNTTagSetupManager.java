@@ -22,6 +22,6 @@ public class TNTTagSetupManager {
         main.configManager.saveArena(arenaid);
         main.configManager.reloadArena(arenaid);
 
-        StringUtils.sendMessage(player, player.getName(), CacheManager.Language.GLOBAL_SUCCESS_MINI_GAME_SET.replace("{game}", "Spleef"));
+        StringUtils.sendMessage(player, player.getName(), CacheManager.Language.GLOBAL_SUCCESS_MINI_GAME_SET.replace("{game}", "TNT Tag"));
     }
 }
