@@ -25,7 +25,7 @@ public class Placeholders extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion() {
-        return plugin.pluginversion;
+        return plugin.pluginVersion;
     }
 
     @Override

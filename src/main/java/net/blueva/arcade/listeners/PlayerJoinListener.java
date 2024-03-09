@@ -2,7 +2,9 @@ package net.blueva.arcade.listeners;
 
 import net.blueva.arcade.managers.CacheManager;
 import net.blueva.arcade.managers.PlayerManager;
+import net.blueva.arcade.managers.UpdateManager;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import net.blueva.arcade.Main;
 import net.blueva.arcade.utils.StringUtils;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class PlayerJoinListener implements Listener {
@@ -58,6 +61,17 @@ public class PlayerJoinListener implements Listener {
                         main.configManager.getGlobal().getInt("cords.spawn.x"), main.configManager.getGlobal().getInt("cords.spawn.y"),
                         main.configManager.getGlobal().getInt("cords.spawn.z"));
                 event.getPlayer().teleport(loc);
+            }
+        }
+
+        if(event.getPlayer().hasPermission("bluearcade.admin") ||event.getPlayer().isOp()) {
+            try {
+                if (UpdateManager.isUpdateAvailable(main.pluginVersion)) {
+                    event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "&e[BlueArcade] There is a new plugin update available. "));
+                    event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "&e[BlueArcade] Your version: "+main.pluginVersion+", Latest version: "+ UpdateManager.onlineVersion));
+                }
+            } catch (IOException e) {
+                Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&c[BlueArcade] Error checking for updates: " + e.getMessage()));
             }
         }
     }

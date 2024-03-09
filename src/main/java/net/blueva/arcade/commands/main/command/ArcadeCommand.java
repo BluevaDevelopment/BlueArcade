@@ -28,7 +28,7 @@ public class ArcadeCommand implements CommandInterface
             List<String> bainfo = CacheManager.Language.COMMANDS_BLUEARCADE_INFO;
             for (String message : bainfo) {
                 String player = sender.getName();
-                StringUtils.sendMessage(sender, player, message.replace("{plugin_version}", main.pluginversion));
+                StringUtils.sendMessage(sender, player, message.replace("{plugin_version}", main.pluginVersion));
             }
         }
         return false;

@@ -7,9 +7,6 @@ import net.blueva.arcade.commands.main.tabcomplete.ArcadeTabComplete;
 import net.blueva.arcade.configuration.ConfigManager;
 import net.blueva.arcade.libraries.bStats.Metrics;
 import net.blueva.arcade.libraries.placeholderapi.Placeholders;
-import net.blueva.arcade.libraries.updatechecker.UpdateCheckSource;
-import net.blueva.arcade.libraries.updatechecker.UpdateChecker;
-import net.blueva.arcade.libraries.updatechecker.UserAgentBuilder;
 import net.blueva.arcade.listeners.*;
 import net.blueva.arcade.managers.*;
 import net.blueva.arcade.managers.setup.SetupManager;
@@ -77,12 +74,11 @@ public class Main extends JavaPlugin implements Listener {
     public File regionFile = null;
 
     //other things
-    public String pluginversion = getDescription().getVersion();
+    public String pluginVersion = getDescription().getVersion();
     public static boolean placeholderapi = false;
     public String actualLang;
     public String langPath;
     private static Main plugin;
-    public String bukkitVersion = Bukkit.getServer().getBukkitVersion();
     public static Main getPlugin() {
         return plugin;
     }
@@ -108,25 +104,11 @@ public class Main extends JavaPlugin implements Listener {
             new Metrics(this, pluginId);
         }
 
-        if(configManager.getSettings().getBoolean("check_for_updates")) {
-            new UpdateChecker(this, UpdateCheckSource.CUSTOM_URL, "https://blueva.net/api/arcade/version.txt")
-                    .setFreeDownloadLink("https://builtbybit.com/resources/blue-arcade-8-minigames-party-games.28272/")
-                    .setPaidDownloadLink("https://polymart.org/resource/blue-arcade-party-games.4146")
-                    .setNameFreeVersion("BuiltByBit")
-                    .setNamePaidVersion("Polymart")
-                    .setChangelogLink("https://blueva.net/resources/resource/2-blue-arcade/?releases=all")
-                    .setNotifyOpsOnJoin(true)
-                    .setNotifyByPermissionOnJoin("bluearcade.admin")
-                    .setUserAgent(new UserAgentBuilder().addPluginNameAndVersion())
-                    .checkEveryXHours(12)
-                    .checkNow();
-        }
-
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new BlockBreakListener(this), this);
         pm.registerEvents(new BlockPlaceListener(this), this);
         pm.registerEvents(new EntityDamageByEntityListener(this), this);
-        pm.registerEvents(new EntityDamageListener(this), this);
+        pm.registerEvents(new EntityDamageListener(), this);
         pm.registerEvents(new FoodLevelChangeListener(), this);
         pm.registerEvents(new InventoryClickListener(this), this);
         pm.registerEvents(new PlayerChatListener(this), this);
@@ -165,8 +147,20 @@ public class Main extends JavaPlugin implements Listener {
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + " | |_) | | |_| |  __// ___ \\| | | (_| (_| | (_| |  __/");
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + " |____/|_|\\____|\\___/_/   \\_|_|  \\___\\____|\\____|\\___|");
             Bukkit.getConsoleSender().sendMessage("");
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "V. " + pluginversion + " | Plugin enabled successfully | blueva.net");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "V. " + pluginVersion + " | Plugin enabled successfully | blueva.net");
             signManager.updateSignsTask();
+
+            if(configManager.getSettings().getBoolean("check_for_updates")) {
+                try {
+                    if (UpdateManager.isUpdateAvailable(pluginVersion)) {
+                        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&e[BlueArcade] There is a new plugin update available. "));
+                        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&e[BlueArcade] Your version: "+pluginVersion+", Latest version: "+UpdateManager.onlineVersion));
+
+                    }
+                } catch (IOException e) {
+                    Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&c[BlueArcade] Error checking for updates: " + e.getMessage()));
+                }
+            }
         });
     }
 
@@ -178,7 +172,7 @@ public class Main extends JavaPlugin implements Listener {
         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + " | |_) | | |_| |  __// ___ \\| | | (_| (_| | (_| |  __/");
         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + " |____/|_|\\____|\\___/_/   \\_|_|  \\___\\____|\\____|\\___|");
         Bukkit.getConsoleSender().sendMessage("");
-        Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "V. " + pluginversion + " | Plugin disabled successfully | blueva.net");
+        Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "V. " + pluginVersion + " | Plugin disabled successfully | blueva.net");
     }
 
     public void registerCommands() {
